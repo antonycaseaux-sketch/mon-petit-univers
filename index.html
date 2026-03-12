@@ -169,7 +169,7 @@
 
     .grid {
       display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
+      grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 28px;
       padding-bottom: 24px;
     }
@@ -277,7 +277,7 @@
       font-size: 14px;
       margin: 10px 0 0;
       color: var(--muted);
-      text-align: left;
+      text-align: justify;
       display: -webkit-box;
       -webkit-line-clamp: 3;
       -webkit-box-orient: vertical;
@@ -527,8 +527,7 @@
     @media (max-width: 960px) {
       .hero-inner,
       .about-inner,
-      .amazon-inner,
-      .grid {
+      .amazon-inner {
         grid-template-columns: 1fr 1fr;
       }
 
@@ -552,7 +551,7 @@
       }
 
       .grid {
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: 1fr;
       }
 
       .card img {
