@@ -982,6 +982,10 @@
     }
 
     function renderBooks() {
+      if (reviewsSection) {
+        reviewsSection.style.display = activeCategory === "Tous" ? "block" : "none";
+      }
+
       if (!bestsellersGrid || !otherBooksGrid || !bestsellersSection || !othersSection) return;
 
       bestsellersGrid.innerHTML = "";
