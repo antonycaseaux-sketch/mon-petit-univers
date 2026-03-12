@@ -489,16 +489,6 @@
     }
 
     @media (max-width: 720px) {
-
-      .card img {
-        margin-top: 4px;
-        max-height: 260px;
-      }
-
-      .card-body {
-        margin-top: 6px;
-        padding: 12px 14px 16px;
-      }
       .hero-inner,
       .about-inner {
         grid-template-columns: 1fr;
@@ -506,10 +496,68 @@
 
       .grid {
         grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+      }
+
+      .card {
+        border-radius: 10px;
+        padding: 4px;
       }
 
       .card img {
-        height: 240px;
+        margin-top: 2px;
+        height: 170px;
+        max-height: 170px;
+        border-radius: 6px;
+      }
+
+      .card-body {
+        margin-top: 4px;
+        padding: 10px 10px 12px;
+        border-radius: 0 0 6px 6px;
+      }
+
+      .card-top {
+        gap: 6px;
+      }
+
+      .category {
+        font-size: 11px;
+      }
+
+      .best,
+      .fav {
+        font-size: 9px;
+        padding: 5px 8px;
+        letter-spacing: 0.03em;
+      }
+
+      .card h3 {
+        font-size: 12px;
+        line-height: 1.15;
+        margin-top: 8px;
+      }
+
+      .desc {
+        font-size: 11px;
+        margin-top: 8px;
+        -webkit-line-clamp: 2;
+        max-height: 3.2em;
+      }
+
+      .card-actions {
+        margin-top: 10px;
+        gap: 6px;
+      }
+
+      .price {
+        font-size: 12px;
+      }
+
+      .btn {
+        font-size: 12px;
+        padding: 5px 10px;
+        border-radius: 12px;
       }
 
       .about {
