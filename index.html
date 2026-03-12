@@ -951,7 +951,7 @@
           if (typeof e.stopImmediatePropagation === 'function') {
             e.stopImmediatePropagation();
           }
-          window.location.href = amazonBtn.href;
+          window.open(amazonBtn.href, '_blank');
         };
 
         amazonBtn.addEventListener('click', openAmazon);
