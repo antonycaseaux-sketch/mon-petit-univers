@@ -53,7 +53,7 @@
       grid-template-columns: 1.2fr 0.8fr;
       gap: 24px;
       align-items: center;
-      padding: 24px 0 0;
+      padding: 12px 0 0;
     }
 
     .eyebrow {
@@ -300,7 +300,8 @@
       max-height: 4.8em;
     }
 
-    .card:hover .desc {
+    .card:hover .desc,
+    .card.expanded .desc {
       -webkit-line-clamp: unset;
       max-height: 500px;
       overflow: visible;
@@ -912,6 +913,21 @@
           </div>
         </div>
       `;
+
+      // Toggle description on mobile when clicking the description text
+      const desc = article.querySelector('.desc');
+      if (desc) {
+        desc.addEventListener('click', (e) => {
+          e.stopPropagation();
+          article.classList.toggle('expanded');
+        });
+      }
+
+      // Prevent Amazon button from triggering expansion
+      const amazonBtn = article.querySelector('.btn');
+      if (amazonBtn) {
+        amazonBtn.addEventListener('click', (e) => e.stopPropagation());
+      }
 
       targetGrid.appendChild(article);
     }
