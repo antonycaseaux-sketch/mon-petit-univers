@@ -207,9 +207,11 @@
       transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
     }
 
-    .card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 14px 28px rgba(0,0,0,0.08);
+    @media (hover: hover) {
+      .card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 14px 28px rgba(0,0,0,0.08);
+      }
     }
 
     .card.bestseller {
@@ -237,8 +239,10 @@
       transition: background 0.35s ease;
     }
 
-    .card:hover .card-body {
-      background: linear-gradient(to bottom, rgba(255,247,237,0.4) 0%, #fde8d5 40%, #fde8d5 100%);
+    @media (hover: hover) {
+      .card:hover .card-body {
+        background: linear-gradient(to bottom, rgba(255,247,237,0.4) 0%, #fde8d5 40%, #fde8d5 100%);
+      }
     }
 
     .card-top {
@@ -300,7 +304,6 @@
       max-height: 4.8em;
     }
 
-    .card:hover .desc,
     .card.expanded .desc {
       -webkit-line-clamp: unset;
       max-height: 500px;
@@ -942,12 +945,17 @@
       // Ensure Amazon button always opens link without toggling description
       const amazonBtn = article.querySelector('.btn');
       if (amazonBtn) {
-        amazonBtn.addEventListener('click', (e) => {
+        const openAmazon = (e) => {
           e.preventDefault();
           e.stopPropagation();
-          e.stopImmediatePropagation();
-          window.open(amazonBtn.href, '_blank');
-        });
+          if (typeof e.stopImmediatePropagation === 'function') {
+            e.stopImmediatePropagation();
+          }
+          window.location.href = amazonBtn.href;
+        };
+
+        amazonBtn.addEventListener('click', openAmazon);
+        amazonBtn.addEventListener('touchend', openAmazon, { passive: false });
       }
 
       targetGrid.appendChild(article);
