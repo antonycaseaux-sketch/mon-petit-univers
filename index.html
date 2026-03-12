@@ -178,7 +178,7 @@
     .books-block + .books-block {
       margin-top: 36px;
       padding-top: 28px;
-      border-top: 2px solid #f59e0b;
+      border-top: 2px solid #000000;
     }
 
     .subsection-head {
@@ -189,9 +189,16 @@
       margin: 0;
       font-size: 20px;
       line-height: 1.2;
-      color: #44403c;
-      line-height: 1.2;
-      color: #44403c;
+      color: #ffffff;
+      background: #b45309;
+      display: inline-block;
+      padding: 6px 14px;
+      border-radius: 8px;
+    }
+
+    #othersSection .subsection-title {
+      background: #000000;
+      color: #ffffff;
     }
 
     .card {
@@ -213,14 +220,14 @@
 
     /* style spécial pour les Best Seller */
     .card.bestseller {
-      border-left: 8px solid #f59e0b;
+      border-left: 8px solid #b45309;
       box-shadow: 0 6px 18px rgba(217,119,6,0.12);
     }
 
     .card.bestseller:hover {
       transform: translateY(-6px);
       box-shadow: 0 16px 32px rgba(217,119,6,0.22);
-      border-left-color: #ea580c;
+      border-left-color: #b45309;
     }
 
     .card img {
@@ -256,7 +263,7 @@
     }
 
     .best {
-      background: #ea580c;
+      background: #f59e0b;
       color: white;
       border-radius: 999px;
       padding: 7px 14px;
@@ -265,7 +272,7 @@
       text-transform: uppercase;
       letter-spacing: 0.08em;
       white-space: nowrap;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+      box-shadow: 0 3px 8px rgba(0,0,0,0.12);
     }
 
     .card h3 {
@@ -611,7 +618,7 @@
 
       <div class="books-block" id="othersSection">
         <div class="subsection-head">
-          <h3 class="subsection-title">Mes autres livres</h3>
+          <h3 class="subsection-title">À découvrir aussi ✨</h3>
         </div>
         <div class="grid" id="otherBooksGrid"></div>
       </div>
