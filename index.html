@@ -982,6 +982,11 @@
     }
 
     function renderBooks() {
+      const bestsellerHead = bestsellersSection ? bestsellersSection.querySelector('.subsection-head') : null;
+      const othersHead = othersSection ? othersSection.querySelector('.subsection-head') : null;
+
+      if (bestsellerHead) bestsellerHead.style.display = activeCategory === "Tous" ? "block" : "none";
+      if (othersHead) othersHead.style.display = activeCategory === "Tous" ? "block" : "none";
       if (reviewsSection) {
         reviewsSection.style.display = activeCategory === "Tous" ? "block" : "none";
       }
@@ -998,18 +1003,29 @@
       const bestsellers = filtered.filter((book) => book.bestseller === true);
       const others = filtered.filter((book) => book.bestseller !== true);
 
-      if (bestsellers.length > 0) {
-        bestsellersSection.style.display = "block";
-        bestsellers.forEach((book) => renderBookCard(book, bestsellersGrid));
-      } else {
-        bestsellersSection.style.display = "none";
-      }
+      // Si on est sur "Tous", on garde les deux sections
+      if (activeCategory === "Tous") {
+        if (bestsellers.length > 0) {
+          bestsellersSection.style.display = "block";
+          bestsellers.forEach((book) => renderBookCard(book, bestsellersGrid));
+        } else {
+          bestsellersSection.style.display = "none";
+        }
 
-      if (others.length > 0) {
-        othersSection.style.display = "block";
-        others.forEach((book) => renderBookCard(book, otherBooksGrid));
+        if (others.length > 0) {
+          othersSection.style.display = "block";
+          others.forEach((book) => renderBookCard(book, otherBooksGrid));
+        } else {
+          othersSection.style.display = "none";
+        }
       } else {
+        // Dans les sous-catégories : tous les livres à la suite, best sellers en premier
+        const ordered = [...bestsellers, ...others];
+
+        bestsellersSection.style.display = "block";
         othersSection.style.display = "none";
+
+        ordered.forEach((book) => renderBookCard(book, bestsellersGrid));
       }
     }
 
