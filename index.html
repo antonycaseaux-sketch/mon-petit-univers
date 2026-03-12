@@ -312,7 +312,10 @@
       font-size: 16px;
       padding: 6px 20px;
       border-radius: 18px;
-      background: var(--amber);
+      background: linear-gradient(135deg, #ff7a00 0%, #ffb347 100%);
+      color: white;
+      font-weight: 700;
+      transition: background 0.25s ease, transform 0.15s ease, box-shadow 0.15s ease;
       color: white;
       font-weight: 700;
       transition: background 0.2s ease;
@@ -334,7 +337,9 @@
     }
 
     .btn:hover {
-      background: var(--amber-dark);
+      background: linear-gradient(135deg, #ff6a00 0%, #ffa033 100%);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 14px rgba(0,0,0,0.18);
     }
 
     .reviews {
