@@ -939,10 +939,15 @@
         });
       }
 
-      // Prevent Amazon button from triggering expansion
+      // Ensure Amazon button always opens link without toggling description
       const amazonBtn = article.querySelector('.btn');
       if (amazonBtn) {
-        amazonBtn.addEventListener('click', (e) => e.stopPropagation());
+        amazonBtn.addEventListener('click', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          e.stopImmediatePropagation();
+          window.open(amazonBtn.href, '_blank');
+        });
       }
 
       targetGrid.appendChild(article);
