@@ -29,7 +29,7 @@
       font-family: Arial, Helvetica, sans-serif;
       background: var(--bg);
       color: var(--text);
-      line-height: 1.6;
+      line-height: 1.5;
     }
 
     a {
@@ -67,7 +67,7 @@
 
     h1 {
       margin: 0;
-      font-size: clamp(40px, 6vw, 72px);
+      font-size: clamp(28px, 4.5vw, 48px);
       line-height: 0.98;
       letter-spacing: -0.03em;
     }
@@ -75,7 +75,7 @@
     .hero-text {
       margin-top: 12px;
       max-width: 640px;
-      font-size: 20px;
+      font-size: 18px;
       color: #57534e;
     }
 
@@ -87,7 +87,7 @@
     }
 
     .badge {
-      padding: 10px 16px;
+      padding: 6px 16px;
       border-radius: 999px;
       color: white;
       font-weight: 700;
@@ -126,7 +126,7 @@
       border: none;
       cursor: pointer;
       border-radius: 999px;
-      padding: 10px 16px;
+      padding: 6px 16px;
       font-size: 14px;
       font-weight: 700;
       color: #b45309;
@@ -163,11 +163,34 @@
       line-height: 1.1;
     }
 
+    .books-title {
+      font-size: 35px;
+    }
+
     .grid {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 28px;
-      padding-bottom: 48px;
+      padding-bottom: 24px;
+    }
+
+    .books-block + .books-block {
+      margin-top: 36px;
+      padding-top: 28px;
+      border-top: 2px solid #f59e0b;
+    }
+
+    .subsection-head {
+      margin: 4px 0 18px;
+    }
+
+    .subsection-title {
+      margin: 0;
+      font-size: 20px;
+      line-height: 1.2;
+      color: #44403c;
+      line-height: 1.2;
+      color: #44403c;
     }
 
     .card {
@@ -175,8 +198,11 @@
       border-radius: 28px;
       overflow: hidden;
       box-shadow: 0 4px 14px rgba(0,0,0,0.04);
-      border: 1px solid var(--line);
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      border: 2px solid #e7e5e4;
+      padding: 6px;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
     }
 
     .card:hover {
@@ -184,15 +210,35 @@
       box-shadow: 0 14px 28px rgba(0,0,0,0.08);
     }
 
+    /* style spécial pour les Best Seller */
+    .card.bestseller {
+      border-left: 8px solid #f59e0b;
+      box-shadow: 0 6px 18px rgba(217,119,6,0.12);
+    }
+
+    .card.bestseller:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 16px 32px rgba(217,119,6,0.22);
+      border-left-color: #ea580c;
+    }
+
     .card img {
       width: 100%;
-      height: 290px;
-      object-fit: cover;
+      max-height: 320px;
+      height: auto;
+      object-fit: contain;
       display: block;
+      background: #fff;
+      border-radius: 8px;
+      margin-top: 12px;
     }
 
     .card-body {
-      padding: 24px;
+      padding: 14px 24px 24px;
+      background: #fff7ed;
+      border-radius: 0 0 22px 22px;
+      margin-top: 12px;
+      flex: 1;
     }
 
     .card-top {
@@ -209,38 +255,65 @@
     }
 
     .best {
-      background: #f59e0b;
+      background: #ea580c;
       color: white;
       border-radius: 999px;
-      padding: 6px 12px;
-      font-size: 11px;
-      font-weight: 700;
+      padding: 7px 14px;
+      font-size: 12px;
+      font-weight: 800;
       text-transform: uppercase;
       letter-spacing: 0.08em;
       white-space: nowrap;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
     }
 
     .card h3 {
       margin: 10px 0 0;
-      font-size: 30px;
+      font-size: 18px;
       line-height: 1.1;
     }
 
     .desc {
-      margin: 16px 0 0;
+      margin: 10px 0 0;
       color: var(--muted);
       text-align: justify;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      transition: all 0.25s ease;
+      max-height: 4.8em;
+    }
+
+    .card:hover .desc {
+      -webkit-line-clamp: unset;
+      max-height: 500px;
+      overflow: visible;
     }
 
     .btn {
       display: inline-flex;
-      margin-top: 24px;
-      padding: 12px 20px;
+      padding: 6px 20px;
       border-radius: 18px;
       background: var(--amber);
       color: white;
       font-weight: 700;
       transition: background 0.2s ease;
+    }
+
+    .card-actions {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      margin-top: 16px;
+      gap: 8px;
+    }
+
+    .price {
+      font-weight: 700;
+      font-size: 17px;
+      color: #000;
+      white-space: nowrap;
     }
 
     .btn:hover {
@@ -249,7 +322,7 @@
 
     .about {
       background: white;
-      padding: 48px 0;
+      padding: 24px 0;
     }
 
     .about-inner {
@@ -260,7 +333,7 @@
     }
 
     .about-text {
-      font-size: 20px;
+      font-size: 16px;
       color: var(--muted);
       text-align: justify;
       margin: 0;
@@ -320,9 +393,112 @@
       text-align: center;
     }
 
+    .reviews {
+      padding: 24px 0 32px;
+      background: #111;
+      color: #fff;
+    }
+
+    .reviews-head {
+      color:#fff;
+      margin-bottom: 18px;
+    }
+
+    .reviews-head h2 {
+      color:#ffffff;
+      font-size:35px;
+    }
+
+    .reviews-sub {
+      margin:6px 0 0;
+      color:#d6d3d1;
+      font-size:14px;
+    }
+
+    .reviews-track-wrap {
+      overflow: hidden;
+      width: 100%;
+    }
+
+    .reviews-track {
+      display: flex;
+      gap: 24px;
+      width: max-content;
+      animation: scrollReviews 70s linear infinite;
+    }
+
+    .reviews-track:hover {
+      animation-play-state: paused;
+    }
+
+    .review {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      gap: 6px;
+      width: 320px;
+      min-height: 140px;
+      padding: 16px 16px 10px;
+      background: #fff;
+      border: 2px solid #e7e5e4;
+      border-radius: 20px;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.04);
+      white-space: normal;
+      color: #44403c;
+      font-size: 14px;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+      overflow: hidden;
+    }
+
+    .review:hover {
+      transform: scale(1.04);
+      box-shadow: 0 12px 24px rgba(0,0,0,0.15);
+    }
+
+    /* alternance de couleur des avis */
+    .review:nth-child(even) {
+      background: #fff7ed;
+      border-color: #fed7aa;
+    }
+
+    .review-header {
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      margin-bottom:6px;
+    }
+
+    .review-text {
+      margin: 0;
+      line-height: 1.5;
+      color: #57534e;
+      font-style: italic;
+    }
+
+    
+
+    .stars {
+      color: #f59e0b;
+      font-weight: bold;
+      letter-spacing: 0.08em;
+      white-space: nowrap;
+    }
+
+    .review-name {
+      font-weight: 700;
+      color: #292524;
+      text-align: right;
+    }
+
+    @keyframes scrollReviews {
+      from { transform: translateX(0); }
+      to { transform: translateX(calc(-50% - 12px)); }
+    }
+
     .footer {
       border-top: 1px solid var(--line);
-      padding: 24px 0 40px;
+      padding: 16px 0 24px;
       color: #78716c;
       font-size: 14px;
     }
@@ -393,6 +569,10 @@
       .amazon {
         padding: 36px 0;
       }
+
+      .review {
+        width: 260px;
+      }
     }
   </style>
 </head>
@@ -402,15 +582,12 @@
       <div>
         <p class="eyebrow">Mon Univers de Livres – Antony</p>
         <h1>Bienvenue dans mon petit univers.</h1>
-        <p class="hero-text">Des livres pour petits et grands, imaginés et écrits avec beaucoup d’amour et de passion. Bonne lecture.</p>
+        <p class="hero-text">Des livres pour petits et grands, imaginés et écrits avec beaucoup d’amour et de passion.</p>
         <div class="badges">
           <span class="badge blue">Depuis 2023</span>
           <span class="badge amber">20+ livres</span>
           <span class="badge green">21700+ lecteurs</span>
         </div>
-      </div>
-      <div class="hero-visual">
-        <img src="https://i.imgur.com/av6zIw0.png" alt="Illustration auteur" />
       </div>
     </div>
   </header>
@@ -420,24 +597,53 @@
       <div class="filter-row" id="filters"></div>
       <div class="section-head">
         <p class="section-label">Catalogue</p>
-        <h2>Mes livres</h2>
+        <h2 class="books-title">Mes livres disponibles</h2>
       </div>
-      <div class="grid" id="booksGrid"></div>
+
+      <div class="books-block" id="bestsellersSection">
+        <div class="subsection-head">
+          <h3 class="subsection-title">Mes meilleures ventes ⭐</h3>
+        </div>
+        <div class="grid" id="bestsellersGrid"></div>
+      </div>
+
+      <div class="books-block" id="othersSection">
+        <div class="subsection-head">
+          <h3 class="subsection-title">Mes autres livres</h3>
+        </div>
+        <div class="grid" id="otherBooksGrid"></div>
+      </div>
     </section>
 
-    <section class="about" id="a-propos">
+    <section class="reviews">
+      <div class="container">
+      <div class="reviews-head section-head">
+        <p class="section-label">Avis lecteurs</p>
+        <h2>Ils ont aimé</h2>
+        <p class="reviews-sub">Avis laissés par des lecteurs Amazon.</p>
+      </div>
+
+      <div class="reviews-track-wrap">
+        <div class="reviews-track" id="reviewsTrack"></div>
+      </div>
+      </div>
+    </section>
+
+    <section class="about">
       <div class="container about-inner">
         <div>
           <p class="section-label">À propos</p>
-          <h2>Écrire des livres… écrire délivre.</h2>
+          <h2 class="books-title">Écrire des livres… écrire délivre.</h2>
         </div>
-        <div>
-          <p class="about-text">J’ai lancé cette nouvelle aventure en mars 2023, un peu par curiosité… et elle est vite devenue une vraie passion. Aujourd’hui, je prends énormément de plaisir à imaginer et écrire des livres pour petits et grands, dans des univers très différents. Ce site est simplement un endroit pour découvrir mes créations et retrouver facilement mes ouvrages disponibles sur Amazon. Bonne découverte, et n’hésitez pas à me faire vos retours.</p>
-        </div>
+        <p class="about-text">
+          J’ai lancé cette nouvelle aventure en mars 2023, un peu par curiosité… et elle est vite devenue une vraie passion.
+          Aujourd’hui, je prends énormément de plaisir à imaginer et écrire des livres pour petits et grands, dans des univers très différents.
+          Ce site est simplement un endroit pour découvrir mes créations et retrouver facilement mes ouvrages disponibles sur Amazon.
+          Bonne découverte, et n’hésitez pas à me faire vos retours.
+        </p>
       </div>
     </section>
 
-    
   </main>
 
   <footer class="footer">
@@ -451,6 +657,32 @@
   </footer>
 
   <script>
+    const prices = {
+      "Tu es un Footballeur Formidable": "12,99 €",
+      "Tu es un Basketteur Formidable": "12,99 €",
+      "Tu es un Handballeur Formidable": "12,99 €",
+      "Tu es un Rugbyman Formidable": "12,99 €",
+      "Tu es un Tennisman Formidable": "12,99 €",
+      "Tu es un Pongiste Formidable": "12,99 €",
+      "Tu es un Judoka Formidable": "12,99 €",
+      "Tu es une Gymnaste Formidable": "12,99 €",
+      "Tu es une Danseuse Formidable": "12,99 €",
+      "Tu es une Cavalière Formidable": "12,99 €",
+      "Raphaël et le Dino Perdu": "12,99 €",
+      "Grandir et s'épanouir avec le TDAH": "12,99 €",
+      "Origami Débutants": "11,98 €",
+      "Moi Belle et Géniale": "14,99 €",
+      "Tests de Personnalité Ados": "14,99 €",
+      "TOI vs MOI Spécial Couples": "14,99 €",
+      "Enquêtes Logiques": "12,99 €",
+      "Jeux de Mémoire pour les Séniors": "14,99 €",
+      "Le Livre des Super Mamies": "12,99 €",
+      "50 Choses à faire pour une Retraite Heureuse": "12,99 €",
+      "50 Idées Destinations pour les Retraités Voyageurs": "12,99 €",
+      "50 Idées Bien-être pour une Retraite en Forme": "12,99 €",
+      "50 Histoires Drôles pour une Retraite avec Humour": "12,99 €"
+    };
+
     const categories = ["Tous", "Enfants", "Ados", "Adultes", "Séniors"];
 
     const books = [
@@ -465,6 +697,7 @@
       {
         title: "Tu es un Basketteur Formidable",
         category: "Enfants",
+        bestseller: true,
         description: "Gabriel découvre le basket à l’école, mais il doute de lui. Lors de son voyage aux États-Unis, il rencontre Tony, un étudiant français passionné. Grâce à ses conseils et un match de NBA, Gabriel trouve enfin la confiance pour jouer avec passion.",
         cover: "https://m.media-amazon.com/images/I/71CnukJQC0L._AC_UL320_.jpg",
         amazon: "https://urlr.me/XTFNmV"
@@ -621,8 +854,27 @@
       }
     ];
 
+    const reviews = [
+      { t: "Super livre. Notre petit fan de rugby était motivé de lire l'histoire de ce petit garçon et souhaite maintenant aller en Nouvelle Zélande !", n: "Juliettedm", s: 5 },
+      { t: "Livres qui se lisent super facilement. Idéal pour les enfants avec histoire, faits marquants et quiz.", n: "Aurélie", s: 5 },
+      { t: "Ce livre pose un regard bienveillant sur le TDAH et propose des outils concrets.", n: "Marco", s: 5 },
+      { t: "C'était un cadeau pour le départ à la retraite d'une collègue. Elle a beaucoup apprécié.", n: "Katia", s: 5 },
+      { t: "Livre offert à ma grand‑mère qui a adoré. Grande variété de jeux.", n: "Ehanno Blandine", s: 5 },
+      { t: "Message de mon fils 9 ans : J’ai adoré ce livre et appris plein de choses.", n: "Sophie", s: 5 },
+      { t: "Super livre‑jeu pour les couples ! On a beaucoup ri.", n: "Sandy Naya", s: 5 },
+      { t: "Deuxième livre de la collection et toujours aussi bien.", n: "Client d'Amazon", s: 5 },
+      { t: "Ma fille a beaucoup aimé ce livre d'origami. Très belles illustrations.", n: "Morgan", s: 5 },
+      { t: "Tests intéressants pour les ados qui aident à mieux se connaître.", n: "Timon Lindy", s: 5 },
+      { t: "Livre acheté pour une jeune fille de 13 ans. Activités adaptées.", n: "Glorie Alexandra", s: 5 },
+      { t: "Une jolie petite histoire et un quiz que mon neveu a adoré.", n: "Romain87", s: 5 }
+    ];
+
     const filters = document.getElementById("filters");
-    const booksGrid = document.getElementById("booksGrid");
+    const bestsellersGrid = document.getElementById("bestsellersGrid");
+    const otherBooksGrid = document.getElementById("otherBooksGrid");
+    const bestsellersSection = document.getElementById("bestsellersSection");
+    const othersSection = document.getElementById("othersSection");
+    const track = document.getElementById("reviewsTrack");
     let activeCategory = "Tous";
 
     function createFilterButton(category) {
@@ -644,35 +896,74 @@
       });
     }
 
+    function renderBookCard(book, targetGrid) {
+      const article = document.createElement("article");
+      article.className = "card" + (book.bestseller ? " bestseller" : "");
+
+      article.innerHTML = `
+        <img src="${book.cover}" alt="${book.title}">
+        <div class="card-body">
+          <div class="card-top">
+            <p class="category">${book.category}</p>
+            ${book.bestseller ? '<span class="best">Best Seller</span>' : ''}
+          </div>
+          <h3>${book.title}</h3>
+          <p class="desc">${book.description}</p>
+          <div class="card-actions">
+            <span class="price">${prices[book.title] || ""}</span>
+            <a class="btn" href="${book.amazon}" target="_blank" rel="noopener noreferrer">Voir sur Amazon</a>
+          </div>
+        </div>
+      `;
+
+      targetGrid.appendChild(article);
+    }
+
     function renderBooks() {
-      booksGrid.innerHTML = "";
+      bestsellersGrid.innerHTML = "";
+      otherBooksGrid.innerHTML = "";
+
       const filtered = activeCategory === "Tous"
         ? books
         : books.filter((book) => book.category === activeCategory);
 
-      filtered.forEach((book) => {
-        const article = document.createElement("article");
-        article.className = "card";
+      const bestsellers = filtered.filter((book) => book.bestseller === true);
+      const others = filtered.filter((book) => book.bestseller !== true);
 
-        article.innerHTML = `
-          <img src="${book.cover}" alt="${book.title}">
-          <div class="card-body">
-            <div class="card-top">
-              <p class="category">${book.category}</p>
-              ${book.bestseller ? '<span class="best">Best Seller</span>' : ''}
-            </div>
-            <h3>${book.title}</h3>
-            <p class="desc">${book.description}</p>
-            <a class="btn" href="${book.amazon}" target="_blank" rel="noopener noreferrer">Voir sur Amazon</a>
+      if (bestsellers.length > 0) {
+        bestsellersSection.style.display = "block";
+        bestsellers.forEach((book) => renderBookCard(book, bestsellersGrid));
+      } else {
+        bestsellersSection.style.display = "none";
+      }
+
+      if (others.length > 0) {
+        othersSection.style.display = "block";
+        others.forEach((book) => renderBookCard(book, otherBooksGrid));
+      } else {
+        othersSection.style.display = "none";
+      }
+    }
+
+    function renderReviews() {
+      if (!track) return;
+
+      const html = reviews.map((r) => `
+        <div class="review">
+          <div class="review-header">
+            <span class="stars">${"★".repeat(r.s)}</span>
+            <span class="review-name">— ${r.n}</span>
           </div>
-        `;
+          <p class="review-text">« ${r.t} »</p>
+        </div>
+      `).join("");
 
-        booksGrid.appendChild(article);
-      });
+      track.innerHTML = html + html;
     }
 
     renderFilters();
     renderBooks();
+    renderReviews();
   </script>
 </body>
 </html>
