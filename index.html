@@ -5,7 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Mon Univers de Livres – Antony</title>
   <style>
-    :root {
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+:root {
       --bg: #f7f3ee;
       --card: #ffffff;
       --text: #292524;
@@ -26,7 +28,7 @@
 
     body {
       margin: 0;
-      font-family: Arial, Helvetica, sans-serif;
+      font-family: 'Poppins', sans-serif;
       background: var(--bg);
       color: var(--text);
       line-height: 1.5;
@@ -487,6 +489,16 @@
     }
 
     @media (max-width: 720px) {
+
+      .card img {
+        margin-top: 4px;
+        max-height: 260px;
+      }
+
+      .card-body {
+        margin-top: 6px;
+        padding: 12px 14px 16px;
+      }
       .hero-inner,
       .about-inner {
         grid-template-columns: 1fr;
@@ -497,7 +509,7 @@
       }
 
       .card img {
-        height: 320px;
+        height: 240px;
       }
 
       .about {
