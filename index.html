@@ -169,7 +169,7 @@
 
     .grid {
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+      grid-template-columns: repeat(4, minmax(0, 1fr));
       gap: 28px;
       padding-bottom: 24px;
     }
@@ -274,9 +274,10 @@
     }
 
     .desc {
+      font-size: 14px;
       margin: 10px 0 0;
       color: var(--muted);
-      text-align: justify;
+      text-align: left;
       display: -webkit-box;
       -webkit-line-clamp: 3;
       -webkit-box-orient: vertical;
@@ -476,8 +477,6 @@
       font-style: italic;
     }
 
-    
-
     .stars {
       color: #f59e0b;
       font-weight: bold;
@@ -548,9 +547,12 @@
 
     @media (max-width: 720px) {
       .hero-inner,
-      .about-inner,
-      .grid {
+      .about-inner {
         grid-template-columns: 1fr;
+      }
+
+      .grid {
+        grid-template-columns: 1fr 1fr;
       }
 
       .card img {
@@ -831,7 +833,6 @@
         cover: "https://m.media-amazon.com/images/I/71YVXSREpqL._AC_UL320_.jpg",
         amazon: "https://urls.fr/50cmBd"
       },
-      
       {
         title: "50 Idées Destinations pour les Retraités Voyageurs",
         category: "Séniors",
