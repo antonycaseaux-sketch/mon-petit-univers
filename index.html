@@ -275,6 +275,19 @@
       box-shadow: 0 3px 8px rgba(0,0,0,0.12);
     }
 
+    .fav {
+      background: #ec4899;
+      color: white;
+      border-radius: 999px;
+      padding: 7px 14px;
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      white-space: nowrap;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.12);
+    }
+
     .card h3 {
       margin: 10px 0 0;
       font-size: 18px;
@@ -596,7 +609,7 @@
           <span class="badge green">21700+ lecteurs</span>
         </div>
         <h1>Bienvenue dans ma bibliothèque.</h1>
-        <p class="hero-text">Des livres pour petits et grands, imaginés et écrits avec beaucoup d’amour et de passion.</p>
+        <p class="hero-text">Des livres pour petits et grands, imaginés et écrits <strong>avec beaucoup d’amour et de passion</strong>.</p>
       </div>
     </div>
   </header>
@@ -645,9 +658,9 @@
           <h2 class="books-title">Écrire des livres… écrire délivre.</h2>
         </div>
         <p class="about-text">
-          J’ai lancé cette nouvelle aventure en mars 2023, un peu par curiosité… et elle est vite devenue une vraie passion.
-          Aujourd’hui, je prends énormément de plaisir à imaginer et écrire des livres pour petits et grands, dans des univers très différents.
-          Ce site est simplement un endroit pour découvrir mes créations et retrouver facilement mes ouvrages disponibles sur Amazon.
+          J’ai lancé cette nouvelle aventure en <strong>mars 2023</strong>, un peu par curiosité… et elle est vite devenue <strong>une vraie passion</strong>.
+          Aujourd’hui, je prends énormément de plaisir à imaginer et écrire <strong>des livres pour petits et grands</strong>, dans des univers très différents.
+          Ce site est simplement un endroit pour découvrir mes créations et retrouver facilement <strong>mes ouvrages disponibles sur Amazon</strong>.
           Bonne découverte, et n’hésitez pas à me faire vos retours.
         </p>
       </div>
@@ -771,6 +784,7 @@
       },
       {
         title: "Raphaël et le Dino Perdu",
+        favorite: true,
         category: "Enfants",
         description: "Raphaël part en mission pour aider Kaya, un bébé dinosaure qui s’est perdu dans la vallée. En explorant la jungle préhistorique, ils vont rencontrer différents dinosaures et vivre de grandes aventures. Grâce à son courage et à son sens de l’observation, Raphaël réussira-t-il à retrouver la maman du petit dinosaure ?",
         cover: "https://m.media-amazon.com/images/I/717MeGmk7SL._AC_UL320_.jpg",
@@ -836,6 +850,7 @@
       },
       {
         title: "Le Livre des Super Mamies",
+        favorite: true,
         category: "Séniors",
         description: "Parfaite idée cadeau plein de tendresse pour les mamies. À travers anecdotes, souvenirs, jeux et moments d’humour, il célèbre tout ce qui rend les grands-mères si spéciales. Un ouvrage chaleureux à offrir pour un anniversaire ou la fête des grands-mères.",
         cover: "https://m.media-amazon.com/images/I/71YVXSREpqL._AC_UL320_.jpg",
@@ -916,6 +931,7 @@
           <div class="card-top">
             <p class="category">${book.category}</p>
             ${book.bestseller ? '<span class="best">Best Seller</span>' : ''}
+            ${book.favorite ? '<span class="fav">🤍 Coup de cœur</span>' : ''}
           </div>
           <h3>${book.title}</h3>
           <p class="desc">${book.description}</p>
