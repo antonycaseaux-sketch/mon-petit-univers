@@ -914,12 +914,23 @@
         </div>
       `;
 
-      // Toggle description on mobile when clicking the description text
+      // Toggle description when clicking the description text
       const desc = article.querySelector('.desc');
       if (desc) {
         desc.addEventListener('click', (e) => {
           e.stopPropagation();
-          article.classList.toggle('expanded');
+
+          const alreadyOpen = article.classList.contains('expanded');
+
+          // Close all opened cards
+          document.querySelectorAll('.card.expanded').forEach((c) => {
+            c.classList.remove('expanded');
+          });
+
+          // Reopen only if it wasn't already open
+          if (!alreadyOpen) {
+            article.classList.add('expanded');
+          }
         });
       }
 
