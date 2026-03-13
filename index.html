@@ -245,6 +245,11 @@
       }
     }
 
+    /* Darken description background when expanded (important for mobile where hover doesn't exist) */
+    .card.expanded .card-body {
+      background: linear-gradient(to bottom, rgba(255,247,237,0.4) 0%, #fde8d5 40%, #fde8d5 100%);
+    }
+
     .card-top {
       display: flex;
       justify-content: space-between;
