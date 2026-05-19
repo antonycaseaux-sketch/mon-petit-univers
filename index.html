@@ -245,7 +245,6 @@
       }
     }
 
-    /* Darken description background when expanded (important for mobile where hover doesn't exist) */
     .card.expanded .card-body {
       background: linear-gradient(to bottom, rgba(255,247,237,0.4) 0%, #fde8d5 40%, #fde8d5 100%);
     }
@@ -615,7 +614,7 @@
           <span class="badge green">21700+ lecteurs</span>
         </div>
         <h1>Bienvenue dans ma bibliothèque.</h1>
-        <p class="hero-text">Des livres pour petits et grands, imaginés et écrits avec <strong>beaucoup d’amour et de passion</strong>.</p>
+        <p class="hero-text">Des livres pour petits et grands, imaginés et écrits avec <strong>beaucoup d'amour et de passion</strong>.</p>
       </div>
     </div>
   </header>
@@ -665,10 +664,10 @@
           <h2 class="books-title">Écrire des livres… écrire délivre.</h2>
         </div>
         <p class="about-text">
-          J’ai lancé cette nouvelle aventure en <strong>mars 2023</strong>, un peu par curiosité… et elle est vite devenue <strong>une vraie passion</strong>.
-          Aujourd’hui, je prends énormément de plaisir à imaginer et écrire <strong>des livres pour petits et grands</strong>, dans des univers très différents.
+          J'ai lancé cette nouvelle aventure en <strong>mars 2023</strong>, un peu par curiosité… et elle est vite devenue <strong>une vraie passion</strong>.
+          Aujourd'hui, je prends énormément de plaisir à imaginer et écrire <strong>des livres pour petits et grands</strong>, dans des univers très différents.
           Ce site est simplement un endroit pour découvrir mes créations et retrouver facilement <strong>mes ouvrages disponibles sur Amazon</strong>.
-          Bonne découverte, et n’hésitez pas à me faire vos retours.
+          Bonne découverte, et n'hésitez pas à me faire vos retours.
         </p>
       </div>
     </section>
@@ -677,7 +676,6 @@
   <footer class="footer">
     <div class="container footer-inner">
       <p>© 2026 Mon Univers de Livres. Tous droits réservés.</p>
-      
     </div>
   </footer>
 
@@ -706,7 +704,10 @@
       "50 Choses à faire pour une Retraite Heureuse": "12,99 €",
       "50 Idées Destinations pour les Retraités Voyageurs": "12,99 €",
       "50 Idées Bien-être pour une Retraite en Forme": "12,99 €",
-      "50 Histoires Drôles pour une Retraite avec Humour": "12,99 €"
+      "50 Histoires Drôles pour une Retraite avec Humour": "12,99 €",
+      // ── 2 nouveaux livres ──
+      "Cahier Coloriage Foot": "12,99 €",
+      "Cahier de Jeux Football": "12,99 €"
     };
 
     const categories = ["Tous", "Enfants", "Ados", "Adultes", "Séniors"];
@@ -731,56 +732,56 @@
       {
         title: "Tu es un Basketteur Formidable",
         category: "Enfants",
-        description: "Gabriel découvre le basket à l’école, mais il doute de lui. Lors de son voyage aux États-Unis, il rencontre Tony, un étudiant français passionné. Grâce à ses conseils et un match de NBA, Gabriel trouve enfin la confiance pour jouer avec passion.",
+        description: "Gabriel découvre le basket à l'école, mais il doute de lui. Lors de son voyage aux États-Unis, il rencontre Tony, un étudiant français passionné. Grâce à ses conseils et un match de NBA, Gabriel trouve enfin la confiance pour jouer avec passion.",
         cover: "https://m.media-amazon.com/images/I/71CnukJQC0L._AC_UL320_.jpg",
         amazon: "https://urlr.me/XTFNmV"
       },
       {
         title: "Tu es un Handballeur Formidable",
         category: "Enfants",
-        description: "Depuis tout petit, Jules est fou de handball. Son voyage au Danemark, pays du hand, lui fait vivre un match grandiose ainsi qu’une rencontre inoubliable avec son idole. De retour en France, il entre sur le terrain avec des étoiles plein les yeux.",
+        description: "Depuis tout petit, Jules est fou de handball. Son voyage au Danemark, pays du hand, lui fait vivre un match grandiose ainsi qu'une rencontre inoubliable avec son idole. De retour en France, il entre sur le terrain avec des étoiles plein les yeux.",
         cover: "https://m.media-amazon.com/images/I/71+faQhTP2L._AC_UL320_.jpg",
         amazon: "https://urlr.me/DVt5hK"
       },
       {
         title: "Tu es un Rugbyman Formidable",
         category: "Enfants",
-        description: "Adam, 9 ans, adore l’ambiance du rugby dans son petit village du sud-ouest. Lors d’un voyage en Nouvelle-Zélande, il découvre un pays où ce sport est roi. Il y vit une aventure marquante et apprend que le courage et la solidarité peuvent déplacer des montagnes.",
+        description: "Adam, 9 ans, adore l'ambiance du rugby dans son petit village du sud-ouest. Lors d'un voyage en Nouvelle-Zélande, il découvre un pays où ce sport est roi. Il y vit une aventure marquante et apprend que le courage et la solidarité peuvent déplacer des montagnes.",
         cover: "https://m.media-amazon.com/images/I/7121D9STR2L._AC_UL320_.jpg",
         amazon: "https://urlr.me/7MsCKG"
       },
       {
         title: "Tu es un Tennisman Formidable",
         category: "Enfants",
-        description: "Nathan adore le tennis, mais il perd tous ses moyens en match. Pour son anniversaire, il part à Majorque, en Espagne, et visite l’académie de Nadal. Là-bas, une rencontre inattendue va réveiller sa motivation et changer son regard sur lui-même.",
+        description: "Nathan adore le tennis, mais il perd tous ses moyens en match. Pour son anniversaire, il part à Majorque, en Espagne, et visite l'académie de Nadal. Là-bas, une rencontre inattendue va réveiller sa motivation et changer son regard sur lui-même.",
         cover: "https://m.media-amazon.com/images/I/71nl0WWGRkL._AC_UL320_.jpg",
         amazon: "https://urlr.me/BMxeA3"
       },
       {
         title: "Tu es un Pongiste Formidable",
         category: "Enfants",
-        description: "Félix découvre le tennis de table sur une vieille table derrière chez lui, avec son grand frère. Lors d’un voyage en Chine, il attire l’attention d’un vieil entraîneur plein de sagesse, qui lui enseigne l’art du rebond… et l’importance de garder son calme dans la défaite.",
+        description: "Félix découvre le tennis de table sur une vieille table derrière chez lui, avec son grand frère. Lors d'un voyage en Chine, il attire l'attention d'un vieil entraîneur plein de sagesse, qui lui enseigne l'art du rebond… et l'importance de garder son calme dans la défaite.",
         cover: "https://m.media-amazon.com/images/I/71tEgPXRurL._AC_UL320_.jpg",
         amazon: "https://urlr.me/XqRjD4"
       },
       {
         title: "Tu es un Judoka Formidable",
         category: "Enfants",
-        description: "Kibo vit avec sa maman dans un petit village du centre de la France et pratique le judo avec passion. Lors d’un voyage au Japon, il découvre les racines de ce sport et rencontre un maître qui lui transmet bien plus qu’un simple enseignement.",
+        description: "Kibo vit avec sa maman dans un petit village du centre de la France et pratique le judo avec passion. Lors d'un voyage au Japon, il découvre les racines de ce sport et rencontre un maître qui lui transmet bien plus qu'un simple enseignement.",
         cover: "https://m.media-amazon.com/images/I/71jlE7GveTL._AC_UL320_.jpg",
         amazon: "https://urlr.me/bqCpFm"
       },
       {
         title: "Tu es une Danseuse Formidable",
         category: "Enfants",
-        description: "Louise danse depuis l’âge de 5 ans. Lors d’un voyage à Vienne avec son école, elle assiste à une représentation magique et rencontre une ancienne ballerine au bord du Danube. Un événement inattendu lui offrira une chance de briller.",
+        description: "Louise danse depuis l'âge de 5 ans. Lors d'un voyage à Vienne avec son école, elle assiste à une représentation magique et rencontre une ancienne ballerine au bord du Danube. Un événement inattendu lui offrira une chance de briller.",
         cover: "https://m.media-amazon.com/images/I/71mXO54Aa+L._AC_UL320_.jpg",
         amazon: "https://urlr.me/SnwceU"
       },
       {
         title: "Tu es une Cavalière Formidable",
         category: "Enfants",
-        description: "Emma vit à la ferme avec son cheval Caramel, son complice de toujours. Lors d’un voyage en Angleterre, elle assiste à un spectacle équestre grandiose. Une rencontre inattendue va changer sa façon de monter et de comprendre son fidèle compagnon.",
+        description: "Emma vit à la ferme avec son cheval Caramel, son complice de toujours. Lors d'un voyage en Angleterre, elle assiste à un spectacle équestre grandiose. Une rencontre inattendue va changer sa façon de monter et de comprendre son fidèle compagnon.",
         cover: "https://m.media-amazon.com/images/I/71rXVkE5gmL._AC_UL320_.jpg",
         amazon: "https://urls.fr/iXbSLt"
       },
@@ -788,14 +789,14 @@
         title: "Raphaël et le Dino Perdu",
         favorite: true,
         category: "Enfants",
-        description: "Raphaël part en mission pour aider Kaya, un bébé dinosaure qui s’est perdu dans la vallée. En explorant la jungle préhistorique, ils vont rencontrer différents dinosaures et vivre de grandes aventures. Grâce à son courage et à son sens de l’observation, Raphaël réussira-t-il à retrouver la maman du petit dinosaure ?",
+        description: "Raphaël part en mission pour aider Kaya, un bébé dinosaure qui s'est perdu dans la vallée. En explorant la jungle préhistorique, ils vont rencontrer différents dinosaures et vivre de grandes aventures. Grâce à son courage et à son sens de l'observation, Raphaël réussira-t-il à retrouver la maman du petit dinosaure ?",
         cover: "https://m.media-amazon.com/images/I/717MeGmk7SL._AC_UL320_.jpg",
         amazon: "https://urlr.me/HcJbxe"
       },
       {
         title: "Grandir et s'épanouir avec le TDAH",
         category: "Enfants",
-        description: "Un livre illustré pour aider les enfants à mieux comprendre le TDAH et leurs émotions. À travers des histoires positives, ils apprendront à s’épanouir avec confiance. Parce qu'avec de la compréhension et de la bienveillance, chaque différence peut devenir une force.",
+        description: "Un livre illustré pour aider les enfants à mieux comprendre le TDAH et leurs émotions. À travers des histoires positives, ils apprendront à s'épanouir avec confiance. Parce qu'avec de la compréhension et de la bienveillance, chaque différence peut devenir une force.",
         cover: "https://m.media-amazon.com/images/I/71XegrIXT-L._SY425_.jpg",
         amazon: "https://urlr.me/QKfGrF"
       },
@@ -803,21 +804,37 @@
         title: "Les Énigmes du Lutin Farceur",
         favorite: true,
         category: "Enfants",
-        description: "Un calendrier de l’Avent sous forme de livre-jeu qui transforme l’attente de Noël en véritable enquête. Chaque jour, une histoire et une énigme permettent de progresser dans un grand mystère au cœur du Pôle Nord. Une aventure ludique et immersive pour stimuler la réflexion et vivre la magie de Noël autrement. Livre coécrit avec Sophie Brillant.",
+        description: "Un calendrier de l'Avent sous forme de livre-jeu qui transforme l'attente de Noël en véritable enquête. Chaque jour, une histoire et une énigme permettent de progresser dans un grand mystère au cœur du Pôle Nord. Une aventure ludique et immersive pour stimuler la réflexion et vivre la magie de Noël autrement. Livre coécrit avec Sophie Brillant.",
         cover: "https://m.media-amazon.com/images/I/71xTikAXklL._AC_UL320_.jpg",
         amazon: "https://urls.fr/-FyYIi"
       },
       {
         title: "Origami Débutants",
         category: "Enfants",
-        description: "L’origami est une activité créative qui permet de découvrir l’art du pliage de papier. Grâce à des explications claires et des modèles variés, enfants et adultes peuvent apprendre pas à pas à réaliser leurs premières créations. Une activité ludique et relaxante pour développer la créativité, la patience et le plaisir de créer avec du papier.",
+        description: "L'origami est une activité créative qui permet de découvrir l'art du pliage de papier. Grâce à des explications claires et des modèles variés, enfants et adultes peuvent apprendre pas à pas à réaliser leurs premières créations. Une activité ludique et relaxante pour développer la créativité, la patience et le plaisir de créer avec du papier.",
         cover: "https://m.media-amazon.com/images/I/61m8JVL2ElL._AC_UL320_.jpg",
         amazon: "https://urls.fr/7ghOCC"
+      },
+      // ── 2 nouveaux livres ──
+      {
+        title: "Cahier Coloriage Foot",
+        category: "Enfants",
+        description: "Ce cahier de coloriage plonge les jeunes passionnés dans un univers 100% Fun et Football, tout en stimulant leur créativité.",
+        cover: "https://m.media-amazon.com/images/I/71GHBlg-SjL._AC_UL320_.jpg",
+        amazon: "https://www.amazon.fr/Cahier-Coloriage-Foot-passionn%C3%A9-accompagn%C3%A9es/dp/B0GYZF2PHG/ref=sr_1_6?__mk_fr_FR=%C3%85M%C3%85%C5%BD%C3%95%C3%91&crid=1NKR8JNS5WFXX&dib=eyJ2IjoiMSJ9.C1SQ49HjosnOWZn0e0L55OZIVO0qGS8-t3VHjHd3Czm-2K4WKYiqbAjTiB6C6p1De0pMOiq4XPaTo-f_7yzvX7jbizqoFTSj26xGFeuIwIculI9Koai9fNQ939Ba1smoFxrOfHTpGg-I-c-lQ1urccu9gCyfuL3dFwcxe38x0GjaBAneYrxa_1H04-o-JPAnvVGu0OWukg9B01WgvRmRVoW_qgxbWmEJ_q0OEzQaX3EBfong79TzWxrztyudBWlUe101E-XdqaowKNJowwC02UJsY9TAmJ6Y69BSRAr48Oo.td0y-f_0USEFtmY-8EQw5j0mjNd2FH-p9TsJxOBfAkM&dib_tag=se&keywords=cahier+coloriage+foot&qid=1779195313&sprefix=cahier+coloriage+fo%2Caps%2C274&sr=8-6&xpid=FM3e67nUpMrQG"
+      },
+      {
+        title: "Cahier de Jeux Football",
+        favorite: true,
+        category: "Enfants",
+        description: "Cahier d'activités conçu pour les enfants de 6 à 10 ans. À travers des jeux variés, des quiz foot, des défis et des activités ludiques, votre enfant va développer sa logique et sa créativité autour de sa passion pour le football.",
+        cover: "https://m.media-amazon.com/images/I/71MpHH-tVoL._AC_UL320_.jpg",
+        amazon: "https://www.amazon.fr/Cahier-Jeux-Football-Enfant-dactivit%C3%A9s/dp/B0GYZ4T9NW/ref=sr_1_8?__mk_fr_FR=%C3%85M%C3%85%C5%BD%C3%95%C3%91&crid=1K3N55SOKMX7F&dib=eyJ2IjoiMSJ9.2tzueg-mhWQFt_5IZvDmOLj0i6VMSIbGTSTIkmCJS0ok52q7XNdGjoUGt_gTjP4ET7paX6JbtugjqA3Lindpi63nxCGspUnQq6OSSNTnKwPy_5ASvfvRDr8EW7zOS7QYA6-eWScxZkj7zwPBP65IGuAdTctJ0JfztRQzn4LBSiE5PZY2KSExK70U2eNx-kfvaD9eZpDnAgCy_xz4OYkIHJ_ZPq0PgrYCBChsAaAEvYFdCbCFCLVivizNp6Rtt44YZE53DSOswJCQMZtg-SUys62uWOAlYp4Tvx3_48z-RVY.srWJHsA4t-VY17nlGYv59mE1CS6ry8-KNmDpAalqkek&dib_tag=se&keywords=cahier+jeux+foot&qid=1779195368&sprefix=cahier+jeux+foot%2Caps%2C219&sr=8-8"
       },
       {
         title: "Moi Belle et Géniale",
         category: "Ados",
-        description: "Un guide de développement personnel conçu pour renforcer la confiance en soi et révéler son potentiel. À travers réflexions, exercices et conseils accessibles, il invite à dépasser les doutes et s’affirmer pleinement. Une approche inspirante pour cultiver l’estime de soi et avancer avec confiance vers la meilleure version de soi-même.",
+        description: "Un guide de développement personnel conçu pour renforcer la confiance en soi et révéler son potentiel. À travers réflexions, exercices et conseils accessibles, il invite à dépasser les doutes et s'affirmer pleinement. Une approche inspirante pour cultiver l'estime de soi et avancer avec confiance vers la meilleure version de soi-même.",
         cover: "https://m.media-amazon.com/images/I/61HGTxITwML._AC_UL320_.jpg",
         amazon: "https://urls.fr/OjKwRx"
       },
@@ -832,7 +849,7 @@
         title: "50 Choses à faire pour une Retraite Heureuse",
         category: "Séniors",
         bestseller: true,
-        description: "Ce livre est un cadeau idéal pour célébrer un départ à la retraite. À travers 50 activités amusantes et inspirantes, il invite à profiter pleinement de cette nouvelle étape de vie. Conseils et jeux pour stimuler l’esprit.",
+        description: "Ce livre est un cadeau idéal pour célébrer un départ à la retraite. À travers 50 activités amusantes et inspirantes, il invite à profiter pleinement de cette nouvelle étape de vie. Conseils et jeux pour stimuler l'esprit.",
         cover: "https://m.media-amazon.com/images/I/71jVILYi0JL._AC_UL320_.jpg",
         amazon: "https://urls.fr/Lp_EqC"
       },
@@ -846,14 +863,14 @@
       {
         title: "Enquêtes Logiques",
         category: "Adultes",
-        description: "A vos crayons pour résoudre des logigrammes ! Chaque énigme invite à analyser les indices, croiser les informations et répondre à une question. Idéal pour développer l’esprit logique et faire travailler les méninges, avec plusieurs jeux de réflexion bonus pour pimenter l’expérience.",
+        description: "A vos crayons pour résoudre des logigrammes ! Chaque énigme invite à analyser les indices, croiser les informations et répondre à une question. Idéal pour développer l'esprit logique et faire travailler les méninges, avec plusieurs jeux de réflexion bonus pour pimenter l'expérience.",
         cover: "https://m.media-amazon.com/images/I/710A53WMO6L._AC_UL320_.jpg",
         amazon: "https://urls.fr/IpbHMI"
       },
       {
         title: "Jeux de Mémoire pour les Séniors",
         category: "Séniors",
-        description: "Ce livre propose une variété de jeux de mémoire spécialement conçus pour les seniors afin de stimuler les capacités cognitives tout en s’amusant. Exercices variés, défis progressifs et activités ludiques permettent d’entretenir l’esprit et garder un cerveau actif au quotidien.",
+        description: "Ce livre propose une variété de jeux de mémoire spécialement conçus pour les seniors afin de stimuler les capacités cognitives tout en s'amusant. Exercices variés, défis progressifs et activités ludiques permettent d'entretenir l'esprit et garder un cerveau actif au quotidien.",
         cover: "https://m.media-amazon.com/images/I/71LOG+qtAsL._AC_UL320_.jpg",
         amazon: "https://urls.fr/gyHFt0"
       },
@@ -861,7 +878,7 @@
         title: "Le Livre des Super Mamies",
         favorite: true,
         category: "Séniors",
-        description: "Parfaite idée cadeau plein de tendresse pour les mamies. À travers anecdotes, souvenirs, jeux et moments d’humour, il célèbre tout ce qui rend les grands-mères si spéciales. Un ouvrage chaleureux à offrir pour un anniversaire ou la fête des grands-mères.",
+        description: "Parfaite idée cadeau plein de tendresse pour les mamies. À travers anecdotes, souvenirs, jeux et moments d'humour, il célèbre tout ce qui rend les grands-mères si spéciales. Un ouvrage chaleureux à offrir pour un anniversaire ou la fête des grands-mères.",
         cover: "https://m.media-amazon.com/images/I/71YVXSREpqL._AC_UL320_.jpg",
         amazon: "https://urls.fr/50cmBd"
       },
@@ -882,7 +899,7 @@
       {
         title: "50 Histoires Drôles pour une Retraite avec Humour",
         category: "Séniors",
-        description: "Ce livre rassemble 50 histoires drôles et anecdotes légères pour célébrer la retraite avec humour et bonne humeur. Parfait pour offrir lors d’un départ d’un collègue, il propose des moments de lecture divertissants ainsi qu’un espace livre d’or pour laisser un souvenir ou un mot touchant.",
+        description: "Ce livre rassemble 50 histoires drôles et anecdotes légères pour célébrer la retraite avec humour et bonne humeur. Parfait pour offrir lors d'un départ d'un collègue, il propose des moments de lecture divertissants ainsi qu'un espace livre d'or pour laisser un souvenir ou un mot touchant.",
         cover: "https://m.media-amazon.com/images/I/71MTDd0nn1L._AC_UL320_.jpg",
         amazon: "https://urls.fr/bN7vJ6"
       }
@@ -894,7 +911,7 @@
       { t: "Ce livre pose un regard bienveillant sur le TDAH et propose des outils concrets.", n: "Marco", s: 5 },
       { t: "C'était un cadeau pour le départ à la retraite d'une collègue. Elle a beaucoup apprécié.", n: "Katia", s: 5 },
       { t: "Livre offert à ma grand‑mère qui a adoré. Grande variété de jeux.", n: "Ehanno Blandine", s: 5 },
-      { t: "Message de mon fils 9 ans : J’ai adoré ce livre et appris plein de choses.", n: "Sophie", s: 5 },
+      { t: "Message de mon fils 9 ans : J'ai adoré ce livre et appris plein de choses.", n: "Sophie", s: 5 },
       { t: "Super livre‑jeu pour les couples ! On a beaucoup ri.", n: "Sandy Naya", s: 5 },
       { t: "Deuxième livre de la collection et toujours aussi bien.", n: "Client d'Amazon", s: 5 },
       { t: "Ma fille a beaucoup aimé ce livre d'origami. Très belles illustrations.", n: "Morgan", s: 5 },
@@ -955,27 +972,20 @@
         </div>
       `;
 
-      // Toggle description when clicking the description text
       const desc = article.querySelector('.desc');
       if (desc) {
         desc.addEventListener('click', (e) => {
           e.stopPropagation();
-
           const alreadyOpen = article.classList.contains('expanded');
-
-          // Close all opened cards
           document.querySelectorAll('.card.expanded').forEach((c) => {
             c.classList.remove('expanded');
           });
-
-          // Reopen only if it wasn't already open
           if (!alreadyOpen) {
             article.classList.add('expanded');
           }
         });
       }
 
-      // Ensure Amazon button always opens link without toggling description
       const amazonBtn = article.querySelector('.btn');
       if (amazonBtn) {
         const openAmazon = (e) => {
@@ -986,7 +996,6 @@
           }
           window.open(amazonBtn.href, '_blank');
         };
-
         amazonBtn.addEventListener('click', openAmazon);
         amazonBtn.addEventListener('touchend', openAmazon, { passive: false });
       }
@@ -1016,7 +1025,6 @@
       const bestsellers = filtered.filter((book) => book.bestseller === true);
       const others = filtered.filter((book) => book.bestseller !== true);
 
-      // Si on est sur "Tous", on garde les deux sections
       if (activeCategory === "Tous") {
         if (bestsellers.length > 0) {
           bestsellersSection.style.display = "block";
@@ -1032,12 +1040,9 @@
           othersSection.style.display = "none";
         }
       } else {
-        // Dans les sous-catégories : tous les livres à la suite, best sellers en premier
         const ordered = [...bestsellers, ...others];
-
         bestsellersSection.style.display = "block";
         othersSection.style.display = "none";
-
         ordered.forEach((book) => renderBookCard(book, bestsellersGrid));
       }
     }
