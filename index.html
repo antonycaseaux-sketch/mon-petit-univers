@@ -1046,12 +1046,12 @@
     /* Lettres du titre : placées une à une le long d'un arc (voir archTitles) */
     .arch-ch { display: inline-block; white-space: pre; transform-origin: 50% 60%; }
 
-    /* Pastille Best Seller : en bas à gauche de la zone couverture */
+    /* Pastille Best Seller : en haut à droite de la zone couverture (20 px = marge au-dessus de l'image + 8 px) */
     .card-cover { position: relative; }
     .best-flag {
       position: absolute;
-      left: 8px;
-      bottom: 8px;
+      right: 8px;
+      top: 20px;
       z-index: 2;
       background: #f59e0b;
       color: #ffffff;
@@ -1066,7 +1066,7 @@
       pointer-events: none;
     }
     @media (max-width: 720px) {
-      .best-flag { left: 5px; bottom: 5px; font-size: 7.5px; padding: 3px 6px; letter-spacing: 0.04em; }
+      .best-flag { right: 5px; top: 7px; font-size: 7.5px; padding: 3px 6px; letter-spacing: 0.04em; }
     }
 
   </style>
