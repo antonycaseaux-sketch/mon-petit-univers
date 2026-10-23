@@ -1407,7 +1407,7 @@
       {
         title: "50 Choses à faire pour une Retraite Heureuse",
         category: "Séniors",
-        type: "Jeux & conseils",
+        type: "Cadeau retraite",
         bestseller: true,
         description: "Ce livre est un cadeau idéal pour célébrer un départ à la retraite. À travers 50 activités amusantes et inspirantes, il invite à profiter pleinement de cette nouvelle étape de vie. Conseils et jeux pour stimuler l'esprit.",
         cover: "https://m.media-amazon.com/images/I/71jVILYi0JL._AC_UL320_.jpg",
@@ -1459,7 +1459,7 @@
       {
         title: "50 Idées Destinations pour les Retraités Voyageurs",
         category: "Séniors",
-        type: "Jeux & conseils",
+        type: "Cadeau retraite",
         description: "Une invitation à découvrir de nouveaux horizons pendant la retraite. À travers 50 destinations, il propose des conseils et pages ludiques pour imaginer ses prochaines escapades. Un cadeau original pour célébrer un départ à la retraite.",
         cover: "https://m.media-amazon.com/images/I/71uckQCX5QL._AC_UL320_.jpg",
         amazon: "https://urls.fr/KGo2Dh"
@@ -1467,7 +1467,7 @@
       {
         title: "50 Idées Bien-être pour une Retraite en Forme",
         category: "Séniors",
-        type: "Jeux & conseils",
+        type: "Cadeau retraite",
         description: "Ce livre propose 50 idées bien-être pour profiter pleinement de la retraite et adopter de nouvelles habitudes positives. Relaxation, et activités apaisantes invitent à prendre soin de soi au quotidien. Un cadeau inspirant pour célébrer un départ à la retraite et aborder cette nouvelle étape avec sérénité et énergie.",
         cover: "https://m.media-amazon.com/images/I/71ZcJPMuZAL._AC_UL320_.jpg",
         amazon: "https://urls.fr/K5fxRH"
@@ -1475,7 +1475,7 @@
       {
         title: "50 Histoires Drôles pour une Retraite avec Humour",
         category: "Séniors",
-        type: "Humour",
+        type: "Cadeau retraite",
         description: "Ce livre rassemble 50 histoires drôles et anecdotes légères pour célébrer la retraite avec humour et bonne humeur. Parfait pour offrir lors d'un départ d'un collègue, il propose des moments de lecture divertissants ainsi qu'un espace livre d'or pour laisser un souvenir ou un mot touchant.",
         cover: "https://m.media-amazon.com/images/I/71MTDd0nn1L._AC_UL320_.jpg",
         amazon: "https://urls.fr/bN7vJ6"
@@ -1783,7 +1783,7 @@
     window.addEventListener('load', alignTitleRows);
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(alignTitleRows);
 
-    // Titres des bandeaux : chaque lettre est placée le long d'un arc léger (centre plus haut), comme le bandeau
+    // Titres des bandeaux : chaque lettre est placée le long d'une courbe de même forme que le bandeau (centre plus haut)
     function archTitles() {
       document.querySelectorAll('.subsection-title').forEach((h) => {
         if (!h.dataset.arched) {
@@ -1802,18 +1802,24 @@
         const chars = [...h.querySelectorAll('.arch-ch')];
         chars.forEach((sp) => { sp.style.transform = ''; });
         if (!chars.length) return;
+        const head = h.closest('.subsection-head');
+        const hr = head.getBoundingClientRect();
+        if (hr.width <= 0) return; // bandeau masqué (vues par catégorie)
+        // Le titre reprend la même courbe que le bandeau, en plus petit : même forme, même inclinaison aux extrémités.
+        // (Le bandeau fait toute la largeur de l'écran, son creux vaut 15,2 % de sa hauteur ; le titre, lui, est bien plus étroit.)
+        const halfBand = window.innerWidth / 2;
+        const sagBand = 0.152 * hr.height;
         const first = chars[0].getBoundingClientRect();
         const last = chars[chars.length - 1].getBoundingClientRect();
-        const width = last.right - first.left;
-        if (width <= 0) return; // bandeau masqué (vues par catégorie)
+        const halfText = (last.right - first.left) / 2;
+        if (halfText <= 0) return;
         const cx = (first.left + last.right) / 2;
-        const sag = Math.max(3, Math.min(7, width * 0.022));          // creux de l'arc aux extrémités du titre (px)
-        const R = (width * width / 4 + sag * sag) / (2 * sag);        // rayon du cercle correspondant
+        const sagText = sagBand * (halfText / halfBand);
         chars.forEach((sp) => {
           const r = sp.getBoundingClientRect();
-          const x = r.left + r.width / 2 - cx;
-          const y = R - Math.sqrt(Math.max(R * R - x * x, 0));
-          const deg = Math.asin(Math.max(-1, Math.min(1, x / R))) * 180 / Math.PI;
+          const dx = r.left + r.width / 2 - cx;
+          const y = sagText * Math.pow(dx / halfText, 2);
+          const deg = Math.atan((2 * sagText * dx) / (halfText * halfText)) * 180 / Math.PI;
           sp.style.transform = 'translateY(' + y.toFixed(2) + 'px) rotate(' + deg.toFixed(2) + 'deg)';
         });
       });
