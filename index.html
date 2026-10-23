@@ -4,7 +4,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Mon Univers de Livres</title>
-  <meta name="robots" content="noindex, nofollow" />
   <link rel="icon" type="image/png" sizes="192x192" href="/icone.png?v=3" />
   <link rel="shortcut icon" href="/icone.png?v=3" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=3" />
@@ -326,7 +325,7 @@
     .desc {
       font-size: 13px;
       line-height: 1.4;
-      margin: 2px 0 0;
+      margin: 3px 0 0;
       color: var(--muted);
       text-align: left;
       display: -webkit-box;
@@ -853,7 +852,7 @@
 
       .desc {
         font-size: 11px;
-        margin-top: 2px;
+        margin-top: 3px;
         -webkit-line-clamp: 2;
         max-height: 3.2em;
       }
@@ -924,49 +923,103 @@
       .card.card--big img { height: 300px; max-height: 300px; }
       .card.card--big .card-body { padding: 14px 16px 18px; }
       .card.card--big h3 { font-size: 17px; margin-top: 8px; }
-      .card.card--big .desc { font-size: 13px; margin-top: 2px; max-height: none; }
+      .card.card--big .desc { font-size: 13px; margin-top: 3px; max-height: none; }
       .card.card--big .category { font-size: 13px; }
       .card.card--big .book-type { font-size: 11px; }
       .card.card--big .best, .card.card--big .fav { font-size: 10px; padding: 6px 10px; }
       .card.card--big .price { font-size: 15px; }
       .card.card--big .btn { font-size: 15px; padding: 7px 18px; border-radius: 14px; }
     }
-    /* Titres de sections : simple texte avec un trait de couleur dessous (plus d'effet bouton) */
+
+    /* Titres de sections : bandeau pleine largeur en dégradé qui défile doucement vers la droite */
+    main { overflow-x: hidden; overflow-x: clip; }
+    .subsection-head {
+      --ga: #b45309; --gb: #ea580c; --bt: #ffffff; --ts: 0 1px 3px rgba(0,0,0,0.28);
+      position: relative;
+      isolation: isolate;
+      padding: 12px 0;
+      margin-bottom: 16px;
+      text-align: center;
+    }
+    .subsection-head::before {
+      content: "";
+      position: absolute;
+      z-index: -1;
+      top: 0;
+      bottom: 0;
+      left: 50%;
+      width: 100vw;
+      transform: translateX(-50%);
+      background: linear-gradient(90deg, var(--ga), var(--gb), var(--ga));
+      background-size: 200% 100%;
+      animation: bandFlow 14s linear infinite;
+    }
+    #newSection .subsection-head { --ga: #8f5f00; --gb: #c28e00; --bt: #ffffff; --ts: 0 1px 3px rgba(60,35,0,0.45); }   /* or foncé, texte blanc */
+    /* Meilleures ventes : orange (même dégradé que le haut du site) — valeurs par défaut ci-dessus */
+    #othersSection .subsection-head { --ga: #1c1917; --gb: #57534e; }   /* À découvrir aussi : noir → gris foncé */
     .subsection-title,
     #newSection .subsection-title,
     #othersSection .subsection-title {
+      display: block;
+      width: auto;
+      margin: 0 auto;
       background: none;
-      color: #292524;
-      padding: 0 0 6px;
+      color: var(--bt, #ffffff);
+      padding: 0;
+      border: none;
       border-radius: 0;
       box-shadow: none;
       animation: none;
       overflow: visible;
-      font-size: clamp(24px, 6vw, 32px);
+      position: relative;
+      z-index: 1;
+      font-size: clamp(22px, 5.5vw, 28px);
       font-weight: 800;
-      line-height: 1.15;
-      border-bottom: 5px solid #d97706;
+      line-height: 1.2;
+      text-shadow: var(--ts, 0 1px 3px rgba(0,0,0,0.28));
     }
-    #newSection .subsection-title { border-bottom-color: #ffd60a; }
-    #othersSection .subsection-title { border-bottom-color: #44403c; }
+    /* Neige dans les bandeaux : sur toute la largeur, entre le dégradé et le titre */
+    .snow-canvas--band {
+      left: 50%;
+      width: 100vw;
+      transform: translateX(-50%);
+    }
     #newSection .subsection-title::after { display: none; }
+    @keyframes bandFlow {
+      from { background-position: 0% 0; }
+      to { background-position: -200% 0; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .subsection-head::before { animation: none; }
+    }
 
-    /* ======== TEST : titres en bandeau pleine largeur ======== */
-    .subsection-head {
-      padding: 12px 0;
-      margin-bottom: 16px;
-      background: var(--bandeau);
-      box-shadow: 0 0 0 100vmax var(--bandeau);
-      clip-path: inset(0 -100vmax);
-    }
-    #newSection .subsection-head { --bandeau: #ffdf3d; }
-    #bestsellersSection .subsection-head { --bandeau: #b45309; }
-    #othersSection .subsection-head { --bandeau: #292524; }
-    .subsection-title, #newSection .subsection-title, #othersSection .subsection-title {
-      color: #ffffff; border-bottom: none; padding: 0; font-size: clamp(22px, 5.5vw, 28px);
-    }
-    #newSection .subsection-title { color: #3b2a00; }
+    /* Les bandeaux séparent déjà les rubriques : le petit séparateur ✦ n'est plus utile */
     .section-sep { display: none !important; }
+
+    /* Contours des fiches : plus de gris ; seules les meilleures ventes ont un fin contour orange clair */
+    .card { border-color: transparent; }
+    .card.bestseller {
+      border: 2px solid #fdba74;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.04);
+    }
+
+    /* Badge Coup de cœur : toujours à droite de la catégorie et du type, sur la même ligne */
+    .card-top { flex-wrap: nowrap; gap: 8px; }
+    .card-top .cat-col { flex: 1 1 auto; min-width: 0; }
+    .fav {
+      flex: 0 0 auto;
+      white-space: nowrap;
+      font-size: 10px;
+      line-height: 1.2;
+      padding: 5px 10px;
+      letter-spacing: 0.02em;
+      text-transform: none;
+    }
+    .card-body { container-type: inline-size; }
+    @container (max-width: 190px) {
+      .fav .fav-text { display: none; }
+      .fav { padding: 5px 7px; font-size: 11px; }
+    }
 
   </style>
 </head>
@@ -995,7 +1048,7 @@
 
       <div class="books-block" id="newSection">
         <div class="subsection-head">
-          <h3 class="subsection-title">Nouveautés ✨</h3>
+          <h3 class="subsection-title">Les Nouveautés ⭐</h3>
         </div>
         <div class="new-grid" id="newGrid"></div>
       </div>
@@ -1004,7 +1057,7 @@
 
       <div class="books-block" id="bestsellersSection">
         <div class="subsection-head">
-          <h3 class="subsection-title">Meilleures ventes ⭐</h3>
+          <h3 class="subsection-title">Les Meilleures ventes 🚀</h3>
         </div>
         <div class="grid" id="bestsellersGrid"></div>
       </div>
@@ -1512,7 +1565,7 @@
               <p class="category">${book.category}</p>
               ${book.type ? `<p class="book-type">${book.type}</p>` : ''}
             </div>
-            ${book.favorite ? '<span class="fav">🤍 Coup de cœur</span>' : ''}
+            ${book.favorite ? '<span class="fav" title="Coup de cœur">🤍<span class="fav-text"> Coup de cœur</span></span>' : ''}
           </div>
           <h3>${book.title}</h3>
           <p class="desc">${text}</p>
@@ -1665,7 +1718,44 @@
         othersSection.style.display = "none";
         ordered.forEach((book) => renderBookCard(book, bestsellersGrid));
       }
+      alignTitleRows();
     }
+
+    // Dans une même ligne (partout sur le site) : tout ce qui est au-dessus du titre a la même hauteur
+    // (ex. une pastille « Nouveauté » chez un seul livre), et tous les titres prennent la hauteur du plus long.
+    // Les descriptions démarrent donc à la même hauteur.
+    function alignTitleRows() {
+      ['newGrid', 'bestsellersGrid', 'otherBooksGrid'].forEach((id) => {
+        const grid = document.getElementById(id);
+        if (!grid) return;
+        const cards = [...grid.querySelectorAll('.card')];
+        cards.forEach((c) => {
+          c.querySelector('h3').style.minHeight = '';
+          c.querySelector('.card-top').style.marginTop = '';
+        });
+        const rows = new Map();
+        cards.forEach((c) => {
+          const top = Math.round(c.getBoundingClientRect().top + window.scrollY);
+          if (!rows.has(top)) rows.set(top, []);
+          rows.get(top).push(c);
+        });
+        rows.forEach((row) => {
+          // 1) même espace au-dessus du titre
+          const offs = row.map((c) => c.querySelector('h3').getBoundingClientRect().top - c.querySelector('.card-body').getBoundingClientRect().top);
+          const maxOff = Math.max(...offs);
+          row.forEach((c, i) => {
+            const extra = maxOff - offs[i];
+            if (extra > 0.5) c.querySelector('.card-top').style.marginTop = extra + 'px';
+          });
+          // 2) même hauteur de titre
+          const max = Math.max(...row.map((c) => c.querySelector('h3').getBoundingClientRect().height));
+          row.forEach((c) => { c.querySelector('h3').style.minHeight = max + 'px'; });
+        });
+      });
+    }
+    window.addEventListener('resize', alignTitleRows);
+    window.addEventListener('load', alignTitleRows);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(alignTitleRows);
 
     function renderReviews() {
       if (!track) return;
@@ -1718,7 +1808,7 @@
       toTop.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
     })();
 
-    // ❄️ Neige sobre sur le bandeau orange du haut et la bande noire des avis
+    // ❄️ Neige sobre sur le bandeau orange du haut, la bande noire des avis et les bandeaux de titres
     (function () {
       if (!SEASON_ACTIVE) return;
       if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
@@ -1738,33 +1828,38 @@
 
       function makeFlake(c, anywhere) {
         const small = isMobile();
-        const d = (3 + Math.pow(Math.random(), 2) * 7) * (small ? 0.8 : 1);
+        // Dans les bandeaux (bas et larges) : flocons plus petits, plus lents et un peu plus visibles
+        const d = (3 + Math.pow(Math.random(), 2) * 7) * (small ? 0.8 : 1) * (c.band ? 0.6 : 1);
         return {
           d: d,
           x: Math.random() * c.w,
           y: anywhere ? Math.random() * c.h : -d * 3,
-          vy: 18 + d * 4.5,
+          vy: (18 + d * 4.5) * (c.band ? 0.55 : 1),
           vx: 3 + Math.random() * 5,
-          amp: 6 + Math.random() * 14,
+          amp: c.band ? 4 + Math.random() * 8 : 6 + Math.random() * 14,
           freq: 0.3 + Math.random() * 0.6,
           phase: Math.random() * Math.PI * 2,
-          alpha: 0.35 + (d / 10) * 0.45
+          alpha: c.band ? 0.6 + Math.random() * 0.3 : 0.35 + (d / 10) * 0.45
         };
       }
 
       const layers = [];
-      [document.querySelector(".hero"), document.querySelector(".reviews")].forEach((sec) => {
-        if (!sec) return;
+      const targets = [
+        { sec: document.querySelector(".hero"), band: false },
+        { sec: document.querySelector(".reviews"), band: false }
+      ].concat([...document.querySelectorAll(".subsection-head")].map((sec) => ({ sec: sec, band: true })));
+      targets.forEach((t) => {
+        if (!t.sec) return;
         const canvas = document.createElement("canvas");
-        canvas.className = "snow-canvas";
+        canvas.className = "snow-canvas" + (t.band ? " snow-canvas--band" : "");
         canvas.setAttribute("aria-hidden", "true");
-        sec.insertBefore(canvas, sec.firstChild);
-        layers.push({ sec: sec, canvas: canvas, ctx: canvas.getContext("2d"), w: 0, h: 0, dpr: 1, flakes: [], visible: true });
+        t.sec.insertBefore(canvas, t.sec.firstChild);
+        layers.push({ sec: t.sec, band: t.band, canvas: canvas, ctx: canvas.getContext("2d"), w: 0, h: 0, dpr: 1, flakes: [], visible: true });
       });
       if (!layers.length) return;
 
       function resize(c) {
-        const r = c.sec.getBoundingClientRect();
+        const r = c.canvas.getBoundingClientRect();
         const w = Math.round(r.width);
         const h = Math.round(r.height);
         const dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -1776,7 +1871,9 @@
         c.ctx.setTransform(c.dpr, 0, 0, c.dpr, 0, 0);
         // Nombre de points : selon la surface et le type d'appareil (moins sur téléphone)
         const small = isMobile();
-        const target = Math.max(6, Math.min(small ? 18 : 45, Math.round((w * h) / (small ? 8000 : 10000))));
+        const target = c.band
+          ? (small ? 7 : 14)
+          : Math.max(6, Math.min(small ? 18 : 45, Math.round((w * h) / (small ? 8000 : 10000))));
         while (c.flakes.length < target) c.flakes.push(makeFlake(c, true));
         if (c.flakes.length > target) c.flakes.length = target;
       }
