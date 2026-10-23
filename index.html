@@ -240,8 +240,9 @@
     .card img {
       width: 100%;
       max-height: 320px;
-      height: auto;
+      height: 320px;
       object-fit: contain;
+      object-position: center;
       display: block;
       background: #fff;
       border-radius: 8px;
@@ -569,26 +570,88 @@
       margin: 0 0 8px;
       padding: 3px 10px;
       border-radius: 999px;
-      background: #fde047;
-      color: #713f12;
+      position: relative;
+      overflow: hidden;
+      background: #ffd60a;
+      color: #422006;
       font-size: 11px;
       font-weight: 800;
       letter-spacing: 0.06em;
       text-transform: uppercase;
+      animation: newGlow 2.8s ease-in-out infinite;
     }
+
+    /* Reflet qui passe doucement sur la pastille */
+    .new-tag::after,
+    #newSection .subsection-title::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -70%;
+      width: 40%;
+      height: 100%;
+      background: linear-gradient(100deg, transparent, rgba(255,255,255,0.8), transparent);
+      transform: skewX(-20deg);
+      animation: newShine 3.4s ease-in-out infinite;
+    }
+
+    @keyframes newGlow {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(255,214,10,0); }
+      50% { box-shadow: 0 0 10px 3px rgba(255,214,10,0.7); }
+    }
+
+    @keyframes newShine {
+      0% { left: -70%; }
+      55%, 100% { left: 140%; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .new-tag, .new-tag::after,
+      #newSection .subsection-title, #newSection .subsection-title::after { animation: none; }
+    }
+
+    /* Séparation discrète entre les groupes de « À découvrir aussi » */
+    .group-divider {
+      grid-column: 1 / -1;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin: 8px 0 0;
+      color: #b45309;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+    .group-divider::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(to right, #e6c9a0, rgba(230,201,160,0));
+    }
+    .group-divider:first-child { margin-top: 0; }
 
     /* Type de livre : petit texte gris sous la catégorie */
     .cat-col { min-width: 0; }
     .book-type {
-      margin: 1px 0 0;
-      font-size: 12px;
+      margin: 2px 0 0;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
       color: #78716c;
     }
 
     /* Nouveautés en grand format */
     #livres .books-block + .books-block { margin-top: 0; padding-top: 0; }
     #newSection { margin-bottom: 24px; }
-    #newSection .subsection-title { background: #facc15; color: #422006; }
+    #newSection .subsection-title {
+      position: relative;
+      overflow: hidden;
+      background: #ffd60a;
+      color: #422006;
+      animation: newGlow 2.8s ease-in-out infinite;
+    }
     .new-grid {
       display: flex;
       justify-content: center;
@@ -599,7 +662,7 @@
       flex: 0 1 calc((100% - 56px) / 3);
       max-width: calc((100% - 56px) / 3);
     }
-    .card--big img { max-height: 440px; }
+    .card--big img { height: 440px; max-height: 440px; }
     .card--big .card-body { padding: 18px 26px 26px; }
     .card--big h3 { font-size: 20px; line-height: 1.15; }
     .card--big .desc {
@@ -612,7 +675,7 @@
     }
     .card--big .price { font-size: 16px; }
     .card--big .btn { font-size: 17px; padding: 8px 24px; }
-    .card--big .book-type { font-size: 13px; }
+    .card--big .book-type { font-size: 12px; }
 
     /* Meilleures ventes : 4 par ligne sur ordinateur, 2x2 sur tablette et téléphone */
     @media (min-width: 961px) {
@@ -798,7 +861,8 @@
         padding: 2px 8px;
         margin-bottom: 6px;
       }
-      .book-type { font-size: 10px; }
+      .group-divider { font-size: 10px; gap: 10px; }
+      .book-type { font-size: 9px; letter-spacing: 0.04em; }
 
       /* Nouveautés : une par une sur téléphone */
       .new-grid { flex-direction: column; gap: 14px; }
@@ -808,7 +872,7 @@
       .card.card--big h3 { font-size: 17px; margin-top: 8px; }
       .card.card--big .desc { font-size: 13px; margin-top: 8px; max-height: none; }
       .card.card--big .category { font-size: 13px; }
-      .card.card--big .book-type { font-size: 12px; }
+      .card.card--big .book-type { font-size: 11px; }
       .card.card--big .best, .card.card--big .fav { font-size: 10px; padding: 6px 10px; }
       .card.card--big .price { font-size: 15px; }
       .card.card--big .btn { font-size: 15px; padding: 7px 18px; border-radius: 14px; }
@@ -1023,7 +1087,7 @@
         added: "2026-10-22",
         favorite: true,
         category: "Enfants",
-        type: "Calendrier de l'Avent",
+        type: "Livre-jeu",
         short: "Chaque année, le Père Noël organise un match de foot au Pôle Nord : onze enfants contre ses Lutins ! Cette année, Raphaël est capitaine. 24 jours de préparation avant le grand coup d’envoi.",
         description: "Chaque année, le Père Noël organise un match de foot unique au Pôle Nord : onze enfants contre son équipe de Lutins. Cette année, c'est Raphaël qui est nommé capitaine ! Mais avant le grand coup d'envoi, 24 jours de préparation l'attendent...",
         cover: "https://m.media-amazon.com/images/I/71PCtKnhAkL._AC_UL320_.jpg",
@@ -1104,7 +1168,7 @@
       {
         title: "Cahier Coloriage Foot",
         category: "Enfants",
-        type: "Jeux & activités",
+        type: "Coloriages",
         description: "Ce cahier de coloriage plonge les jeunes passionnés dans un univers 100% Fun et Football, tout en stimulant leur créativité.",
         cover: "https://m.media-amazon.com/images/I/71GHBlg-SjL._AC_UL320_.jpg",
         amazon: "https://www.amazon.fr/dp/B0GYZF2PHG"
@@ -1129,7 +1193,7 @@
       {
         title: "Origami Débutants",
         category: "Enfants",
-        type: "Jeux & activités",
+        type: "Activités manuelles",
         description: "L'origami est une activité créative qui permet de découvrir l'art du pliage de papier. Grâce à des explications claires et des modèles variés, enfants et adultes peuvent apprendre pas à pas à réaliser leurs premières créations. Une activité ludique et relaxante pour développer la créativité, la patience et le plaisir de créer avec du papier.",
         cover: "https://m.media-amazon.com/images/I/61m8JVL2ElL._AC_UL320_.jpg",
         amazon: "https://urls.fr/7ghOCC"
@@ -1153,7 +1217,7 @@
       {
         title: "L'art sacré du pet",
         category: "Adultes",
-        type: "Livre d'humour",
+        type: "Humour",
         description: "Avez-vous déjà pris le temps de réfléchir à ce phénomène universel qu'est le pet ? Non ? Alors préparez-vous à redécouvrir l'un des sujets les plus naturels du monde sous un angle aussi surprenant qu'hilarant !",
         cover: "https://m.media-amazon.com/images/I/71I7viFGuCL._AC_UL320_.jpg",
         amazon: "https://www.amazon.fr/dp/B0FWHYMJ2B"
@@ -1189,7 +1253,6 @@
       {
         title: "TOI vs MOI Édition Noël",
         season: "noel",
-        added: "2026-10-21",
         category: "Adultes",
         type: "Livre-jeu",
         short: "Une version spéciale Noël pour pimenter les fêtes en couple : questions surprises, défis complices et duels festifs. Le cadeau idéal à glisser sous le sapin !",
@@ -1241,7 +1304,7 @@
       {
         title: "50 Histoires Drôles pour une Retraite avec Humour",
         category: "Séniors",
-        type: "Livre d'humour",
+        type: "Humour",
         description: "Ce livre rassemble 50 histoires drôles et anecdotes légères pour célébrer la retraite avec humour et bonne humeur. Parfait pour offrir lors d'un départ d'un collègue, il propose des moments de lecture divertissants ainsi qu'un espace livre d'or pour laisser un souvenir ou un mot touchant.",
         cover: "https://m.media-amazon.com/images/I/71MTDd0nn1L._AC_UL320_.jpg",
         amazon: "https://urls.fr/bN7vJ6"
@@ -1317,6 +1380,12 @@
       });
     }
 
+    // Les couvertures Amazon du site sont de petites miniatures (320 px) : on demande une version plus grande
+    // (_SL640_ = 640 px sur le plus grand côté). Si Amazon ne la fournit pas, on retombe sur l'originale.
+    function coverUrl(url, size) {
+      return url.replace(/\._[A-Za-z0-9_,]+_\.(jpg|jpeg|png)$/i, "._SL" + size + "_.$1");
+    }
+
     function renderBookCard(book, targetGrid, big) {
       if (!targetGrid) return;
 
@@ -1326,7 +1395,7 @@
       const text = big ? (book.short || book.description) : book.description;
 
       article.innerHTML = `
-        <img src="${book.cover}" alt="${book.title}" loading="${big || targetGrid.children.length < 6 ? "eager" : "lazy"}" decoding="async">
+        <img src="${coverUrl(book.cover, big ? 900 : 640)}" alt="${book.title}" onerror="this.onerror=null;this.src='${book.cover}'" loading="${big || targetGrid.children.length < 6 ? "eager" : "lazy"}" decoding="async">
         <div class="card-body">
           ${!big && newTitles.has(book.title) ? '<span class="new-tag">✨ Nouveauté</span>' : ''}
           <div class="card-top">
@@ -1414,7 +1483,7 @@
       bestsellersGrid.classList.toggle("grid-4", isAll);
 
       const bestsellers = seasonSort(pool.filter((book) => book.bestseller === true));
-      const others = seasonSort(pool.filter((book) => book.bestseller !== true));
+      const others = pool.filter((book) => book.bestseller !== true);
 
       if (activeCategory === "Tous") {
         if (bestsellers.length > 0) {
@@ -1426,7 +1495,27 @@
 
         if (others.length > 0) {
           othersSection.style.display = "block";
-          others.forEach((book) => renderBookCard(book, otherBooksGrid));
+          // Regroupés : Enfants, puis Ados & Adultes, puis Séniors (fine ligne de séparation, sans étiquette lourde)
+          const groups = [
+            { label: "Enfants", cats: ["Enfants"] },
+            { label: "Ados & Adultes", cats: ["Ados", "Adultes"] },
+            { label: "Séniors", cats: ["Séniors"] }
+          ];
+          groups.forEach((g) => {
+            const list = [];
+            g.cats.forEach((cat) => {
+              const inCat = others.filter((b) => b.category === cat);
+              const wanted = categoryOrder[cat] || [];
+              const first = wanted.map((t) => inCat.find((b) => b.title === t)).filter(Boolean);
+              list.push(...first, ...inCat.filter((b) => !wanted.includes(b.title)));
+            });
+            if (!list.length) return;
+            const divider = document.createElement("div");
+            divider.className = "group-divider";
+            divider.innerHTML = "<span>" + g.label + "</span>";
+            otherBooksGrid.appendChild(divider);
+            list.forEach((book) => renderBookCard(book, otherBooksGrid));
+          });
         } else {
           othersSection.style.display = "none";
         }
@@ -1442,7 +1531,7 @@
         } else {
           ordered = [...bestsellers, ...others];
         }
-        ordered = seasonSort(ordered);
+        if (activeCategory === "Enfants") ordered = seasonSort(ordered); // livres de Noël en tête en saison
         bestsellersSection.style.display = "block";
         othersSection.style.display = "none";
         ordered.forEach((book) => renderBookCard(book, bestsellersGrid));
