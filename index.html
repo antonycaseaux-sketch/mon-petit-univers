@@ -4,7 +4,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Mon Univers de Livres</title>
-  <meta name="robots" content="noindex, nofollow" />
   <link rel="icon" type="image/png" sizes="192x192" href="/icone.png?v=3" />
   <link rel="shortcut icon" href="/icone.png?v=3" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=3" />
@@ -181,7 +180,7 @@
     .grid {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 28px;
+      gap: 14px;
       padding-bottom: 16px;
     }
 
@@ -326,7 +325,7 @@
     .desc {
       font-size: 13px;
       line-height: 1.4;
-      margin: 0;
+      margin: 2px 0 0;
       color: var(--muted);
       text-align: left;
       display: -webkit-box;
@@ -534,11 +533,6 @@
       font-size: clamp(22px, 5.4vw, 28px);
       padding: 6px 18px;
     }
-    .subsection-sub {
-      margin: 8px 0 0;
-      font-size: 14px;
-      color: var(--muted);
-    }
     #othersSection .subsection-head { margin-bottom: 16px; }
 
     /* Bouton "remonter en haut" */
@@ -711,12 +705,12 @@
     .new-grid {
       display: flex;
       justify-content: center;
-      gap: 28px;
+      gap: 14px;
       padding-bottom: 8px;
     }
     .new-grid .card {
-      flex: 0 1 calc((100% - 56px) / 3);
-      max-width: calc((100% - 56px) / 3);
+      flex: 0 1 calc((100% - 28px) / 3);
+      max-width: calc((100% - 28px) / 3);
     }
     .card--big img { height: 440px; max-height: 440px; }
     .card--big .card-body { padding: 18px 26px 26px; }
@@ -735,7 +729,7 @@
 
     /* Meilleures ventes : 4 par ligne sur ordinateur, 2x2 sur tablette et téléphone */
     @media (min-width: 961px) {
-      #bestsellersGrid.grid-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px; }
+      #bestsellersGrid.grid-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
     }
     @media (min-width: 721px) and (max-width: 960px) {
       #bestsellersGrid.grid-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -814,7 +808,7 @@
 
       .grid {
         grid-template-columns: repeat(2, 1fr);
-        gap: 12px;
+        gap: 8px;
       }
 
       .card {
@@ -858,7 +852,7 @@
 
       .desc {
         font-size: 11px;
-        margin-top: 0;
+        margin-top: 2px;
         -webkit-line-clamp: 2;
         max-height: 3.2em;
       }
@@ -924,35 +918,37 @@
       .book-type { font-size: 9px; letter-spacing: 0.04em; }
 
       /* Nouveautés : une par une sur téléphone */
-      .new-grid { flex-direction: column; gap: 14px; }
+      .new-grid { flex-direction: column; gap: 10px; }
       .new-grid .card { flex: none; width: 100%; max-width: none; }
       .card.card--big img { height: 300px; max-height: 300px; }
       .card.card--big .card-body { padding: 14px 16px 18px; }
       .card.card--big h3 { font-size: 17px; margin-top: 8px; }
-      .card.card--big .desc { font-size: 13px; margin-top: 0; max-height: none; }
+      .card.card--big .desc { font-size: 13px; margin-top: 2px; max-height: none; }
       .card.card--big .category { font-size: 13px; }
       .card.card--big .book-type { font-size: 11px; }
       .card.card--big .best, .card.card--big .fav { font-size: 10px; padding: 6px 10px; }
       .card.card--big .price { font-size: 15px; }
       .card.card--big .btn { font-size: 15px; padding: 7px 18px; border-radius: 14px; }
     }
-    /* ======== TEST B : bandeaux de couleur douce derrière chaque rubrique ======== */
-    #newSection, #bestsellersSection:has(.subsection-head[style*="block"]) {
-      position: relative;
-      clip-path: inset(0 -100vmax);
+    /* Titres de sections : simple texte avec un trait de couleur dessous (plus d'effet bouton) */
+    .subsection-title,
+    #newSection .subsection-title,
+    #othersSection .subsection-title {
+      background: none;
+      color: #292524;
+      padding: 0 0 6px;
+      border-radius: 0;
+      box-shadow: none;
+      animation: none;
+      overflow: visible;
+      font-size: clamp(24px, 6vw, 32px);
+      font-weight: 800;
+      line-height: 1.15;
+      border-bottom: 5px solid #d97706;
     }
-    #newSection {
-      background: #fffbe3;
-      box-shadow: 0 0 0 100vmax #fffbe3;
-      padding: 26px 0 18px;
-      margin-bottom: 0;
-    }
-    #bestsellersSection:has(.subsection-head[style*="block"]) {
-      background: #ffefd8;
-      box-shadow: 0 0 0 100vmax #ffefd8;
-      padding: 26px 0 10px;
-    }
-    .section-sep { display: none !important; }
+    #newSection .subsection-title { border-bottom-color: #ffd60a; }
+    #othersSection .subsection-title { border-bottom-color: #44403c; }
+    #newSection .subsection-title::after { display: none; }
 
   </style>
 </head>
@@ -982,7 +978,6 @@
       <div class="books-block" id="newSection">
         <div class="subsection-head">
           <h3 class="subsection-title">Nouveautés ✨</h3>
-          <p class="subsection-sub">Les derniers livres parus</p>
         </div>
         <div class="new-grid" id="newGrid"></div>
       </div>
@@ -992,7 +987,6 @@
       <div class="books-block" id="bestsellersSection">
         <div class="subsection-head">
           <h3 class="subsection-title">Meilleures ventes ⭐</h3>
-          <p class="subsection-sub">Les préférés des lecteurs</p>
         </div>
         <div class="grid" id="bestsellersGrid"></div>
       </div>
@@ -1016,7 +1010,6 @@
       <div class="books-block" id="othersSection">
         <div class="subsection-head">
           <h3 class="subsection-title">À découvrir aussi ✨</h3>
-          <p class="subsection-sub">Tous mes autres livres</p>
         </div>
         <div class="grid" id="otherBooksGrid"></div>
       </div>
