@@ -545,6 +545,20 @@
       .to-top.show:hover { transform: translateY(-2px); }
     }
 
+    /* Neige (bandeau du haut et bande des avis) */
+    .hero, .reviews { position: relative; }
+    .reviews { overflow: hidden; }
+    .hero .container, .reviews .container { position: relative; z-index: 1; }
+    .snow-canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+    }
+
     @keyframes scrollReviews {
       from { transform: translateX(0); }
       to { transform: translateX(calc(-50% - 12px)); }
@@ -1282,6 +1296,117 @@
       window.addEventListener("scroll", toggle, { passive: true });
       toggle();
       toTop.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
+    })();
+
+    // ❄️ Neige sobre sur le bandeau orange du haut et la bande noire des avis
+    (function () {
+      // Période d'affichage (modifiable) : du 15 octobre au 15 janvier
+      const SNOW_START = { month: 10, day: 15 };
+      const SNOW_END = { month: 1, day: 15 };
+
+      const v = (m, d) => m * 100 + d;
+      const now = new Date();
+      const cur = v(now.getMonth() + 1, now.getDate());
+      const s = v(SNOW_START.month, SNOW_START.day);
+      const e = v(SNOW_END.month, SNOW_END.day);
+      const inSeason = s <= e ? (cur >= s && cur <= e) : (cur >= s || cur <= e);
+      // Pour la tester hors saison : ajouter ?neige à la fin de l'adresse du site
+      const forced = new URLSearchParams(location.search).has("neige");
+      if (!inSeason && !forced) return;
+      if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+      const isMobile = () => window.innerWidth < 720;
+
+      // Point blanc doux et un peu flou, dessiné une seule fois
+      const sprite = document.createElement("canvas");
+      sprite.width = sprite.height = 64;
+      const sg = sprite.getContext("2d");
+      const grad = sg.createRadialGradient(32, 32, 0, 32, 32, 32);
+      grad.addColorStop(0, "rgba(255,255,255,1)");
+      grad.addColorStop(0.35, "rgba(255,255,255,0.85)");
+      grad.addColorStop(1, "rgba(255,255,255,0)");
+      sg.fillStyle = grad;
+      sg.fillRect(0, 0, 64, 64);
+
+      function makeFlake(c, anywhere) {
+        const small = isMobile();
+        const d = (3 + Math.pow(Math.random(), 2) * 7) * (small ? 0.8 : 1);
+        return {
+          d: d,
+          x: Math.random() * c.w,
+          y: anywhere ? Math.random() * c.h : -d * 3,
+          vy: 18 + d * 4.5,
+          vx: 3 + Math.random() * 5,
+          amp: 6 + Math.random() * 14,
+          freq: 0.3 + Math.random() * 0.6,
+          phase: Math.random() * Math.PI * 2,
+          alpha: 0.35 + (d / 10) * 0.45
+        };
+      }
+
+      const layers = [];
+      [document.querySelector(".hero"), document.querySelector(".reviews")].forEach((sec) => {
+        if (!sec) return;
+        const canvas = document.createElement("canvas");
+        canvas.className = "snow-canvas";
+        canvas.setAttribute("aria-hidden", "true");
+        sec.insertBefore(canvas, sec.firstChild);
+        layers.push({ sec: sec, canvas: canvas, ctx: canvas.getContext("2d"), w: 0, h: 0, dpr: 1, flakes: [], visible: true });
+      });
+      if (!layers.length) return;
+
+      function resize(c) {
+        const r = c.sec.getBoundingClientRect();
+        const w = Math.round(r.width);
+        const h = Math.round(r.height);
+        const dpr = Math.min(window.devicePixelRatio || 1, 2);
+        if (w !== c.w || h !== c.h || dpr !== c.dpr) {
+          c.w = w; c.h = h; c.dpr = dpr;
+          c.canvas.width = Math.max(1, w * dpr);
+          c.canvas.height = Math.max(1, h * dpr);
+        }
+        c.ctx.setTransform(c.dpr, 0, 0, c.dpr, 0, 0);
+        // Nombre de points : selon la surface et le type d'appareil (moins sur téléphone)
+        const small = isMobile();
+        const target = Math.max(6, Math.min(small ? 18 : 45, Math.round((w * h) / (small ? 8000 : 10000))));
+        while (c.flakes.length < target) c.flakes.push(makeFlake(c, true));
+        if (c.flakes.length > target) c.flakes.length = target;
+      }
+
+      layers.forEach((c) => {
+        resize(c);
+        if ("ResizeObserver" in window) new ResizeObserver(() => resize(c)).observe(c.sec);
+        if ("IntersectionObserver" in window) {
+          new IntersectionObserver((entries) => { c.visible = entries[0].isIntersecting; }).observe(c.sec);
+        }
+      });
+      window.addEventListener("resize", () => layers.forEach(resize));
+
+      let last = performance.now();
+      function frame(t) {
+        const dt = Math.min(0.05, (t - last) / 1000);
+        last = t;
+        if (!document.hidden) {
+          layers.forEach((c) => {
+            if (!c.visible || c.w === 0 || c.h === 0) return;
+            const ctx = c.ctx;
+            ctx.clearRect(0, 0, c.w, c.h);
+            c.flakes.forEach((f) => {
+              f.y += f.vy * dt;
+              f.x += f.vx * dt;
+              const size = f.d * 2.2;
+              if (f.y - size > c.h) { Object.assign(f, makeFlake(c, false)); }
+              if (f.x - size > c.w) f.x = -size;
+              const x = f.x + Math.sin(t / 1000 * f.freq + f.phase) * f.amp;
+              ctx.globalAlpha = f.alpha;
+              ctx.drawImage(sprite, x - size / 2, f.y - size / 2, size, size);
+            });
+            ctx.globalAlpha = 1;
+          });
+        }
+        requestAnimationFrame(frame);
+      }
+      requestAnimationFrame(frame);
     })();
 
     renderFilters();
