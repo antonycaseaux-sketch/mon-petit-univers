@@ -4,6 +4,19 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Mon Univers de Livres</title>
+  <meta name="description" content="Des livres pour enfants, ados, adultes et séniors, imaginés et écrits avec passion. Découvrez toute la collection disponible sur Amazon." />
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="fr_FR" />
+  <meta property="og:title" content="Mon Univers de Livres" />
+  <meta property="og:description" content="Des livres pour enfants, ados, adultes et séniors, imaginés et écrits avec passion. Découvrez toute la collection disponible sur Amazon." />
+  <meta property="og:url" content="https://mon-petit-univers.vercel.app/" />
+  <meta property="og:image" content="https://mon-petit-univers.vercel.app/apercu.jpg" />
+  <meta property="og:image:type" content="image/jpeg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Mon Univers de Livres : une sélection de couvertures de livres pour enfants, couples et séniors" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://mon-petit-univers.vercel.app/apercu.jpg" />
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
@@ -464,6 +477,36 @@
       margin: 0;
     }
 
+    .contact-box {
+      margin-top: 24px;
+      padding: 20px 24px;
+      background: #fff7ed;
+      border: 2px solid #fed7aa;
+      border-radius: 20px;
+      text-align: center;
+    }
+
+    .contact-title {
+      margin: 0;
+      font-size: 20px;
+      font-weight: 700;
+      color: #292524;
+    }
+
+    .contact-text {
+      margin: 6px 0 14px;
+      font-size: 15px;
+      color: var(--muted);
+    }
+
+    .contact-mail {
+      display: block;
+      margin-top: 10px;
+      font-size: 14px;
+      color: #b45309;
+      font-weight: 600;
+    }
+
     @keyframes scrollReviews {
       from { transform: translateX(0); }
       to { transform: translateX(calc(-50% - 12px)); }
@@ -670,12 +713,20 @@
           Bonne découverte, et n'hésitez pas à me faire vos retours.
         </p>
       </div>
+
+      <div class="container contact-box" id="contact">
+        <p class="contact-title">Une question, une collaboration ? ✉️</p>
+        <p class="contact-text">Écrivez-moi, je réponds avec plaisir.</p>
+        <a class="btn" id="contactBtn" href="#contact">Me contacter</a>
+        <span class="contact-mail" id="contactMail"></span>
+      </div>
     </section>
   </main>
 
   <footer class="footer">
     <div class="container footer-inner">
       <p>© 2026 Mon Univers de Livres. Tous droits réservés.</p>
+      <div class="footer-links"><a href="#contact">Contact</a></div>
     </div>
   </footer>
 
@@ -715,6 +766,31 @@
     };
 
     const categories = ["Tous", "Enfants", "Ados", "Adultes", "Séniors"];
+
+    // Ordre voulu quand on clique sur une catégorie (les livres non listés suivent dans l'ordre de la liste)
+    const categoryOrder = {
+      "Enfants": [
+        "Les Énigmes du Lutin Farceur - Tome 1",
+        "Les Énigmes du Lutin Farceur - Tome 2",
+        "Calendrier de l'Avent Foot",
+        "Tu es un Footballeur Formidable",
+        "Tu es une Gymnaste Formidable"
+      ],
+      "Adultes": [
+        "TOI vs MOI Spécial Couples",
+        "TOI vs MOI Édition Noël",
+        "Enquêtes Logiques",
+        "L'art sacré du pet"
+      ],
+      "Séniors": [
+        "Jeux de Mémoire pour les Séniors",
+        "Le Livre des Super Mamies",
+        "50 Choses à faire pour une Retraite Heureuse",
+        "50 Idées Destinations pour les Retraités Voyageurs",
+        "50 Idées Bien-être pour une Retraite en Forme",
+        "50 Histoires Drôles pour une Retraite avec Humour"
+      ]
+    };
 
     const books = [
       {
@@ -961,12 +1037,21 @@
     const track = document.getElementById("reviewsTrack");
     let activeCategory = "Tous";
 
+    // Liens directs : monsite.fr/#enfants, #ados, #adultes, #seniors
+    const hashMap = { tous: "Tous", enfants: "Enfants", ados: "Ados", adultes: "Adultes", seniors: "Séniors" };
+    const slugify = (c) => c.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+    const fromHash = hashMap[location.hash.replace("#", "").toLowerCase()];
+    if (fromHash) activeCategory = fromHash;
+
     function createFilterButton(category) {
       const button = document.createElement("button");
       button.className = "filter-btn" + (category === activeCategory ? " active" : "");
       button.textContent = category;
       button.addEventListener("click", () => {
         activeCategory = category;
+        try {
+          history.replaceState(null, "", category === "Tous" ? location.pathname + location.search : "#" + slugify(category));
+        } catch (e) {}
         renderFilters();
         renderBooks();
       });
@@ -1072,7 +1157,17 @@
           othersSection.style.display = "none";
         }
       } else {
-        const ordered = [...bestsellers, ...others];
+        let ordered;
+        const wanted = categoryOrder[activeCategory];
+        if (wanted) {
+          const first = wanted
+            .map((t) => filtered.find((book) => book.title === t))
+            .filter(Boolean);
+          const rest = filtered.filter((book) => !wanted.includes(book.title));
+          ordered = [...first, ...rest];
+        } else {
+          ordered = [...bestsellers, ...others];
+        }
         bestsellersSection.style.display = "block";
         othersSection.style.display = "none";
         ordered.forEach((book) => renderBookCard(book, bestsellersGrid));
@@ -1098,6 +1193,15 @@
         reviewsSection.style.display = reviews.length > 0 ? "block" : "none";
       }
     }
+
+    // Contact : adresse assemblée ici pour limiter le spam des robots
+    (function () {
+      const mail = ["editions.lps", "gmail.com"].join("@");
+      const btn = document.getElementById("contactBtn");
+      const txt = document.getElementById("contactMail");
+      if (btn) btn.href = "mailto:" + mail + "?subject=" + encodeURIComponent("Contact depuis Mon Univers de Livres");
+      if (txt) txt.textContent = mail;
+    })();
 
     renderFilters();
     renderBooks();
