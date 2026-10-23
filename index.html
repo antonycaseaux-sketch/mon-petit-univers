@@ -1110,30 +1110,6 @@
       .card.card--big.bestseller img, .card.card--big.is-new img { height: 294px; max-height: 294px; }
     }
 
-    /* « ★ BEST SELLER » : même effet de brillance que Nouveauté et Coup de cœur (reflet doré qui traverse le texte + léger halo) */
-    @supports ((-webkit-background-clip: text) or (background-clip: text)) {
-      .best-text {
-        background: linear-gradient(100deg, #c2780a 0%, #c2780a 40%, #ffcf4a 50%, #c2780a 60%, #c2780a 100%);
-        background-size: 200% 100%;
-        -webkit-background-clip: text;
-        background-clip: text;
-        -webkit-text-fill-color: transparent;
-        color: transparent;
-        animation: bestShine 3.4s ease-in-out infinite, bestGlow 2.8s ease-in-out infinite;
-      }
-    }
-    @keyframes bestShine {
-      0% { background-position: 100% 0; }
-      60%, 100% { background-position: -100% 0; }
-    }
-    @keyframes bestGlow {
-      0%, 100% { filter: drop-shadow(0 0 0 rgba(245,158,11,0)); }
-      50% { filter: drop-shadow(0 0 3px rgba(245,158,11,0.65)); }
-    }
-    @media (prefers-reduced-motion: reduce) {
-      .best-text { animation: none; background: none; -webkit-text-fill-color: #c2780a; color: #c2780a; }
-    }
-
   </style>
 </head>
 <body>
