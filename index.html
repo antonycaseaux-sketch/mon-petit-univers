@@ -709,8 +709,8 @@
       padding-bottom: 8px;
     }
     .new-grid .card {
-      flex: 0 1 320px;
-      max-width: 320px;
+      flex: 0 1 calc((100% - 28px) / 3);
+      max-width: calc((100% - 28px) / 3);
     }
     .card--big img { height: 440px; max-height: 440px; }
     .card--big .card-body { padding: 18px 26px 26px; }
@@ -918,8 +918,8 @@
       .book-type { font-size: 9px; letter-spacing: 0.04em; }
 
       /* Nouveautés : une par une sur téléphone */
-      .new-grid { flex-direction: column; gap: 10px; }
-      .new-grid .card { flex: none; width: 100%; max-width: none; }
+      .new-grid { flex-direction: column; align-items: center; gap: 10px; }
+      .new-grid .card { flex: none; width: min(100%, 290px); max-width: none; }
       .card.card--big img { height: 300px; max-height: 300px; }
       .card.card--big .card-body { padding: 14px 16px 18px; }
       .card.card--big h3 { font-size: 17px; margin-top: 8px; }
