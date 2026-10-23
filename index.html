@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Mon Univers de Livres</title>
+  <meta name="robots" content="noindex, nofollow" />
   <link rel="icon" type="image/png" sizes="192x192" href="/icone.png?v=3" />
   <link rel="shortcut icon" href="/icone.png?v=3" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=3" />
@@ -949,6 +950,23 @@
     #newSection .subsection-title { border-bottom-color: #ffd60a; }
     #othersSection .subsection-title { border-bottom-color: #44403c; }
     #newSection .subsection-title::after { display: none; }
+
+    /* ======== TEST : titres en bandeau pleine largeur ======== */
+    .subsection-head {
+      padding: 12px 0;
+      margin-bottom: 16px;
+      background: var(--bandeau);
+      box-shadow: 0 0 0 100vmax var(--bandeau);
+      clip-path: inset(0 -100vmax);
+    }
+    #newSection .subsection-head { --bandeau: #ffdf3d; }
+    #bestsellersSection .subsection-head { --bandeau: #b45309; }
+    #othersSection .subsection-head { --bandeau: #292524; }
+    .subsection-title, #newSection .subsection-title, #othersSection .subsection-title {
+      color: #ffffff; border-bottom: none; padding: 0; font-size: clamp(22px, 5.5vw, 28px);
+    }
+    #newSection .subsection-title { color: #3b2a00; }
+    .section-sep { display: none !important; }
 
   </style>
 </head>
