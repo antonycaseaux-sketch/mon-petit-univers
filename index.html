@@ -488,23 +488,16 @@
 
     .contact-title {
       margin: 0;
-      font-size: 20px;
+      font-size: clamp(12px, 3.8vw, 20px);
       font-weight: 700;
       color: #292524;
+      white-space: nowrap;
     }
 
     .contact-text {
       margin: 6px 0 14px;
       font-size: 15px;
       color: var(--muted);
-    }
-
-    .contact-mail {
-      display: block;
-      margin-top: 10px;
-      font-size: 14px;
-      color: #b45309;
-      font-weight: 600;
     }
 
     @keyframes scrollReviews {
@@ -715,10 +708,9 @@
       </div>
 
       <div class="container contact-box" id="contact">
-        <p class="contact-title">Une question, une collaboration ? ✉️</p>
+        <p class="contact-title">Une question, une collaboration ?</p>
         <p class="contact-text">Écrivez-moi, je réponds avec plaisir.</p>
         <a class="btn" id="contactBtn" href="#contact">Me contacter</a>
-        <span class="contact-mail" id="contactMail"></span>
       </div>
     </section>
   </main>
@@ -726,7 +718,7 @@
   <footer class="footer">
     <div class="container footer-inner">
       <p>© 2026 Mon Univers de Livres. Tous droits réservés.</p>
-      <div class="footer-links"><a href="#contact">Contact</a></div>
+      <div class="footer-links"><a id="footerContact" href="#contact">Contact</a></div>
     </div>
   </footer>
 
@@ -1198,9 +1190,10 @@
     (function () {
       const mail = ["editions.lps", "gmail.com"].join("@");
       const btn = document.getElementById("contactBtn");
-      const txt = document.getElementById("contactMail");
-      if (btn) btn.href = "mailto:" + mail + "?subject=" + encodeURIComponent("Contact depuis Mon Univers de Livres");
-      if (txt) txt.textContent = mail;
+      const link = "mailto:" + mail + "?subject=" + encodeURIComponent("Contact depuis Mon Univers de Livres");
+      const foot = document.getElementById("footerContact");
+      if (btn) btn.href = link;
+      if (foot) foot.href = link;
     })();
 
     renderFilters();
