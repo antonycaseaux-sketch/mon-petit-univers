@@ -4,6 +4,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Mon Univers de Livres</title>
+  <link rel="icon" type="image/png" href="icone.png" />
+  <link rel="apple-touch-icon" href="icone.png" />
+  <script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
+  <script defer src="/_vercel/insights/script.js"></script>
   <meta name="description" content="Des livres pour enfants, ados, adultes et séniors, imaginés et écrits avec passion. Découvrez toute la collection disponible sur Amazon." />
   <meta property="og:type" content="website" />
   <meta property="og:locale" content="fr_FR" />
@@ -559,6 +563,20 @@
       z-index: 0;
     }
 
+    /* Badge Nouveauté (ligne à part, au-dessus de la catégorie) */
+    .new-tag {
+      display: inline-block;
+      margin: 0 0 8px;
+      padding: 3px 10px;
+      border-radius: 999px;
+      background: #d1fae5;
+      color: #047857;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
     @keyframes scrollReviews {
       from { transform: translateX(0); }
       to { transform: translateX(calc(-50% - 12px)); }
@@ -728,6 +746,14 @@
         width: min(820px, calc(100% - 32px));
       }
     }
+
+    @media (max-width: 720px) {
+      .new-tag {
+        font-size: 9px;
+        padding: 2px 8px;
+        margin-bottom: 6px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -817,6 +843,30 @@
   </button>
 
   <script>
+    // ── Saison de Noël : du 15 octobre au 15 janvier ──
+    // Pendant cette période : neige + livres de Noël en premier. Ensuite : retour à l'ordre normal.
+    // (Pour la tester hors saison : ajouter ?neige à la fin de l'adresse du site)
+    const SEASON_START = { month: 10, day: 15 };
+    const SEASON_END = { month: 1, day: 15 };
+    const SEASON_ACTIVE = (function () {
+      if (new URLSearchParams(location.search).has("neige")) return true;
+      const v = (m, d) => m * 100 + d;
+      const now = new Date();
+      const cur = v(now.getMonth() + 1, now.getDate());
+      const a = v(SEASON_START.month, SEASON_START.day);
+      const b = v(SEASON_END.month, SEASON_END.day);
+      return a <= b ? (cur >= a && cur <= b) : (cur >= a || cur <= b);
+    })();
+
+    // Les livres marqués season: "noel" passent devant en saison, et derrière le reste du temps
+    function seasonSort(list) {
+      const rank = (b) => ((b.season === "noel") === SEASON_ACTIVE ? 0 : 1);
+      return list
+        .map((b, i) => [b, i])
+        .sort((x, y) => rank(x[0]) - rank(y[0]) || x[1] - y[1])
+        .map((x) => x[0]);
+    }
+
     const prices = {
       "Tu es un Footballeur Formidable": "12,99 €",
       "Tu es un Basketteur Formidable": "12,99 €",
@@ -855,13 +905,6 @@
 
     // Ordre voulu quand on clique sur une catégorie (les livres non listés suivent dans l'ordre de la liste)
     const categoryOrder = {
-      "Enfants": [
-        "Les Énigmes du Lutin Farceur - Tome 1",
-        "Les Énigmes du Lutin Farceur - Tome 2",
-        "Calendrier de l'Avent Foot",
-        "Tu es un Footballeur Formidable",
-        "Tu es une Gymnaste Formidable"
-      ],
       "Adultes": [
         "TOI vs MOI Spécial Couples",
         "TOI vs MOI Édition Noël",
@@ -897,18 +940,22 @@
       },
       {
         title: "Les Énigmes du Lutin Farceur - Tome 2",
+        season: "noel",
+        added: "2026-10-23",
         category: "Enfants",
         description: "Un renne a disparu, un âne a pris sa place… et si c'était encore un coup du lutin farceur ? Arsène Lutin, détective de génie, a besoin de ton aide pour retrouver le coupable. Chaque jour, une histoire drôle et une énigme à élucider pour vivre un calendrier de l'Avent interactif, comme un escape game de Noël. Livre coécrit avec Sophie Brillant.",
         cover: "https://m.media-amazon.com/images/I/71KKSqqfVAL._AC_UL320_.jpg",
-        amazon: "https://www.amazon.fr/Calendrier-lAvent-%C3%A9nigmes-lutin-farceur/dp/B0HN28C2XT/ref=sr_1_54?__mk_fr_FR=%C3%85M%C3%85%C5%BD%C3%95%C3%91&crid=2L98ZFCCJ1Z3R&dib=eyJ2IjoiMSJ9.KCtyuMOed-OMDLv0-IOi2-vUq2nUtN0DYjp0MnlNXO5ES-YD-GLH0KaSPDEH-uvO02A2MKenjBRXseC6PSVG5vQp78eWRdvyIL9LYwPETlI2k9jpyYgQj1lZToY3vPun5wF7oFBX75vxb7aa-CETbdvsGAamSShwccSs27FSAXiGzfDugP_OuVI-hLTxSSnCdup-kT9D5Z4Sqvhbakziu07UsWsqUIpkfUogIxGZlTRgwn-sL-_WZKaxIfY3t8p8LnjTCoGZAND6Thh_ZssE4qAXyS6wjFkX1PZHdsw-iRY.KnTtVrqM7gLP9ICLecwh_kb_RnDS_YmkIGlRckBoIoo&dib_tag=se&keywords=livre+lutin+farceur&qid=1792744719&sprefix=livre+lutin+farceu%2Caps%2C112&sr=8-54"
+        amazon: "https://www.amazon.fr/dp/B0HN28C2XT"
       },
       {
         title: "Calendrier de l'Avent Foot",
+        season: "noel",
+        added: "2026-10-22",
         favorite: true,
         category: "Enfants",
         description: "Chaque année, le Père Noël organise un match de foot unique au Pôle Nord : onze enfants contre son équipe de Lutins. Cette année, c'est Raphaël qui est nommé capitaine ! Mais avant le grand coup d'envoi, 24 jours de préparation l'attendent...",
         cover: "https://m.media-amazon.com/images/I/71PCtKnhAkL._AC_UL320_.jpg",
-        amazon: "https://www.amazon.fr/dp/B0HL3ZZCYY/ref=sr_1_6?__mk_fr_FR=%C3%85M%C3%85%C5%BD%C3%95%C3%91&crid=2QM05ATSMDU9H&dib=eyJ2IjoiMSJ9.fPGk_Cu4uk5JvZinhw5ifgt5sT2-Q2vJWL47VUSTzboxfTYY4TgqCmSCdjJkok46PaLBm3bilhoAPhh20keGBtkNT2zUDGDotDfqfNia5DO_3y5kufUPzYmK7MHb4F7B_NDyIWwuebwdSnbUk1i-QstuclEQ8XCL4MWeciycVsazfRuie6pf629l1kX2bcdSvEBaNQTRnhTxua8-eDusT7umHlEKfZ7gph-qe0og-MGXCDAgT3dDK3BuGTjJBpC26i385n2c7d5UFjsS0YCdrGAr6QPHkWIcBriZa616_Fk.w_JlYwMMpUUDgKCIF4K5pHWzdg7k1SgU_k0jIlTBUWY&dib_tag=se&keywords=calendrier+de+l%27avent+foot&qid=1790855259&sprefix=calendrier+de+l%27avent+foot%2Caps%2C127&sr=8-6"
+        amazon: "https://www.amazon.fr/dp/B0HL3ZZCYY"
       },
       {
         title: "Tu es un Basketteur Formidable",
@@ -971,14 +1018,14 @@
         category: "Enfants",
         description: "Cahier d'activités conçu pour les enfants de 6 à 10 ans. À travers des jeux variés, des quiz foot, des défis et des activités ludiques, votre enfant va développer sa logique et sa créativité autour de sa passion pour le football.",
         cover: "https://m.media-amazon.com/images/I/71MpHH-tVoL._AC_UL320_.jpg",
-        amazon: "https://www.amazon.fr/Cahier-Jeux-Football-Enfant-dactivit%C3%A9s/dp/B0GYZ4T9NW/ref=sr_1_8?__mk_fr_FR=%C3%85M%C3%85%C5%BD%C3%95%C3%91&crid=1K3N55SOKMX7F&dib=eyJ2IjoiMSJ9.2tzueg-mhWQFt_5IZvDmOLj0i6VMSIbGTSTIkmCJS0ok52q7XNdGjoUGt_gTjP4ET7paX6JbtugjqA3Lindpi63nxCGspUnQq6OSSNTnKwPy_5ASvfvRDr8EW7zOS7QYA6-eWScxZkj7zwPBP65IGuAdTctJ0JfztRQzn4LBSiE5PZY2KSExK70U2eNx-kfvaD9eZpDnAgCy_xz4OYkIHJ_ZPq0PgrYCBChsAaAEvYFdCbCFCLVivizNp6Rtt44YZE53DSOswJCQMZtg-SUys62uWOAlYp4Tvx3_48z-RVY.srWJHsA4t-VY17nlGYv59mE1CS6ry8-KNmDpAalqkek&dib_tag=se&keywords=cahier+jeux+foot&qid=1779195368&sprefix=cahier+jeux+foot%2Caps%2C219&sr=8-8"
+        amazon: "https://www.amazon.fr/dp/B0GYZ4T9NW"
       },
       {
         title: "Cahier Coloriage Foot",
         category: "Enfants",
         description: "Ce cahier de coloriage plonge les jeunes passionnés dans un univers 100% Fun et Football, tout en stimulant leur créativité.",
         cover: "https://m.media-amazon.com/images/I/71GHBlg-SjL._AC_UL320_.jpg",
-        amazon: "https://www.amazon.fr/Cahier-Coloriage-Foot-passionn%C3%A9-accompagn%C3%A9es/dp/B0GYZF2PHG/ref=sr_1_6?__mk_fr_FR=%C3%85M%C3%85%C5%BD%C3%95%C3%91&crid=1NKR8JNS5WFXX&dib=eyJ2IjoiMSJ9.C1SQ49HjosnOWZn0e0L55OZIVO0qGS8-t3VHjHd3Czm-2K4WKYiqbAjTiB6C6p1De0pMOiq4XPaTo-f_7yzvX7jbizqoFTSj26xGFeuIwIculI9Koai9fNQ939Ba1smoFxrOfHTpGg-I-c-lQ1urccu9gCyfuL3dFwcxe38x0GjaBAneYrxa_1H04-o-JPAnvVGu0OWukg9B01WgvRmRVoW_qgxbWmEJ_q0OEzQaX3EBfong79TzWxrztyudBWlUe101E-XdqaowKNJowwC02UJsY9TAmJ6Y69BSRAr48Oo.td0y-f_0USEFtmY-8EQw5j0mjNd2FH-p9TsJxOBfAkM&dib_tag=se&keywords=cahier+coloriage+foot&qid=1779195313&sprefix=cahier+coloriage+fo%2Caps%2C274&sr=8-6&xpid=FM3e67nUpMrQG"
+        amazon: "https://www.amazon.fr/dp/B0GYZF2PHG"
       },
       {
         title: "Raphaël et le Dino Perdu",
@@ -1021,10 +1068,11 @@
         category: "Adultes",
         description: "Avez-vous déjà pris le temps de réfléchir à ce phénomène universel qu'est le pet ? Non ? Alors préparez-vous à redécouvrir l'un des sujets les plus naturels du monde sous un angle aussi surprenant qu'hilarant !",
         cover: "https://m.media-amazon.com/images/I/71I7viFGuCL._AC_UL320_.jpg",
-        amazon: "https://www.amazon.fr/Maitre-Prout-lArt-Sacr%C3%A9-Pet/dp/B0FWHYMJ2B/ref=sr_1_1?__mk_fr_FR=%C3%85M%C3%85%C5%BD%C3%95%C3%91&crid=2DZXQP1YODXE4&dib=eyJ2IjoiMSJ9.WvIskzE-cYFtSUHeEx9EAAt_DtatPF05GJWkH7A7dEQmY_197AKFYStN3TMD8bEtL5ZZ7a-EDVliloScz6G_sSpZQx4n_jWBZxFA1qlpBlbrEGl27m8C2Op2MaJuYvsbi-UrF2aQ8JDVRqt1DmouhgTRINUpbPfYQcF7Ad80f4fe_44d_BoAlhxOVoBDNfigZAvaURPGeyfpwgz57dL4BeDppAicTzLVAGevRWAxvvEq2tFQKMckIA1nREm6iERpsQde1Z0eNmZTQnQ62Vt-2GB9jAnXOYhjF8ApgLfcIZo.nEigcB0FqlkhzmRcOkjBgrzMzEDMLwU0TwFxwR4BgeU&dib_tag=se&keywords=livre+pet&qid=1790891188&sprefix=livre+pet%2Caps%2C300&sr=8-1"
+        amazon: "https://www.amazon.fr/dp/B0FWHYMJ2B"
       },
       {
         title: "Les Énigmes du Lutin Farceur - Tome 1",
+        season: "noel",
         favorite: true,
         bestseller: true,
         category: "Enfants",
@@ -1049,10 +1097,12 @@
       },
       {
         title: "TOI vs MOI Édition Noël",
+        season: "noel",
+        added: "2026-10-21",
         category: "Adultes",
         description: "Une version spéciale Noël pour pimenter les fêtes en couple ! Questions surprises, défis complices et duels festifs pour rire et se redécouvrir autour d'un verre de vin chaud. Le cadeau idéal à glisser sous le sapin pour une soirée pleine de bonne humeur et de complicité.",
         cover: "https://m.media-amazon.com/images/I/71uXgGTV8PL._AC_UL320_.jpg",
-        amazon: "https://www.amazon.fr/TOI-MOI-sp%C3%A9cial-COUPLES-No%C3%ABl/dp/B0HK8F78WS/ref=sr_1_6?__mk_fr_FR=%C3%85M%C3%85%C5%BD%C3%95%C3%91&crid=SB5T5ORUNEW4&dib=eyJ2IjoiMSJ9.KrlT2CYk-dvFbyTbVqaJkbaAGsieE1Kz0CpyYkNhSnOKgH2Qh6hmRajNrsulPY7AMO3Hy42QWzIX6Iq7MKdp8CVnY_d7gcXw_-UGjkE4vUMgIGR8t8tf0xy6K65t5fJhtcCyn1u2_g2DqeC9MECP2fth24OjRlgvQPvzYt1bpLngZ97mArVa9Ng_CSxftCzNHsx0k1FYBO9Nx644tyBGZDYsJdV4-5MTXb07T3aGIeu_j6g6bv1oBkAln-LHBccg_AnUCaxXUyasgCAh2slD752lvsEt7DL93mMPay5SfsE.U9pjlWH6lRYLeRzb452vlJpANlyeJwk-NubdjwFojP4&dib_tag=se&keywords=livre+couple+noel&qid=1790855174&sprefix=livre+couple+noel%2Caps%2C134&sr=8-6"
+        amazon: "https://www.amazon.fr/dp/B0HK8F78WS"
       },
       {
         title: "Enquêtes Logiques",
@@ -1099,7 +1149,21 @@
       }
     ];
 
+    // Badge "Nouveauté" : 3 maximum (les 3 ajouts les plus récents) et pendant 60 jours maximum.
+    // Pour un nouveau livre : ajouter added: "AAAA-MM-JJ" ; le plus ancien perd son badge tout seul.
+    const NEW_MAX = 3;
+    const NEW_DAYS = 60;
+    const newTitles = new Set(
+      books
+        .filter((b) => b.added)
+        .sort((a, b) => Date.parse(b.added) - Date.parse(a.added))
+        .slice(0, NEW_MAX)
+        .filter((b) => (Date.now() - Date.parse(b.added)) / 86400000 <= NEW_DAYS)
+        .map((b) => b.title)
+    );
+
     const reviews = [
+      { t: "Très bien fait, ma petite fille adore, elle a hâte d’être au lendemain pour découvrir une nouvelle énigme.", n: "Jean Grégoire", s: 5 },
       { t: "Super livre. Notre petit fan de rugby était motivé de lire l'histoire de ce petit garçon et souhaite maintenant aller en Nouvelle Zélande !", n: "Juliettedm", s: 5 },
       { t: "Livres qui se lisent super facilement. Idéal pour les enfants avec histoire, faits marquants et quiz.", n: "Aurélie", s: 5 },
       { t: "Ce livre pose un regard bienveillant sur le TDAH et propose des outils concrets.", n: "Marco", s: 5 },
@@ -1159,8 +1223,9 @@
       article.className = "card" + (book.bestseller ? " bestseller" : "");
 
       article.innerHTML = `
-        <img src="${book.cover}" alt="${book.title}">
+        <img src="${book.cover}" alt="${book.title}" loading="${targetGrid.children.length < 6 ? "eager" : "lazy"}" decoding="async">
         <div class="card-body">
+          ${newTitles.has(book.title) ? '<span class="new-tag">✨ Nouveauté</span>' : ''}
           <div class="card-top">
             <p class="category">${book.category}</p>
             ${book.bestseller ? '<span class="best">Best Seller</span>' : ''}
@@ -1225,8 +1290,8 @@
         ? books
         : books.filter((book) => book.category === activeCategory);
 
-      const bestsellers = filtered.filter((book) => book.bestseller === true);
-      const others = filtered.filter((book) => book.bestseller !== true);
+      const bestsellers = seasonSort(filtered.filter((book) => book.bestseller === true));
+      const others = seasonSort(filtered.filter((book) => book.bestseller !== true));
 
       if (activeCategory === "Tous") {
         if (bestsellers.length > 0) {
@@ -1254,6 +1319,7 @@
         } else {
           ordered = [...bestsellers, ...others];
         }
+        ordered = seasonSort(ordered);
         bestsellersSection.style.display = "block";
         othersSection.style.display = "none";
         ordered.forEach((book) => renderBookCard(book, bestsellersGrid));
@@ -1313,19 +1379,7 @@
 
     // ❄️ Neige sobre sur le bandeau orange du haut et la bande noire des avis
     (function () {
-      // Période d'affichage (modifiable) : du 15 octobre au 15 janvier
-      const SNOW_START = { month: 10, day: 15 };
-      const SNOW_END = { month: 1, day: 15 };
-
-      const v = (m, d) => m * 100 + d;
-      const now = new Date();
-      const cur = v(now.getMonth() + 1, now.getDate());
-      const s = v(SNOW_START.month, SNOW_START.day);
-      const e = v(SNOW_END.month, SNOW_END.day);
-      const inSeason = s <= e ? (cur >= s && cur <= e) : (cur >= s || cur <= e);
-      // Pour la tester hors saison : ajouter ?neige à la fin de l'adresse du site
-      const forced = new URLSearchParams(location.search).has("neige");
-      if (!inSeason && !forced) return;
+      if (!SEASON_ACTIVE) return;
       if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
       const isMobile = () => window.innerWidth < 720;
