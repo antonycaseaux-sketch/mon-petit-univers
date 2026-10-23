@@ -255,8 +255,13 @@
       border-radius: 0 0 22px 22px;
       margin-top: 12px;
       flex: 1;
+      display: flex;
+      flex-direction: column;
       transition: background 0.35s ease;
     }
+
+    /* Prix + bouton toujours en bas de la carte : alignés sur toute la ligne */
+    .card-body .new-tag { align-self: flex-start; }
 
     @media (hover: hover) {
       .card:hover .card-body {
@@ -351,7 +356,8 @@
       display: flex;
       flex-direction: column;
       align-items: flex-start;
-      margin-top: 16px;
+      margin-top: auto;
+      padding-top: 16px;
       gap: 8px;
     }
 
@@ -833,7 +839,8 @@
       }
 
       .card-actions {
-        margin-top: 10px;
+        margin-top: auto;
+        padding-top: 10px;
         gap: 6px;
       }
 
