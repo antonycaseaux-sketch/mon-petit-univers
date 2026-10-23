@@ -1046,27 +1046,30 @@
     /* Lettres du titre : placées une à une le long d'un arc (voir archTitles) */
     .arch-ch { display: inline-block; white-space: pre; transform-origin: 50% 60%; }
 
-    /* Pastille Best Seller : en haut à droite de la zone couverture (20 px = marge au-dessus de l'image + 8 px) */
-    .card-cover { position: relative; }
-    .best-flag {
-      position: absolute;
-      right: 8px;
-      top: 20px;
-      z-index: 2;
-      background: #f59e0b;
-      color: #ffffff;
-      font-size: 10px;
-      font-weight: 800;
-      line-height: 1.2;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      padding: 4px 9px;
-      border-radius: 999px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.28);
-      pointer-events: none;
+
+    /* Coup de cœur : même effet que la pastille Nouveauté (halo doux + reflet qui passe) */
+    .fav {
+      position: relative;
+      overflow: hidden;
+      animation: favGlow 2.8s ease-in-out infinite;
     }
-    @media (max-width: 720px) {
-      .best-flag { right: 5px; top: 7px; font-size: 7.5px; padding: 3px 6px; letter-spacing: 0.04em; }
+    .fav::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -70%;
+      width: 40%;
+      height: 100%;
+      background: linear-gradient(100deg, transparent, rgba(255,255,255,0.8), transparent);
+      transform: skewX(-20deg);
+      animation: newShine 3.4s ease-in-out infinite;
+    }
+    @keyframes favGlow {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(236,72,153,0); }
+      50% { box-shadow: 0 0 10px 3px rgba(236,72,153,0.55); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .fav, .fav::after { animation: none; }
     }
 
   </style>
@@ -1167,24 +1170,29 @@
   </button>
 
   <script>
-    // ── Saison de Noël : du 15 octobre au 15 janvier ──
-    // Pendant cette période : neige + livres de Noël en premier. Ensuite : retour à l'ordre normal.
-    // (Pour la tester hors saison : ajouter ?neige à la fin de l'adresse du site)
+    // ── Saison de Noël ──
+    // Neige : du 15 octobre au 15 janvier.
+    // Livres de Noël en premier (Lutins, Calendrier Foot) : du 1er octobre au 10 janvier. Ensuite : retour à l'ordre normal.
+    // (Pour tout voir hors saison : ajouter ?neige à la fin de l'adresse du site)
     const SEASON_START = { month: 10, day: 15 };
     const SEASON_END = { month: 1, day: 15 };
-    const SEASON_ACTIVE = (function () {
+    const NOEL_START = { month: 10, day: 1 };
+    const NOEL_END = { month: 1, day: 10 };
+    function inWindow(start, end) {
       if (new URLSearchParams(location.search).has("neige")) return true;
       const v = (m, d) => m * 100 + d;
       const now = new Date();
       const cur = v(now.getMonth() + 1, now.getDate());
-      const a = v(SEASON_START.month, SEASON_START.day);
-      const b = v(SEASON_END.month, SEASON_END.day);
+      const a = v(start.month, start.day);
+      const b = v(end.month, end.day);
       return a <= b ? (cur >= a && cur <= b) : (cur >= a || cur <= b);
-    })();
+    }
+    const SEASON_ACTIVE = inWindow(SEASON_START, SEASON_END);
+    const NOEL_ACTIVE = inWindow(NOEL_START, NOEL_END);
 
     // Les livres marqués season: "noel" passent devant en saison, et derrière le reste du temps
     function seasonSort(list) {
-      const rank = (b) => ((b.season === "noel") === SEASON_ACTIVE ? 0 : 1);
+      const rank = (b) => ((b.season === "noel") === NOEL_ACTIVE ? 0 : 1);
       return list
         .map((b, i) => [b, i])
         .sort((x, y) => rank(x[0]) - rank(y[0]) || x[1] - y[1])
@@ -1605,7 +1613,6 @@
       article.innerHTML = `
         <a class="card-cover" href="${book.amazon}" target="_blank" rel="noopener noreferrer" aria-label="Voir « ${book.title} » sur Amazon" tabindex="-1">
           <img src="${coverUrl(book.cover, big ? 900 : 640)}" alt="${book.title}" onerror="this.onerror=null;this.src='${book.cover}'" loading="${big || targetGrid.children.length < 6 ? "eager" : "lazy"}" decoding="async">
-          ${book.bestseller ? '<span class="best-flag">Best Seller</span>' : ''}
         </a>
         <div class="card-body">
           ${!big && newTitles.has(book.title) ? '<span class="new-tag">✨ Nouveauté</span>' : ''}
