@@ -996,12 +996,18 @@
     /* Les bandeaux séparent déjà les rubriques : le petit séparateur ✦ n'est plus utile */
     .section-sep { display: none !important; }
 
-    /* Contours des fiches : plus de gris ; seules les meilleures ventes ont un fin contour orange clair */
+    /* Contours des fiches : plus de gris ; Nouveautés = fin contour doré, Meilleures ventes = fin contour orange clair,
+       À découvrir aussi = aucun contour */
     .card { border-color: transparent; }
+    #newGrid .card { border: 2px solid #e8c25f; }
     .card.bestseller {
       border: 2px solid #fdba74;
       box-shadow: 0 4px 14px rgba(0,0,0,0.04);
     }
+
+    /* « Ils ont aimé » : léger dégradé qui part de l'angle en haut à gauche, comme le haut du site */
+    .reviews { background: linear-gradient(135deg, #4a331d 0%, #201912 42%, #111111 100%); }
+    .reviews .section-label { color: #f5a524; }
 
     /* Badge Coup de cœur : toujours à droite de la catégorie et du type, sur la même ligne */
     .card-top { flex-wrap: nowrap; gap: 8px; }
@@ -1016,9 +1022,18 @@
       text-transform: none;
     }
     .card-body { container-type: inline-size; }
+    /* Cartes étroites (téléphone) : le badge reste complet mais plus petit, sur deux lignes (« 🤍 Coup / de cœur ») */
     @container (max-width: 190px) {
-      .fav .fav-text { display: none; }
-      .fav { padding: 5px 7px; font-size: 11px; }
+      .fav {
+        white-space: normal;
+        max-width: 58px;
+        text-align: center;
+        font-size: 8.5px;
+        line-height: 1.15;
+        padding: 3px 6px;
+        border-radius: 12px;
+        letter-spacing: 0;
+      }
     }
 
   </style>
