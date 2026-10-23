@@ -4,10 +4,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Mon Univers de Livres</title>
-  <meta name="robots" content="noindex, nofollow" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&display=swap" rel="stylesheet" />
   <link rel="icon" type="image/png" sizes="192x192" href="/icone.png?v=3" />
   <link rel="shortcut icon" href="/icone.png?v=3" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=3" />
@@ -917,62 +913,6 @@
       .card.card--big .price { font-size: 15px; }
       .card.card--big .btn { font-size: 15px; padding: 7px 18px; border-radius: 14px; }
     }
-    /* ======== STYLE 1 · LIBRAIRIE MODERNE ======== */
-    :root { --bg:#fbf8f3; --text:#1c1917; --muted:#6b6560; --ink:#1c1917; --accent:#d9480f; }
-    body { background: var(--bg); color: var(--ink); }
-    h1, h2 { font-family: 'DM Serif Display', Georgia, serif; font-weight: 400; }
-    h1 { letter-spacing: -0.01em; font-size: clamp(34px, 5vw, 58px); }
-    .hero { background: radial-gradient(1100px 380px at 90% -30%, rgba(255,255,255,0.16), transparent 60%), #c2410c; }
-    .eyebrow { background: transparent; color: #fff; border: 1px solid rgba(255,255,255,0.55); box-shadow: none; }
-    .badge, .badge.blue, .badge.amber, .badge.green {
-      background: rgba(255,255,255,0.14); color: #fff; box-shadow: none; border: 1px solid rgba(255,255,255,0.4); font-weight: 600;
-    }
-    .filter-btn { background: transparent; color: var(--ink); border: 1px solid #d9d2c7; font-weight: 600; }
-    .filter-btn:hover { background: #f0e9de; }
-    .filter-btn.active { background: var(--ink); color: #fff; border-color: var(--ink); }
-    .section-label { color: var(--muted); }
-
-    .subsection-title, #othersSection .subsection-title, #newSection .subsection-title {
-      background: none; color: var(--ink); padding: 0; border-radius: 0; box-shadow: none; animation: none;
-      font-family: 'DM Serif Display', Georgia, serif; font-weight: 400; font-size: clamp(24px, 6vw, 32px); overflow: visible;
-    }
-    #newSection .subsection-title::after { display: none; }
-    #newSection .subsection-title { background: linear-gradient(transparent 64%, #ffe36e 64%, #ffe36e 92%, transparent 92%); }
-
-    .card, .card.bestseller { background: transparent; border: none; box-shadow: none; border-radius: 0; padding: 0; overflow: visible; }
-    @media (hover: hover) { .card:hover { transform: translateY(-5px); box-shadow: none; } }
-    .card img {
-      background: transparent; border-radius: 3px; margin-top: 0; object-position: center bottom;
-      filter: drop-shadow(0 14px 14px rgba(60,40,20,0.30));
-    }
-    .card .card-body, .card:hover .card-body, .card.expanded .card-body {
-      background: transparent; border-radius: 0; margin-top: 0; padding-left: 2px; padding-right: 2px;
-    }
-    .card-body { padding-top: 18px; }
-    .category { color: var(--accent); font-weight: 600; }
-    .book-type { color: var(--muted); }
-    .card h3 { font-family: 'DM Serif Display', Georgia, serif; font-weight: 400; font-size: clamp(14px, 4vw, 19px); line-height: 1.15; }
-    .card.card--big h3 { font-size: clamp(21px, 5.5vw, 27px); }
-    .desc { color: var(--muted); }
-    .price { font-weight: 700; color: var(--ink); }
-    .btn { background: var(--ink); color: #fff; box-shadow: none; border-radius: 10px; font-weight: 600; }
-    .btn:hover { background: var(--accent); transform: none; box-shadow: none; }
-    .fav { background: #ffe4ec; color: #be185d; box-shadow: none; }
-    .new-tag { background: #fff1a8; color: #5b4300; box-shadow: none; animation: none; border-radius: 4px; }
-    .new-tag::after { display: none; }
-    .section-sep { color: var(--accent); }
-    .group-divider { color: var(--muted); }
-
-    .reviews { background: #1c1917; }
-    .review, .review:nth-child(even) { border: none; border-radius: 14px; box-shadow: none; background: #fff; }
-    .review:nth-child(even) { background: #f4ece0; }
-    .about { background: transparent; border-top: 1px solid #e5ddd0; }
-    .about-text { color: var(--muted); }
-    .contact-box { background: #fff; border: 1px solid #e5ddd0; border-radius: 14px; }
-    .contact-title { color: var(--ink); }
-    .footer { border-top: 1px solid #e5ddd0; }
-    .to-top { background: var(--ink); box-shadow: 0 6px 16px rgba(0,0,0,0.25); }
-
   </style>
 </head>
 <body>
