@@ -260,6 +260,8 @@
       transition: background 0.35s ease;
     }
 
+    body.no-anim .desc { transition: none !important; }
+
     /* Prix + bouton toujours en bas de la carte : alignés sur toute la ligne */
     .card-body .new-tag { align-self: flex-start; }
 
@@ -1422,6 +1424,19 @@
       return url.replace(/\._[A-Za-z0-9_,]+_\.(jpg|jpeg|png)$/i, "._SL" + size + "_.$1");
     }
 
+    // Rend leur taille normale aux fiches "figées" pendant l'ouverture d'une description
+    function unfreezeCards() {
+      document.querySelectorAll('.card.frozen').forEach((c) => {
+        c.style.height = '';
+        c.style.alignSelf = '';
+        c.classList.remove('frozen');
+      });
+    }
+    window.addEventListener('resize', () => {
+      unfreezeCards();
+      document.querySelectorAll('.card.expanded').forEach((c) => c.classList.remove('expanded'));
+    });
+
     function renderBookCard(book, targetGrid, big) {
       if (!targetGrid) return;
 
@@ -1455,9 +1470,29 @@
         desc.addEventListener('click', (e) => {
           e.stopPropagation();
           const alreadyOpen = article.classList.contains('expanded');
+
+          // On mesure d'abord les fiches fermées (sans animation), pour que les voisines ne bougent pas
+          document.body.classList.add('no-anim');
+          unfreezeCards();
           document.querySelectorAll('.card.expanded').forEach((c) => {
             c.classList.remove('expanded');
           });
+          void document.body.offsetHeight;
+
+          if (!alreadyOpen) {
+            // Les fiches de la même ligne gardent leur taille : seule la fiche ouverte s'agrandit
+            const top = article.offsetTop;
+            [...targetGrid.querySelectorAll('.card')]
+              .filter((c) => c !== article && Math.abs(c.offsetTop - top) < 4)
+              .forEach((c) => {
+                c.style.height = c.getBoundingClientRect().height + 'px';
+                c.style.alignSelf = 'start';
+                c.classList.add('frozen');
+              });
+          }
+
+          document.body.classList.remove('no-anim');
+          void document.body.offsetHeight;
           if (!alreadyOpen) {
             article.classList.add('expanded');
           }
