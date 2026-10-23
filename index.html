@@ -324,7 +324,8 @@
 
     .desc {
       font-size: 13px;
-      margin: 4px 0 0;
+      line-height: 1.4;
+      margin: 0;
       color: var(--muted);
       text-align: left;
       display: -webkit-box;
@@ -524,7 +525,20 @@
     /* Espaces resserrés : Ma bibliothèque / titres de sections / livres */
     .filters .section-head { margin-bottom: 14px; }
     .filters .section-label { margin-bottom: 0; }
-    .subsection-head { margin: 0 0 14px; }
+    /* Titres de sections : plus grands, avec une ligne d'explication, et le même espace sous chaque rubrique */
+    .subsection-head { margin: 0 0 16px; }
+    .subsection-title {
+      display: block;
+      width: fit-content;
+      font-size: clamp(22px, 5.4vw, 28px);
+      padding: 6px 18px;
+    }
+    .subsection-sub {
+      margin: 8px 0 0;
+      font-size: 14px;
+      color: var(--muted);
+    }
+    #othersSection .subsection-head { margin-bottom: 16px; }
 
     /* Bouton "remonter en haut" */
     .to-top {
@@ -571,6 +585,13 @@
       height: 100%;
       pointer-events: none;
       z-index: 0;
+    }
+
+    /* Couverture cliquable */
+    .card-cover { display: block; cursor: pointer; }
+    .card-cover img { transition: transform 0.25s ease; }
+    @media (hover: hover) {
+      .card-cover:hover img { transform: scale(1.025); }
     }
 
     /* Badge Nouveauté (ligne à part, au-dessus de la catégorie) */
@@ -836,7 +857,7 @@
 
       .desc {
         font-size: 11px;
-        margin-top: 3px;
+        margin-top: 0;
         -webkit-line-clamp: 2;
         max-height: 3.2em;
       }
@@ -898,6 +919,7 @@
       }
       .group-divider { font-size: 14px; gap: 10px; }
       .subsection-head { text-align: center; }
+      .subsection-head .subsection-title { margin-left: auto; margin-right: auto; }
       .book-type { font-size: 9px; letter-spacing: 0.04em; }
 
       /* Nouveautés : une par une sur téléphone */
@@ -906,7 +928,7 @@
       .card.card--big img { height: 300px; max-height: 300px; }
       .card.card--big .card-body { padding: 14px 16px 18px; }
       .card.card--big h3 { font-size: 17px; margin-top: 8px; }
-      .card.card--big .desc { font-size: 13px; margin-top: 4px; max-height: none; }
+      .card.card--big .desc { font-size: 13px; margin-top: 0; max-height: none; }
       .card.card--big .category { font-size: 13px; }
       .card.card--big .book-type { font-size: 11px; }
       .card.card--big .best, .card.card--big .fav { font-size: 10px; padding: 6px 10px; }
@@ -941,6 +963,7 @@
       <div class="books-block" id="newSection">
         <div class="subsection-head">
           <h3 class="subsection-title">Nouveautés ✨</h3>
+          <p class="subsection-sub">Les derniers livres parus</p>
         </div>
         <div class="new-grid" id="newGrid"></div>
       </div>
@@ -950,6 +973,7 @@
       <div class="books-block" id="bestsellersSection">
         <div class="subsection-head">
           <h3 class="subsection-title">Meilleures ventes ⭐</h3>
+          <p class="subsection-sub">Les préférés des lecteurs</p>
         </div>
         <div class="grid" id="bestsellersGrid"></div>
       </div>
@@ -973,6 +997,7 @@
       <div class="books-block" id="othersSection">
         <div class="subsection-head">
           <h3 class="subsection-title">À découvrir aussi ✨</h3>
+          <p class="subsection-sub">Tous mes autres livres</p>
         </div>
         <div class="grid" id="otherBooksGrid"></div>
       </div>
@@ -1447,7 +1472,9 @@
       const text = big ? (book.short || book.description) : book.description;
 
       article.innerHTML = `
-        <img src="${coverUrl(book.cover, big ? 900 : 640)}" alt="${book.title}" onerror="this.onerror=null;this.src='${book.cover}'" loading="${big || targetGrid.children.length < 6 ? "eager" : "lazy"}" decoding="async">
+        <a class="card-cover" href="${book.amazon}" target="_blank" rel="noopener noreferrer" aria-label="Voir « ${book.title} » sur Amazon" tabindex="-1">
+          <img src="${coverUrl(book.cover, big ? 900 : 640)}" alt="${book.title}" onerror="this.onerror=null;this.src='${book.cover}'" loading="${big || targetGrid.children.length < 6 ? "eager" : "lazy"}" decoding="async">
+        </a>
         <div class="card-body">
           ${!big && newTitles.has(book.title) ? '<span class="new-tag">✨ Nouveauté</span>' : ''}
           <div class="card-top">
