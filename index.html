@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Mon Univers de Livres</title>
+  <meta name="robots" content="noindex, nofollow" />
   <link rel="icon" type="image/png" sizes="192x192" href="/icone.png?v=3" />
   <link rel="shortcut icon" href="/icone.png?v=3" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=3" />
@@ -935,6 +936,24 @@
       .card.card--big .price { font-size: 15px; }
       .card.card--big .btn { font-size: 15px; padding: 7px 18px; border-radius: 14px; }
     }
+    /* ======== TEST B : bandeaux de couleur douce derrière chaque rubrique ======== */
+    #newSection, #bestsellersSection:has(.subsection-head[style*="block"]) {
+      position: relative;
+      clip-path: inset(0 -100vmax);
+    }
+    #newSection {
+      background: #fffbe3;
+      box-shadow: 0 0 0 100vmax #fffbe3;
+      padding: 26px 0 18px;
+      margin-bottom: 0;
+    }
+    #bestsellersSection:has(.subsection-head[style*="block"]) {
+      background: #ffefd8;
+      box-shadow: 0 0 0 100vmax #ffefd8;
+      padding: 26px 0 10px;
+    }
+    .section-sep { display: none !important; }
+
   </style>
 </head>
 <body>
