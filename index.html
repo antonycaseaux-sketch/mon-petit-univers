@@ -1101,6 +1101,15 @@
       .fav, .fav::after { animation: none; }
     }
 
+    /* Fiches à liseré (nouveautés, meilleures ventes) : un peu plus d'air entre le haut de la fiche et la couverture.
+       L'image perd 6 px de hauteur pour que le bas des fiches reste aligné avec les autres. */
+    .card.bestseller img, .card.is-new img { margin-top: 18px; height: 314px; max-height: 314px; }
+    .card.card--big.bestseller img, .card.card--big.is-new img { height: 434px; max-height: 434px; }
+    @media (max-width: 720px) {
+      .card.bestseller img, .card.is-new img { margin-top: 8px; height: 164px; max-height: 164px; }
+      .card.card--big.bestseller img, .card.card--big.is-new img { height: 294px; max-height: 294px; }
+    }
+
   </style>
 </head>
 <body>
