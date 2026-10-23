@@ -270,7 +270,7 @@
     .card-top {
       display: flex;
       justify-content: space-between;
-      align-items: center;
+      align-items: flex-start;
       gap: 12px;
       flex-wrap: wrap;
     }
@@ -569,12 +569,57 @@
       margin: 0 0 8px;
       padding: 3px 10px;
       border-radius: 999px;
-      background: #d1fae5;
-      color: #047857;
+      background: #fde047;
+      color: #713f12;
       font-size: 11px;
       font-weight: 800;
       letter-spacing: 0.06em;
       text-transform: uppercase;
+    }
+
+    /* Type de livre : petit texte gris sous la catégorie */
+    .cat-col { min-width: 0; }
+    .book-type {
+      margin: 1px 0 0;
+      font-size: 12px;
+      color: #78716c;
+    }
+
+    /* Nouveautés en grand format */
+    #livres .books-block + .books-block { margin-top: 0; padding-top: 0; }
+    #newSection { margin-bottom: 24px; }
+    #newSection .subsection-title { background: #facc15; color: #422006; }
+    .new-grid {
+      display: flex;
+      justify-content: center;
+      gap: 28px;
+      padding-bottom: 8px;
+    }
+    .new-grid .card {
+      flex: 0 1 calc((100% - 56px) / 3);
+      max-width: calc((100% - 56px) / 3);
+    }
+    .card--big img { max-height: 440px; }
+    .card--big .card-body { padding: 18px 26px 26px; }
+    .card--big h3 { font-size: 20px; line-height: 1.15; }
+    .card--big .desc {
+      display: block;
+      font-size: 14px;
+      -webkit-line-clamp: unset;
+      max-height: none;
+      overflow: visible;
+      cursor: default;
+    }
+    .card--big .price { font-size: 16px; }
+    .card--big .btn { font-size: 17px; padding: 8px 24px; }
+    .card--big .book-type { font-size: 13px; }
+
+    /* Meilleures ventes : 4 par ligne sur ordinateur, 2x2 sur tablette et téléphone */
+    @media (min-width: 961px) {
+      #bestsellersGrid.grid-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px; }
+    }
+    @media (min-width: 721px) and (max-width: 960px) {
+      #bestsellersGrid.grid-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     }
 
     @keyframes scrollReviews {
@@ -753,6 +798,20 @@
         padding: 2px 8px;
         margin-bottom: 6px;
       }
+      .book-type { font-size: 10px; }
+
+      /* Nouveautés : une par une sur téléphone */
+      .new-grid { flex-direction: column; gap: 14px; }
+      .new-grid .card { flex: none; width: 100%; max-width: none; }
+      .card.card--big img { height: 300px; max-height: 300px; }
+      .card.card--big .card-body { padding: 14px 16px 18px; }
+      .card.card--big h3 { font-size: 17px; margin-top: 8px; }
+      .card.card--big .desc { font-size: 13px; margin-top: 8px; max-height: none; }
+      .card.card--big .category { font-size: 13px; }
+      .card.card--big .book-type { font-size: 12px; }
+      .card.card--big .best, .card.card--big .fav { font-size: 10px; padding: 6px 10px; }
+      .card.card--big .price { font-size: 15px; }
+      .card.card--big .btn { font-size: 15px; padding: 7px 18px; border-radius: 14px; }
     }
   </style>
 </head>
@@ -777,6 +836,13 @@
       <div class="filter-row" id="filters"></div>
       <div class="section-head">
         <p class="section-label">Ma bibliothèque</p>
+      </div>
+
+      <div class="books-block" id="newSection">
+        <div class="subsection-head">
+          <h3 class="subsection-title">Nouveautés ✨</h3>
+        </div>
+        <div class="new-grid" id="newGrid"></div>
       </div>
 
       <div class="books-block" id="bestsellersSection">
@@ -925,6 +991,7 @@
       {
         title: "Tu es un Footballeur Formidable",
         category: "Enfants",
+        type: "Roman jeunesse",
         bestseller: true,
         description: "Pendant les vacances chez ses grands-parents, Raphaël retrouve un vieux ballon chargé de souvenirs. Quand ses parents lui annoncent un voyage au Brésil, il découvre une autre façon de jouer… et revient plus passionné que jamais.",
         cover: "https://m.media-amazon.com/images/I/71c-AQHf3eL._AC_UL320_.jpg",
@@ -933,6 +1000,7 @@
       {
         title: "Tu es une Gymnaste Formidable",
         category: "Enfants",
+        type: "Roman jeunesse",
         bestseller: true,
         description: "Jade pratique la gymnastique avec passion, mais elle veut tout faire parfaitement. Quand sa mère part en reportage en Roumanie, elle découvre un club local… et une rencontre inattendue va bouleverser sa vision du sport.",
         cover: "https://m.media-amazon.com/images/I/71VpemPs0EL._AC_UL320_.jpg",
@@ -943,6 +1011,8 @@
         season: "noel",
         added: "2026-10-23",
         category: "Enfants",
+        type: "Livre-jeu",
+        short: "Un renne a disparu, remplacé par un âne… encore un coup du lutin farceur ? Chaque jour jusqu’à Noël, une histoire drôle et une énigme pour aider Arsène Lutin à retrouver le coupable. Livre coécrit avec Sophie Brillant.",
         description: "Un renne a disparu, un âne a pris sa place… et si c'était encore un coup du lutin farceur ? Arsène Lutin, détective de génie, a besoin de ton aide pour retrouver le coupable. Chaque jour, une histoire drôle et une énigme à élucider pour vivre un calendrier de l'Avent interactif, comme un escape game de Noël. Livre coécrit avec Sophie Brillant.",
         cover: "https://m.media-amazon.com/images/I/71KKSqqfVAL._AC_UL320_.jpg",
         amazon: "https://www.amazon.fr/dp/B0HN28C2XT"
@@ -953,6 +1023,8 @@
         added: "2026-10-22",
         favorite: true,
         category: "Enfants",
+        type: "Calendrier de l'Avent",
+        short: "Chaque année, le Père Noël organise un match de foot au Pôle Nord : onze enfants contre ses Lutins ! Cette année, Raphaël est capitaine. 24 jours de préparation avant le grand coup d’envoi.",
         description: "Chaque année, le Père Noël organise un match de foot unique au Pôle Nord : onze enfants contre son équipe de Lutins. Cette année, c'est Raphaël qui est nommé capitaine ! Mais avant le grand coup d'envoi, 24 jours de préparation l'attendent...",
         cover: "https://m.media-amazon.com/images/I/71PCtKnhAkL._AC_UL320_.jpg",
         amazon: "https://www.amazon.fr/dp/B0HL3ZZCYY"
@@ -960,6 +1032,7 @@
       {
         title: "Tu es un Basketteur Formidable",
         category: "Enfants",
+        type: "Roman jeunesse",
         description: "Gabriel découvre le basket à l'école, mais il doute de lui. Lors de son voyage aux États-Unis, il rencontre Tony, un étudiant français passionné. Grâce à ses conseils et un match de NBA, Gabriel trouve enfin la confiance pour jouer avec passion.",
         cover: "https://m.media-amazon.com/images/I/71xUcmhGEOL._AC_UL320_.jpg",
         amazon: "https://urlr.me/XTFNmV"
@@ -967,6 +1040,7 @@
       {
         title: "Tu es un Handballeur Formidable",
         category: "Enfants",
+        type: "Roman jeunesse",
         description: "Depuis tout petit, Jules est fou de handball. Son voyage au Danemark, pays du hand, lui fait vivre un match grandiose ainsi qu'une rencontre inoubliable avec son idole. De retour en France, il entre sur le terrain avec des étoiles plein les yeux.",
         cover: "https://m.media-amazon.com/images/I/71AEAhKsMsL._AC_UL320_.jpg",
         amazon: "https://urlr.me/DVt5hK"
@@ -974,6 +1048,7 @@
       {
         title: "Tu es un Rugbyman Formidable",
         category: "Enfants",
+        type: "Roman jeunesse",
         description: "Adam, 9 ans, adore l'ambiance du rugby dans son petit village du sud-ouest. Lors d'un voyage en Nouvelle-Zélande, il découvre un pays où ce sport est roi. Il y vit une aventure marquante et apprend que le courage et la solidarité peuvent déplacer des montagnes.",
         cover: "https://m.media-amazon.com/images/I/71vDoju9opL._AC_UL320_.jpg",
         amazon: "https://urlr.me/7MsCKG"
@@ -981,6 +1056,7 @@
       {
         title: "Tu es un Tennisman Formidable",
         category: "Enfants",
+        type: "Roman jeunesse",
         description: "Nathan adore le tennis, mais il perd tous ses moyens en match. Pour son anniversaire, il part à Majorque, en Espagne, et visite l'académie de Nadal. Là-bas, une rencontre inattendue va réveiller sa motivation et changer son regard sur lui-même.",
         cover: "https://m.media-amazon.com/images/I/71g7i8JjzjL._AC_UL320_.jpg",
         amazon: "https://urlr.me/BMxeA3"
@@ -988,6 +1064,7 @@
       {
         title: "Tu es un Pongiste Formidable",
         category: "Enfants",
+        type: "Roman jeunesse",
         description: "Félix découvre le tennis de table sur une vieille table derrière chez lui, avec son grand frère. Lors d'un voyage en Chine, il attire l'attention d'un vieil entraîneur plein de sagesse, qui lui enseigne l'art du rebond… et l'importance de garder son calme dans la défaite.",
         cover: "https://m.media-amazon.com/images/I/71zvU7-F1tL._AC_UL320_.jpg",
         amazon: "https://urlr.me/XqRjD4"
@@ -995,6 +1072,7 @@
       {
         title: "Tu es un Judoka Formidable",
         category: "Enfants",
+        type: "Roman jeunesse",
         description: "Kibo vit avec sa maman dans un petit village du centre de la France et pratique le judo avec passion. Lors d'un voyage au Japon, il découvre les racines de ce sport et rencontre un maître qui lui transmet bien plus qu'un simple enseignement.",
         cover: "https://m.media-amazon.com/images/I/71XI2rxPAbL._AC_UL320_.jpg",
         amazon: "https://urlr.me/bqCpFm"
@@ -1002,6 +1080,7 @@
       {
         title: "Tu es une Danseuse Formidable",
         category: "Enfants",
+        type: "Roman jeunesse",
         description: "Louise danse depuis l'âge de 5 ans. Lors d'un voyage à Vienne avec son école, elle assiste à une représentation magique et rencontre une ancienne ballerine au bord du Danube. Un événement inattendu lui offrira une chance de briller.",
         cover: "https://m.media-amazon.com/images/I/718-flm3fAL._AC_UL320_.jpg",
         amazon: "https://urlr.me/SnwceU"
@@ -1009,6 +1088,7 @@
       {
         title: "Tu es une Cavalière Formidable",
         category: "Enfants",
+        type: "Roman jeunesse",
         description: "Emma vit à la ferme avec son cheval Caramel, son complice de toujours. Lors d'un voyage en Angleterre, elle assiste à un spectacle équestre grandiose. Une rencontre inattendue va changer sa façon de monter et de comprendre son fidèle compagnon.",
         cover: "https://m.media-amazon.com/images/I/71xtzSO24EL._AC_UL320_.jpg",
         amazon: "https://urls.fr/iXbSLt"
@@ -1016,6 +1096,7 @@
       {
         title: "Cahier de Jeux Football",
         category: "Enfants",
+        type: "Jeux & activités",
         description: "Cahier d'activités conçu pour les enfants de 6 à 10 ans. À travers des jeux variés, des quiz foot, des défis et des activités ludiques, votre enfant va développer sa logique et sa créativité autour de sa passion pour le football.",
         cover: "https://m.media-amazon.com/images/I/71MpHH-tVoL._AC_UL320_.jpg",
         amazon: "https://www.amazon.fr/dp/B0GYZ4T9NW"
@@ -1023,6 +1104,7 @@
       {
         title: "Cahier Coloriage Foot",
         category: "Enfants",
+        type: "Jeux & activités",
         description: "Ce cahier de coloriage plonge les jeunes passionnés dans un univers 100% Fun et Football, tout en stimulant leur créativité.",
         cover: "https://m.media-amazon.com/images/I/71GHBlg-SjL._AC_UL320_.jpg",
         amazon: "https://www.amazon.fr/dp/B0GYZF2PHG"
@@ -1031,6 +1113,7 @@
         title: "Raphaël et le Dino Perdu",
         favorite: true,
         category: "Enfants",
+        type: "Roman jeunesse",
         description: "Raphaël part en mission pour aider Kaya, un bébé dinosaure qui s'est perdu dans la vallée. En explorant la jungle préhistorique, ils vont rencontrer différents dinosaures et vivre de grandes aventures. Grâce à son courage et à son sens de l'observation, Raphaël réussira-t-il à retrouver la maman du petit dinosaure ?",
         cover: "https://m.media-amazon.com/images/I/717MeGmk7SL._AC_UL320_.jpg",
         amazon: "https://urlr.me/HcJbxe"
@@ -1038,6 +1121,7 @@
       {
         title: "Grandir et s'épanouir avec le TDAH",
         category: "Enfants",
+        type: "Livre illustré",
         description: "Un livre illustré pour aider les enfants à mieux comprendre le TDAH et leurs émotions. À travers des histoires positives, ils apprendront à s'épanouir avec confiance. Parce qu'avec de la compréhension et de la bienveillance, chaque différence peut devenir une force.",
         cover: "https://m.media-amazon.com/images/I/71XegrIXT-L._SY425_.jpg",
         amazon: "https://urlr.me/QKfGrF"
@@ -1045,6 +1129,7 @@
       {
         title: "Origami Débutants",
         category: "Enfants",
+        type: "Jeux & activités",
         description: "L'origami est une activité créative qui permet de découvrir l'art du pliage de papier. Grâce à des explications claires et des modèles variés, enfants et adultes peuvent apprendre pas à pas à réaliser leurs premières créations. Une activité ludique et relaxante pour développer la créativité, la patience et le plaisir de créer avec du papier.",
         cover: "https://m.media-amazon.com/images/I/61m8JVL2ElL._AC_UL320_.jpg",
         amazon: "https://urls.fr/7ghOCC"
@@ -1052,6 +1137,7 @@
       {
         title: "Moi Belle et Géniale",
         category: "Ados",
+        type: "Livre à compléter",
         description: "Un guide de développement personnel conçu pour renforcer la confiance en soi et révéler son potentiel. À travers réflexions, exercices et conseils accessibles, il invite à dépasser les doutes et s'affirmer pleinement. Une approche inspirante pour cultiver l'estime de soi et avancer avec confiance vers la meilleure version de soi-même.",
         cover: "https://m.media-amazon.com/images/I/61HGTxITwML._AC_UL320_.jpg",
         amazon: "https://urls.fr/OjKwRx"
@@ -1059,6 +1145,7 @@
       {
         title: "Tests de Personnalité Ados",
         category: "Ados",
+        type: "Livre à compléter",
         description: "Ce livre propose un voyage introspectif pour les adolescents afin de mieux comprendre leur personnalité. À travers des tests ludiques, des questions de réflexion et des exercices accessibles, il invite à explorer ses émotions et ses aspirations. Un guide stimulant pour apprendre à mieux se connaître et gagner en confiance.",
         cover: "https://m.media-amazon.com/images/I/71G-qZWCNeL._AC_UL320_.jpg",
         amazon: "https://urls.fr/SIovNZ"
@@ -1066,6 +1153,7 @@
       {
         title: "L'art sacré du pet",
         category: "Adultes",
+        type: "Livre d'humour",
         description: "Avez-vous déjà pris le temps de réfléchir à ce phénomène universel qu'est le pet ? Non ? Alors préparez-vous à redécouvrir l'un des sujets les plus naturels du monde sous un angle aussi surprenant qu'hilarant !",
         cover: "https://m.media-amazon.com/images/I/71I7viFGuCL._AC_UL320_.jpg",
         amazon: "https://www.amazon.fr/dp/B0FWHYMJ2B"
@@ -1076,6 +1164,7 @@
         favorite: true,
         bestseller: true,
         category: "Enfants",
+        type: "Livre-jeu",
         description: "Un calendrier de l'Avent sous forme de livre-jeu qui transforme l'attente de Noël en véritable enquête. Chaque jour, une histoire et une énigme permettent de progresser dans un grand mystère au cœur du Pôle Nord. Une aventure ludique et immersive pour stimuler la réflexion et vivre la magie de Noël autrement. Livre coécrit avec Sophie Brillant.",
         cover: "https://m.media-amazon.com/images/I/71xTikAXklL._AC_UL320_.jpg",
         amazon: "https://urls.fr/-FyYIi"
@@ -1083,6 +1172,7 @@
       {
         title: "50 Choses à faire pour une Retraite Heureuse",
         category: "Séniors",
+        type: "Jeux & conseils",
         bestseller: true,
         description: "Ce livre est un cadeau idéal pour célébrer un départ à la retraite. À travers 50 activités amusantes et inspirantes, il invite à profiter pleinement de cette nouvelle étape de vie. Conseils et jeux pour stimuler l'esprit.",
         cover: "https://m.media-amazon.com/images/I/71jVILYi0JL._AC_UL320_.jpg",
@@ -1091,6 +1181,7 @@
       {
         title: "TOI vs MOI Spécial Couples",
         category: "Adultes",
+        type: "Livre-jeu",
         description: "Des jeux et défis spécialement conçus pour les couples afin de partager des moments complices à deux. Quiz amusants, duels et petits défis pour rire ensemble et pimenter le quotidien. Une idée de cadeau originale pour renforcer la complicité et créer de beaux souvenirs à partager.",
         cover: "https://m.media-amazon.com/images/I/71zkIYj-oaL._AC_UL320_.jpg",
         amazon: "https://urls.fr/oIMwfz"
@@ -1100,6 +1191,8 @@
         season: "noel",
         added: "2026-10-21",
         category: "Adultes",
+        type: "Livre-jeu",
+        short: "Une version spéciale Noël pour pimenter les fêtes en couple : questions surprises, défis complices et duels festifs. Le cadeau idéal à glisser sous le sapin !",
         description: "Une version spéciale Noël pour pimenter les fêtes en couple ! Questions surprises, défis complices et duels festifs pour rire et se redécouvrir autour d'un verre de vin chaud. Le cadeau idéal à glisser sous le sapin pour une soirée pleine de bonne humeur et de complicité.",
         cover: "https://m.media-amazon.com/images/I/71uXgGTV8PL._AC_UL320_.jpg",
         amazon: "https://www.amazon.fr/dp/B0HK8F78WS"
@@ -1107,6 +1200,7 @@
       {
         title: "Enquêtes Logiques",
         category: "Adultes",
+        type: "Jeux & activités",
         description: "A vos crayons pour résoudre des logigrammes ! Chaque énigme invite à analyser les indices, croiser les informations et répondre à une question. Idéal pour développer l'esprit logique et faire travailler les méninges, avec plusieurs jeux de réflexion bonus pour pimenter l'expérience.",
         cover: "https://m.media-amazon.com/images/I/710A53WMO6L._AC_UL320_.jpg",
         amazon: "https://urls.fr/IpbHMI"
@@ -1114,6 +1208,7 @@
       {
         title: "Jeux de Mémoire pour les Séniors",
         category: "Séniors",
+        type: "Jeux & activités",
         description: "Ce livre propose une variété de jeux de mémoire spécialement conçus pour les seniors afin de stimuler les capacités cognitives tout en s'amusant. Exercices variés, défis progressifs et activités ludiques permettent d'entretenir l'esprit et garder un cerveau actif au quotidien.",
         cover: "https://m.media-amazon.com/images/I/71LOG+qtAsL._AC_UL320_.jpg",
         amazon: "https://urls.fr/gyHFt0"
@@ -1122,6 +1217,7 @@
         title: "Le Livre des Super Mamies",
         favorite: true,
         category: "Séniors",
+        type: "Livre cadeau",
         description: "Parfaite idée cadeau plein de tendresse pour les mamies. À travers anecdotes, souvenirs, jeux et moments d'humour, il célèbre tout ce qui rend les grands-mères si spéciales. Un ouvrage chaleureux à offrir pour un anniversaire ou la fête des grands-mères.",
         cover: "https://m.media-amazon.com/images/I/71YVXSREpqL._AC_UL320_.jpg",
         amazon: "https://urls.fr/50cmBd"
@@ -1129,6 +1225,7 @@
       {
         title: "50 Idées Destinations pour les Retraités Voyageurs",
         category: "Séniors",
+        type: "Jeux & conseils",
         description: "Une invitation à découvrir de nouveaux horizons pendant la retraite. À travers 50 destinations, il propose des conseils et pages ludiques pour imaginer ses prochaines escapades. Un cadeau original pour célébrer un départ à la retraite.",
         cover: "https://m.media-amazon.com/images/I/71uckQCX5QL._AC_UL320_.jpg",
         amazon: "https://urls.fr/KGo2Dh"
@@ -1136,6 +1233,7 @@
       {
         title: "50 Idées Bien-être pour une Retraite en Forme",
         category: "Séniors",
+        type: "Jeux & conseils",
         description: "Ce livre propose 50 idées bien-être pour profiter pleinement de la retraite et adopter de nouvelles habitudes positives. Relaxation, et activités apaisantes invitent à prendre soin de soi au quotidien. Un cadeau inspirant pour célébrer un départ à la retraite et aborder cette nouvelle étape avec sérénité et énergie.",
         cover: "https://m.media-amazon.com/images/I/71ZcJPMuZAL._AC_UL320_.jpg",
         amazon: "https://urls.fr/K5fxRH"
@@ -1143,6 +1241,7 @@
       {
         title: "50 Histoires Drôles pour une Retraite avec Humour",
         category: "Séniors",
+        type: "Livre d'humour",
         description: "Ce livre rassemble 50 histoires drôles et anecdotes légères pour célébrer la retraite avec humour et bonne humeur. Parfait pour offrir lors d'un départ d'un collègue, il propose des moments de lecture divertissants ainsi qu'un espace livre d'or pour laisser un souvenir ou un mot touchant.",
         cover: "https://m.media-amazon.com/images/I/71MTDd0nn1L._AC_UL320_.jpg",
         amazon: "https://urls.fr/bN7vJ6"
@@ -1185,6 +1284,8 @@
     const othersSection = document.getElementById("othersSection");
     const reviewsSection = document.getElementById("reviewsSection");
     const track = document.getElementById("reviewsTrack");
+    const newSection = document.getElementById("newSection");
+    const newGrid = document.getElementById("newGrid");
     let activeCategory = "Tous";
 
     // Liens directs : monsite.fr/#enfants, #ados, #adultes, #seniors
@@ -1216,23 +1317,28 @@
       });
     }
 
-    function renderBookCard(book, targetGrid) {
+    function renderBookCard(book, targetGrid, big) {
       if (!targetGrid) return;
 
       const article = document.createElement("article");
-      article.className = "card" + (book.bestseller ? " bestseller" : "");
+      article.className = "card" + (book.bestseller ? " bestseller" : "") + (big ? " card--big" : "");
+      // Grand format (Nouveautés) : texte court, affiché en entier
+      const text = big ? (book.short || book.description) : book.description;
 
       article.innerHTML = `
-        <img src="${book.cover}" alt="${book.title}" loading="${targetGrid.children.length < 6 ? "eager" : "lazy"}" decoding="async">
+        <img src="${book.cover}" alt="${book.title}" loading="${big || targetGrid.children.length < 6 ? "eager" : "lazy"}" decoding="async">
         <div class="card-body">
-          ${newTitles.has(book.title) ? '<span class="new-tag">✨ Nouveauté</span>' : ''}
+          ${!big && newTitles.has(book.title) ? '<span class="new-tag">✨ Nouveauté</span>' : ''}
           <div class="card-top">
-            <p class="category">${book.category}</p>
+            <div class="cat-col">
+              <p class="category">${book.category}</p>
+              ${book.type ? `<p class="book-type">${book.type}</p>` : ''}
+            </div>
             ${book.bestseller ? '<span class="best">Best Seller</span>' : ''}
             ${book.favorite ? '<span class="fav">🤍 Coup de cœur</span>' : ''}
           </div>
           <h3>${book.title}</h3>
-          <p class="desc">${book.description}</p>
+          <p class="desc">${text}</p>
           <div class="card-actions">
             <span class="price">${prices[book.title] || ""}</span>
             <a class="btn" href="${book.amazon}" target="_blank" rel="noopener noreferrer">Voir sur Amazon</a>
@@ -1241,7 +1347,7 @@
       `;
 
       const desc = article.querySelector('.desc');
-      if (desc) {
+      if (desc && !big) {
         desc.addEventListener('click', (e) => {
           e.stopPropagation();
           const alreadyOpen = article.classList.contains('expanded');
@@ -1285,13 +1391,30 @@
 
       bestsellersGrid.innerHTML = "";
       otherBooksGrid.innerHTML = "";
+      if (newGrid) newGrid.innerHTML = "";
 
-      const filtered = activeCategory === "Tous"
+      const isAll = activeCategory === "Tous";
+      const filtered = isAll
         ? books
         : books.filter((book) => book.category === activeCategory);
 
-      const bestsellers = seasonSort(filtered.filter((book) => book.bestseller === true));
-      const others = seasonSort(filtered.filter((book) => book.bestseller !== true));
+      // Nouveautés en grand format : seulement sur "Tous", et elles ne sont pas répétées plus bas
+      const newBooks = isAll
+        ? books
+            .map((b, i) => [b, i])
+            .filter(([b]) => newTitles.has(b.title))
+            .sort((x, y) => Date.parse(y[0].added) - Date.parse(x[0].added) || x[1] - y[1])
+            .map(([b]) => b)
+        : [];
+      if (newSection) {
+        newSection.style.display = newBooks.length > 0 ? "block" : "none";
+        newBooks.forEach((book) => renderBookCard(book, newGrid, true));
+      }
+      const pool = isAll ? filtered.filter((book) => !newTitles.has(book.title)) : filtered;
+      bestsellersGrid.classList.toggle("grid-4", isAll);
+
+      const bestsellers = seasonSort(pool.filter((book) => book.bestseller === true));
+      const others = seasonSort(pool.filter((book) => book.bestseller !== true));
 
       if (activeCategory === "Tous") {
         if (bestsellers.length > 0) {
