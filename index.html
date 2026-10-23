@@ -1288,6 +1288,19 @@
       if (btn) btn.href = link;
     })();
 
+    // À l'actualisation de la page (téléphone et ordinateur) : on repart toujours tout en haut
+    (function () {
+      if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+      const goTop = () => {
+        const id = decodeURIComponent(location.hash.slice(1));
+        if (id && document.getElementById(id)) return; // lien vers une section précise : on le respecte
+        window.scrollTo(0, 0);
+      };
+      goTop();
+      window.addEventListener("load", goTop);
+      window.addEventListener("pageshow", goTop);
+    })();
+
     // Bouton "remonter en haut" : apparaît après un peu de défilement
     (function () {
       const toTop = document.getElementById("toTop");
