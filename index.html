@@ -1110,6 +1110,19 @@
       .card.card--big.bestseller img, .card.card--big.is-new img { height: 294px; max-height: 294px; }
     }
 
+    /* Signature sous la phrase d'en-tête */
+    .hero-text .hero-signature {
+      display: block;
+      margin-top: 6px;
+      font-size: 15px;
+      font-style: italic;
+      font-weight: 400;
+      opacity: 0.95;
+    }
+    @media (max-width: 720px) {
+      .hero-text .hero-signature { font-size: 13px; margin-top: 4px; }
+    }
+
   </style>
 </head>
 <body>
@@ -1123,7 +1136,7 @@
           <span class="badge green">28&nbsp;700+ lecteurs</span>
         </div>
         <h1>Bienvenue dans ma bibliothèque.</h1>
-        <p class="hero-text">Des livres pour petits et grands, imaginés et écrits avec <strong>beaucoup d'amour et de passion</strong> ❤️ · <strong>Antony</strong></p>
+        <p class="hero-text">Des livres pour petits et grands, imaginés et écrits <strong>avec passion</strong>.<span class="hero-signature">— Antony</span></p>
       </div>
     </div>
   </header>
@@ -1646,7 +1659,7 @@
       document.querySelectorAll('.card.expanded').forEach((c) => c.classList.remove('expanded'));
     });
 
-    function renderBookCard(book, targetGrid, big, forceBest) {
+    function renderBookCard(book, targetGrid, big, forceBest, hideFav) {
       if (!targetGrid) return;
 
       const isBest = book.bestseller || forceBest;
@@ -1667,7 +1680,7 @@
               ${book.type ? `<p class="book-type">${book.type}</p>` : ''}
               ${isBest && !fullLayout() ? '<p class="best-text">★ Best seller</p>' : ''}
             </div>
-            ${book.favorite ? '<span class="fav" title="Coup de cœur">🤍<span class="fav-text"> Coup de cœur</span></span>' : ''}
+            ${book.favorite && !hideFav ? '<span class="fav" title="Coup de cœur">🤍<span class="fav-text"> Coup de cœur</span></span>' : ''}
           </div>
           <h3>${book.title}</h3>
           ${isBest && fullLayout() ? '<p class="best-text best-text--title">★ Best seller</p>' : ''}
@@ -1840,7 +1853,8 @@
         const top = KIDS_TOP.map((t) => pool.find((b) => b.title === t)).filter(Boolean);
         const rest = pool.filter((b) => !KIDS_TOP.includes(b.title));
         bestsellersSection.style.display = top.length > 0 ? "block" : "none";
-        top.forEach((book) => renderBookCard(book, bestsellersGrid, false, true));
+        // Raphaël garde son « Coup de cœur » ailleurs, mais pas ici : il ferait 3 coups de cœur d'affilée et décalerait la ligne
+        top.forEach((book) => renderBookCard(book, bestsellersGrid, false, true, book.title === "Raphaël et le Dino Perdu"));
 
         othersSection.style.display = rest.length > 0 ? "block" : "none";
         KIDS_THEMES.forEach((theme, i) => {
@@ -1872,16 +1886,42 @@
       archTitles();
     }
 
-    // Dans une même ligne (partout sur le site) : tout ce qui est au-dessus du titre a la même hauteur
-    // (ex. une pastille « Nouveauté » chez un seul livre), et tous les titres prennent la hauteur du plus long.
-    // Les descriptions démarrent donc à la même hauteur.
+    // Coupe un titre en n lignes de longueurs équilibrées (retourne la liste des lignes)
+    function balancedLines(title, n) {
+      const words = title.replace(/ - /g, ' -\u00a0').split(' ');   // "- Tome 2" reste ensemble
+      const N = words.length;
+      if (n <= 1 || N < n) return [title];
+      const len = (a, b) => words.slice(a, b).join(' ').length;
+      let best = null, bestMax = Infinity, bestSq = Infinity;
+      const consider = (cuts) => {
+        const bounds = [0, ...cuts, N];
+        const ls = [];
+        for (let i = 0; i < bounds.length - 1; i++) ls.push(len(bounds[i], bounds[i + 1]));
+        const mx = Math.max(...ls), sq = ls.reduce((a, l) => a + l * l, 0);
+        if (mx < bestMax || (mx === bestMax && sq < bestSq)) { best = bounds; bestMax = mx; bestSq = sq; }
+      };
+      if (n === 2) { for (let i = 1; i < N; i++) consider([i]); }
+      else { for (let i = 1; i < N - 1; i++) for (let j = i + 1; j < N; j++) consider([i, j]); }
+      const out = [];
+      for (let i = 0; i < best.length - 1; i++) out.push(words.slice(best[i], best[i + 1]).join(' ').replace(/\u00a0/g, ' '));
+      return out;
+    }
+
+    // Dans une même ligne (partout sur le site) :
+    //  - si un titre est sur 2 lignes, les titres plus courts passent aussi à la ligne (retour à la ligne équilibré) ;
+    //  - tout ce qui est au-dessus du titre a la même hauteur (ex. une pastille « Nouveauté » chez un seul livre) ;
+    //  - et tous les titres prennent la hauteur du plus long.
+    // Les descriptions démarrent donc à la même hauteur, sans trou sous les titres courts.
     function alignTitleRows() {
       ['newGrid', 'bestsellersGrid', 'otherBooksGrid'].forEach((id) => {
         const grid = document.getElementById(id);
         if (!grid) return;
         const cards = [...grid.querySelectorAll('.card')];
         cards.forEach((c) => {
-          c.querySelector('h3').style.minHeight = '';
+          const h = c.querySelector('h3');
+          if (!h.dataset.t) h.dataset.t = h.textContent;     // titre d'origine
+          h.textContent = h.dataset.t;                        // on repart du titre sans retour à la ligne forcé
+          h.style.minHeight = '';
           c.querySelector('.card-top').style.marginTop = '';
         });
         const rows = new Map();
@@ -1891,6 +1931,21 @@
           rows.get(top).push(c);
         });
         rows.forEach((row) => {
+          // 0) mêmes nombres de lignes : les titres plus courts reçoivent un retour à la ligne
+          const lineH = (h) => parseFloat(getComputedStyle(h).lineHeight) || parseFloat(getComputedStyle(h).fontSize) * 1.2;
+          const counts = row.map((c) => { const h = c.querySelector('h3'); return Math.max(1, Math.round(h.getBoundingClientRect().height / lineH(h))); });
+          const maxLines = Math.min(3, Math.max(...counts));
+          row.forEach((c, i) => {
+            if (counts[i] >= maxLines) return;
+            const h = c.querySelector('h3');
+            const lines = balancedLines(h.dataset.t, maxLines);
+            if (lines.length < 2) return;
+            h.textContent = '';
+            lines.forEach((ln, k) => {
+              if (k) h.appendChild(document.createElement('br'));
+              h.appendChild(document.createTextNode(ln));
+            });
+          });
           // 1) même espace au-dessus du titre
           const offs = row.map((c) => c.querySelector('h3').getBoundingClientRect().top - c.querySelector('.card-body').getBoundingClientRect().top);
           const maxOff = Math.max(...offs);
