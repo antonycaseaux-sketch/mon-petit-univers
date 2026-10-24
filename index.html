@@ -1110,17 +1110,20 @@
       .card.card--big.bestseller img, .card.card--big.is-new img { height: 294px; max-height: 294px; }
     }
 
-    /* Signature sous la phrase d'en-tête */
+    /* Phrase de présentation : interligne resserré, et signature juste dessous */
+    .hero-text { line-height: 1.25; }
     .hero-text .hero-signature {
       display: block;
-      margin-top: 6px;
+      margin-top: 1px;
+      line-height: 1.2;
       font-size: 15px;
       font-style: italic;
       font-weight: 400;
       opacity: 0.95;
     }
     @media (max-width: 720px) {
-      .hero-text .hero-signature { font-size: 13px; margin-top: 4px; }
+      .hero-text { line-height: 1.25; }
+      .hero-text .hero-signature { font-size: 13px; margin-top: 0; }
     }
 
   </style>
