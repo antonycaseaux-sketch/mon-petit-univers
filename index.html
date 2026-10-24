@@ -1123,7 +1123,7 @@
           <span class="badge green">28&nbsp;700+ lecteurs</span>
         </div>
         <h1>Bienvenue dans ma bibliothèque.</h1>
-        <p class="hero-text">Des livres pour petits et grands, imaginés et écrits avec <strong>beaucoup d'amour et de passion</strong>.</p>
+        <p class="hero-text">Des livres pour petits et grands, imaginés et écrits avec <strong>beaucoup d'amour et de passion</strong> ❤️ · <strong>Antony</strong></p>
       </div>
     </div>
   </header>
@@ -1564,20 +1564,24 @@
         .map((b) => b.title)
     );
 
+    // c = catégorie du livre concerné (sert à choisir les avis de la page Enfants) ; sans c : affiché seulement sur l'accueil
     const reviews = [
-      { t: "Très bien fait, ma petite fille adore, elle a hâte d’être au lendemain pour découvrir une nouvelle énigme.", n: "Jean Grégoire", s: 5 },
-      { t: "Super livre. Notre petit fan de rugby était motivé de lire l'histoire de ce petit garçon et souhaite maintenant aller en Nouvelle Zélande !", n: "Juliettedm", s: 5 },
-      { t: "Livres qui se lisent super facilement. Idéal pour les enfants avec histoire, faits marquants et quiz.", n: "Aurélie", s: 5 },
-      { t: "Ce livre pose un regard bienveillant sur le TDAH et propose des outils concrets.", n: "Marco", s: 5 },
-      { t: "C'était un cadeau pour le départ à la retraite d'une collègue. Elle a beaucoup apprécié.", n: "Katia", s: 5 },
-      { t: "Livre offert à ma grand‑mère qui a adoré. Grande variété de jeux.", n: "Ehanno Blandine", s: 5 },
-      { t: "Message de mon fils 9 ans : J'ai adoré ce livre et appris plein de choses.", n: "Sophie", s: 5 },
-      { t: "Super livre‑jeu pour les couples ! On a beaucoup ri.", n: "Sandy Naya", s: 5 },
+      { t: "Très bien fait, ma petite-fille adore, elle a hâte d’être au lendemain pour découvrir une nouvelle énigme.", n: "Jean Grégoire", s: 5, c: "Enfants" },
+      { t: "Super livre. Notre petit fan de rugby était motivé pour lire l'histoire de ce petit garçon et souhaite maintenant aller en Nouvelle-Zélande !", n: "Juliettedm", s: 5, c: "Enfants" },
+      { t: "Livres qui se lisent super facilement. Idéal pour les enfants avec histoire, faits marquants et quiz.", n: "Aurélie", s: 5, c: "Enfants" },
+      { t: "Ce livre pose un regard bienveillant sur le TDAH et propose des outils concrets.", n: "Marco", s: 5, c: "Enfants" },
+      { t: "C'était un cadeau pour le départ à la retraite d'une collègue. Elle a beaucoup apprécié.", n: "Katia", s: 5, c: "Séniors" },
+      { t: "Livre offert à ma grand-mère, qui a adoré. Grande variété de jeux.", n: "Ehanno Blandine", s: 5, c: "Séniors" },
+      { t: "Message de mon fils de 9 ans : j'ai adoré ce livre et appris plein de choses.", n: "Sophie", s: 5, c: "Enfants" },
+      { t: "Super livre-jeu pour les couples ! On a beaucoup ri.", n: "Sandy Naya", s: 5, c: "Adultes" },
       { t: "Deuxième livre de la collection et toujours aussi bien.", n: "Client d'Amazon", s: 5 },
-      { t: "Ma fille a beaucoup aimé ce livre d'origami. Très belles illustrations.", n: "Morgan", s: 5 },
-      { t: "Tests intéressants pour les ados qui aident à mieux se connaître.", n: "Timon Lindy", s: 5 },
-      { t: "Livre acheté pour une jeune fille de 13 ans. Activités adaptées.", n: "Glorie Alexandra", s: 5 },
-      { t: "Une jolie petite histoire et un quiz que mon neveu a adoré.", n: "Romain87", s: 5 }
+      { t: "Ma fille a beaucoup aimé ce livre d'origami. Très belles illustrations.", n: "Morgan", s: 5, c: "Enfants" },
+      { t: "Tests intéressants pour les ados qui aident à mieux se connaître.", n: "Timon Lindy", s: 5, c: "Ados" },
+      { t: "Livre acheté pour une jeune fille de 13 ans. Activités adaptées.", n: "Glorie Alexandra", s: 5, c: "Ados" },
+      { t: "Une jolie petite histoire et un quiz que mon neveu a adoré.", n: "Romain87", s: 5, c: "Enfants" },
+      { t: "Super, ce livre ! Mon fils l’adore : les illustrations sont très belles et l’histoire est prenante. Je le conseille vraiment.", n: "Audrey H.", s: 5, c: "Enfants" },
+      { t: "C’est un joli livre pour les enfants, mais les adultes aussi y apprennent plein de choses. Mon Loulou adore qu’on le lui lise.", n: "Charlotte Martinaud", s: 5, c: "Enfants" },
+      { t: "Un très joli livre, très intéressant et très apprécié par mon petit-fils, qui fait du judo depuis un an.", n: "Danielle", s: 5, c: "Enfants" }
     ];
 
     const filters = document.getElementById("filters");
@@ -1642,11 +1646,12 @@
       document.querySelectorAll('.card.expanded').forEach((c) => c.classList.remove('expanded'));
     });
 
-    function renderBookCard(book, targetGrid, big) {
+    function renderBookCard(book, targetGrid, big, forceBest) {
       if (!targetGrid) return;
 
+      const isBest = book.bestseller || forceBest;
       const article = document.createElement("article");
-      article.className = "card" + (book.bestseller ? " bestseller" : "") + (newTitles.has(book.title) ? " is-new" : "") + (big ? " card--big" : "");
+      article.className = "card" + (isBest ? " bestseller" : "") + (newTitles.has(book.title) ? " is-new" : "") + (big ? " card--big" : "");
       // Grand format (Nouveautés) : texte court, affiché en entier
       const text = big ? (book.short || book.description) : book.description;
 
@@ -1660,12 +1665,12 @@
             <div class="cat-col">
               <p class="category">${book.category}</p>
               ${book.type ? `<p class="book-type">${book.type}</p>` : ''}
-              ${book.bestseller && activeCategory !== "Tous" ? '<p class="best-text">★ Best seller</p>' : ''}
+              ${isBest && !fullLayout() ? '<p class="best-text">★ Best seller</p>' : ''}
             </div>
             ${book.favorite ? '<span class="fav" title="Coup de cœur">🤍<span class="fav-text"> Coup de cœur</span></span>' : ''}
           </div>
           <h3>${book.title}</h3>
-          ${book.bestseller && activeCategory === "Tous" ? '<p class="best-text best-text--title">★ Best seller</p>' : ''}
+          ${isBest && fullLayout() ? '<p class="best-text best-text--title">★ Best seller</p>' : ''}
           <p class="desc">${text}</p>
           <div class="card-actions">
             <span class="price">${prices[book.title] || ""}</span>
@@ -1725,14 +1730,42 @@
       targetGrid.appendChild(article);
     }
 
+    // L'accueil (« Tous ») et la page « Enfants » ont la même présentation :
+    // Nouveautés, Meilleures ventes, Avis, puis « À découvrir aussi » classé par groupes.
+    function fullLayout() { return activeCategory === "Tous" || activeCategory === "Enfants"; }
+
+    // Page Enfants : les 4 meilleures ventes jeunesse (dans cet ordre, non sportifs d'abord)
+    const KIDS_TOP = [
+      "Les Énigmes du Lutin Farceur - Tome 1",
+      "Raphaël et le Dino Perdu",
+      "Tu es un Footballeur Formidable",
+      "Tu es une Gymnaste Formidable"
+    ];
+    // Page Enfants : thèmes de « À découvrir aussi ». Le dernier thème récupère aussi les livres non classés
+    // (les futurs livres jeunesse y tomberont tout seuls, tant qu'on ne leur choisit pas un thème).
+    const KIDS_THEMES = [
+      { label: "Les Petits Sportifs", titles: [
+        "Tu es un Footballeur Formidable", "Tu es une Gymnaste Formidable", "Tu es un Basketteur Formidable",
+        "Tu es un Handballeur Formidable", "Tu es un Rugbyman Formidable", "Tu es un Tennisman Formidable",
+        "Tu es un Pongiste Formidable", "Tu es un Judoka Formidable", "Tu es une Danseuse Formidable",
+        "Tu es une Cavalière Formidable" ] },
+      { label: "Jeux & activités", titles: [
+        "Cahier de Jeux Football", "Cahier Coloriage Foot", "Origami Débutants", "Calendrier de l'Avent Foot",
+        "Les Énigmes du Lutin Farceur - Tome 1", "Les Énigmes du Lutin Farceur - Tome 2" ] },
+      { label: "Autres lectures", titles: [ "Raphaël et le Dino Perdu", "Grandir et s'épanouir avec le TDAH" ] }
+    ];
+
     function renderBooks() {
+      const layout = fullLayout();
+      const isAll = activeCategory === "Tous";
       const bestsellerHead = bestsellersSection ? bestsellersSection.querySelector('.subsection-head') : null;
       const othersHead = othersSection ? othersSection.querySelector('.subsection-head') : null;
 
-      if (bestsellerHead) bestsellerHead.style.display = activeCategory === "Tous" ? "block" : "none";
-      if (othersHead) othersHead.style.display = activeCategory === "Tous" ? "block" : "none";
+      if (bestsellerHead) bestsellerHead.style.display = layout ? "block" : "none";
+      if (othersHead) othersHead.style.display = layout ? "block" : "none";
       if (reviewsSection) {
-        reviewsSection.style.display = activeCategory === "Tous" ? "block" : "none";
+        if (layout) renderReviews(isAll ? null : activeCategory);
+        reviewsSection.style.display = layout ? "block" : "none";
       }
 
       if (!bestsellersGrid || !otherBooksGrid || !bestsellersSection || !othersSection) return;
@@ -1741,16 +1774,15 @@
       otherBooksGrid.innerHTML = "";
       if (newGrid) newGrid.innerHTML = "";
 
-      const isAll = activeCategory === "Tous";
       const filtered = isAll
         ? books
         : books.filter((book) => book.category === activeCategory);
 
-      // Nouveautés en grand format : seulement sur "Tous", et elles ne sont pas répétées plus bas
-      const newBooks = isAll
+      // Nouveautés en grand format (accueil et page Enfants) : elles ne sont pas répétées plus bas
+      const newBooks = layout
         ? books
             .map((b, i) => [b, i])
-            .filter(([b]) => newTitles.has(b.title))
+            .filter(([b]) => newTitles.has(b.title) && (isAll || b.category === activeCategory))
             .sort((x, y) => Date.parse(y[0].added) - Date.parse(x[0].added) || x[1] - y[1])
             .map(([b]) => b)
         : [];
@@ -1759,13 +1791,20 @@
         if (newSep) newSep.style.display = newBooks.length > 0 ? "flex" : "none";
         newBooks.forEach((book) => renderBookCard(book, newGrid, true));
       }
-      const pool = isAll ? filtered.filter((book) => !newTitles.has(book.title)) : filtered;
-      bestsellersGrid.classList.toggle("grid-4", isAll);
+      const pool = layout ? filtered.filter((book) => !newTitles.has(book.title)) : filtered;
+      bestsellersGrid.classList.toggle("grid-4", layout);
+
+      const addDivider = (label) => {
+        const divider = document.createElement("div");
+        divider.className = "group-divider";
+        divider.innerHTML = "<span>" + label + "</span>";
+        otherBooksGrid.appendChild(divider);
+      };
 
       const bestsellers = seasonSort(pool.filter((book) => book.bestseller === true));
       const others = pool.filter((book) => book.bestseller !== true);
 
-      if (activeCategory === "Tous") {
+      if (isAll) {
         if (bestsellers.length > 0) {
           bestsellersSection.style.display = "block";
           bestsellers.forEach((book) => renderBookCard(book, bestsellersGrid));
@@ -1790,15 +1829,29 @@
               list.push(...first, ...inCat.filter((b) => !wanted.includes(b.title)));
             });
             if (!list.length) return;
-            const divider = document.createElement("div");
-            divider.className = "group-divider";
-            divider.innerHTML = "<span>" + g.label + "</span>";
-            otherBooksGrid.appendChild(divider);
+            addDivider(g.label);
             list.forEach((book) => renderBookCard(book, otherBooksGrid));
           });
         } else {
           othersSection.style.display = "none";
         }
+      } else if (activeCategory === "Enfants") {
+        // Meilleures ventes jeunesse : sélection fixe, présentée comme des meilleures ventes
+        const top = KIDS_TOP.map((t) => pool.find((b) => b.title === t)).filter(Boolean);
+        const rest = pool.filter((b) => !KIDS_TOP.includes(b.title));
+        bestsellersSection.style.display = top.length > 0 ? "block" : "none";
+        top.forEach((book) => renderBookCard(book, bestsellersGrid, false, true));
+
+        othersSection.style.display = rest.length > 0 ? "block" : "none";
+        KIDS_THEMES.forEach((theme, i) => {
+          let list = rest.filter((b) => theme.titles.includes(b.title));
+          if (i === KIDS_THEMES.length - 1) {
+            list = list.concat(rest.filter((b) => !KIDS_THEMES.some((t) => t.titles.includes(b.title))));
+          }
+          if (!list.length) return;
+          addDivider(theme.label);
+          list.forEach((book) => renderBookCard(book, otherBooksGrid));
+        });
       } else {
         let ordered;
         const wanted = categoryOrder[activeCategory];
@@ -1811,7 +1864,6 @@
         } else {
           ordered = [...bestsellers, ...others];
         }
-        if (activeCategory === "Enfants") ordered = seasonSort(ordered); // livres de Noël en tête en saison
         bestsellersSection.style.display = "block";
         othersSection.style.display = "none";
         ordered.forEach((book) => renderBookCard(book, bestsellersGrid));
@@ -1855,6 +1907,8 @@
     window.addEventListener('resize', alignTitleRows);
     window.addEventListener('load', alignTitleRows);
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(alignTitleRows);
+    // Si une police finit de charger plus tard, on réaligne (les retours à la ligne peuvent changer)
+    if (document.fonts && document.fonts.addEventListener) document.fonts.addEventListener('loadingdone', () => { alignTitleRows(); archTitles(); });
 
     // Titres des bandeaux : chaque lettre est placée le long d'une courbe de même forme que le bandeau (centre plus haut)
     function archTitles() {
@@ -1901,10 +1955,12 @@
     window.addEventListener('load', archTitles);
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(archTitles);
 
-    function renderReviews() {
+    // Avis : tous sur l'accueil ; seulement ceux des livres jeunesse sur la page Enfants
+    function renderReviews(category) {
       if (!track) return;
+      const list = category ? reviews.filter((r) => r.c === category) : reviews;
 
-      const html = reviews.map((r) => `
+      const html = list.map((r) => `
         <div class="review">
           <div class="review-header">
             <span class="stars">${"★".repeat(r.s)}</span>
@@ -1915,10 +1971,7 @@
       `).join("");
 
       track.innerHTML = html + html;
-
-      if (reviewsSection) {
-        reviewsSection.style.display = reviews.length > 0 ? "block" : "none";
-      }
+      track.style.animationDuration = Math.max(30, list.length * 5) + "s"; // même vitesse de défilement quel que soit le nombre d'avis
     }
 
     // Flèches précédent / suivant du navigateur : on revient à la catégorie correspondante
@@ -2069,7 +2122,6 @@
 
     renderFilters();
     renderBooks();
-    renderReviews();
   </script>
 </body>
 </html>
