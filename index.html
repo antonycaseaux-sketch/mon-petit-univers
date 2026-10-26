@@ -1206,7 +1206,7 @@
       </div>
 
       <div class="container contact-box" id="contact">
-        <p class="contact-title">Une question, une collaboration ?</p>
+        <p class="contact-title">Une question, une collaboration&nbsp;?</p>
         <p class="contact-text">Écrivez-moi, je réponds avec plaisir.</p>
         <a class="btn" id="contactBtn" href="#contact">Me contacter</a>
       </div>
@@ -1682,7 +1682,7 @@
       const article = document.createElement("article");
       article.className = "card" + (isBest ? " bestseller" : "") + (newTitles.has(book.title) ? " is-new" : "") + (big ? " card--big" : "");
       // Grand format (Nouveautés) : texte court, affiché en entier
-      const text = big ? (book.short || book.description) : book.description;
+      const text = nbsp(big ? (book.short || book.description) : book.description);
 
       article.innerHTML = `
         <a class="card-cover" href="${book.amazon}" target="_blank" rel="noopener noreferrer" aria-label="Voir « ${book.title} » sur Amazon" tabindex="-1">
@@ -1907,6 +1907,11 @@
       archTitles();
     }
 
+    // Typographie française : le signe (! ? : ; ») reste toujours collé au mot qui le précède, il ne commence jamais une ligne
+    function nbsp(t) {
+      return String(t).replace(/ ([!?:;»])/g, '\u00a0$1').replace(/« /g, '«\u00a0');
+    }
+
     // Coupe un titre en n lignes de longueurs équilibrées (retourne la liste des lignes)
     function balancedLines(title, n) {
       const words = title.replace(/ - /g, ' -\u00a0').split(' ');   // "- Tome 2" reste ensemble
@@ -2042,7 +2047,7 @@
             <span class="stars">${"★".repeat(r.s)}</span>
             <span class="review-name">— ${r.n}</span>
           </div>
-          <p class="review-text">« ${r.t} »</p>
+          <p class="review-text">«\u00a0${nbsp(r.t)}\u00a0»</p>
         </div>
       `).join("");
 
