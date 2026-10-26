@@ -1284,6 +1284,7 @@
       "Cahier de Jeux Football": "12,99 €",
       "TOI vs MOI Édition Noël": "14,99 €",
       "Calendrier de l'Avent Foot": "13,99 €",
+      "Loupiotte la lutine qui ratait toutes ses blagues": "12,99 €",
       "L'art sacré du pet": "12,99 €"
     };
 
@@ -1341,13 +1342,25 @@
         title: "Calendrier de l'Avent Foot",
         season: "noel",
         added: "2026-10-22",
-        favorite: true,
         category: "Enfants",
         type: "Livre-jeu",
         short: "Chaque année, le Père Noël organise un match de foot au Pôle Nord : onze enfants contre ses Lutins ! Cette année, Raphaël est capitaine. 24 jours de préparation avant le grand coup d’envoi.",
         description: "Chaque année, le Père Noël organise un match de foot unique au Pôle Nord : onze enfants contre son équipe de Lutins. Cette année, c'est Raphaël qui est nommé capitaine ! Mais avant le grand coup d'envoi, 24 jours de préparation l'attendent...",
         cover: "https://m.media-amazon.com/images/I/71PCtKnhAkL._AC_UL320_.jpg",
         amazon: "https://www.amazon.fr/dp/B0HL3ZZCYY"
+      },
+      {
+        title: "Loupiotte la lutine qui ratait toutes ses blagues",
+        season: "noel",
+        added: "2026-10-26",
+        newPos: 2,
+        favorite: true,
+        category: "Enfants",
+        type: "Roman de Noël",
+        short: "Et si rater ses farces était la plus belle des magies ? Loupiotte, lutine farceuse en mission chez les Pommier, rate toutes ses bêtises… qui deviennent de jolies surprises ! Un roman de Noël illustré pour les 6-10 ans.",
+        description: "Et si rater ses farces était la plus belle des magies ? Chaque 1er décembre, les lutins farceurs s'installent en secret dans une famille pour faire des bêtises jusqu'au 24. Loupiotte rêve de devenir la meilleure lutine farceuse… mais elle rate toutes ses farces, qui se transforment en jolies surprises ! Un roman de Noël illustré pour les 6-10 ans.",
+        cover: "https://m.media-amazon.com/images/I/71Z+inMyEAL._AC_UL320_.jpg",
+        amazon: "https://www.amazon.fr/dp/B0HP6NF846"
       },
       {
         title: "Tu es un Basketteur Formidable",
@@ -1768,7 +1781,7 @@
       { label: "Jeux & activités", titles: [
         "Cahier de Jeux Football", "Cahier Coloriage Foot", "Origami Débutants", "Calendrier de l'Avent Foot",
         "Les Énigmes du Lutin Farceur - Tome 1", "Les Énigmes du Lutin Farceur - Tome 2" ] },
-      { label: "Autres lectures", titles: [ "Raphaël et le Dino Perdu", "Grandir et s'épanouir avec le TDAH" ] }
+      { label: "Autres lectures", titles: [ "Raphaël et le Dino Perdu", "Loupiotte la lutine qui ratait toutes ses blagues", "Grandir et s'épanouir avec le TDAH" ] }
     ];
 
     function renderBooks() {
@@ -1802,6 +1815,11 @@
             .sort((x, y) => Date.parse(y[0].added) - Date.parse(x[0].added) || x[1] - y[1])
             .map(([b]) => b)
         : [];
+      // Un livre peut avoir une position voulue dans les Nouveautés (newPos : 1 = premier, 2 = deuxième…)
+      newBooks.filter((b) => b.newPos).forEach((b) => {
+        newBooks.splice(newBooks.indexOf(b), 1);
+        newBooks.splice(Math.min(b.newPos - 1, newBooks.length), 0, b);
+      });
       if (newSection) {
         newSection.style.display = newBooks.length > 0 ? "block" : "none";
         if (newSep) newSep.style.display = newBooks.length > 0 ? "flex" : "none";
