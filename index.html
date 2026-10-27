@@ -1265,6 +1265,7 @@
       "Tu es une Danseuse Formidable": "12,99 €",
       "Tu es une Cavalière Formidable": "12,99 €",
       "Raphaël et le Dino Perdu": "12,99 €",
+      "Raphaël et le trésor caché": "12,99 €",
       "Grandir et s'épanouir avec le TDAH": "12,99 €",
       "Origami Débutants": "12,99 €",
       "Les Énigmes du Lutin Farceur - Tome 1": "14,99 €",
@@ -1315,7 +1316,7 @@
         type: "Roman jeunesse",
         bestseller: true,
         description: "Pendant les vacances chez ses grands-parents, Raphaël retrouve un vieux ballon chargé de souvenirs. Quand ses parents lui annoncent un voyage au Brésil, il découvre une autre façon de jouer… et revient plus passionné que jamais.",
-        cover: "https://m.media-amazon.com/images/I/71c-AQHf3eL._AC_UL320_.jpg",
+        cover: "https://m.media-amazon.com/images/I/712zg593lgL._AC_UL320_.jpg",
         amazon: "https://urlr.me/j5RJms"
       },
       {
@@ -1450,6 +1451,17 @@
         description: "Raphaël part en mission pour aider Kaya, un bébé dinosaure qui s'est perdu dans la vallée. En explorant la jungle préhistorique, ils vont rencontrer différents dinosaures et vivre de grandes aventures. Grâce à son courage et à son sens de l'observation, Raphaël réussira-t-il à retrouver la maman du petit dinosaure ?",
         cover: "https://m.media-amazon.com/images/I/711fQNqGqbL._AC_UL320_.jpg",
         amazon: "https://urlr.me/HcJbxe"
+      },
+      {
+        title: "Raphaël et le trésor caché",
+        added: "2026-10-27",
+        newPos: 3,
+        category: "Enfants",
+        type: "Roman jeunesse",
+        short: "Direction la mer des Caraïbes, en l'an 1720 ! Avec Pistache, un perroquet aussi bavard que râleur, Raphaël se déguise en moussaillon pour percer le secret d'une carte mystérieuse. Une aventure de pirates pour les 6-10 ans.",
+        description: "Direction la mer des Caraïbes, en l'an 1720 ! Le capitaine Havets Riddere a été trahi par son second et abandonné sur une île déserte, et son trésor risque de tomber entre de mauvaises mains. Avec Pistache, un perroquet aussi bavard que râleur, Raphaël se déguise en moussaillon pour percer le secret d'une carte mystérieuse. Un roman d'aventures pour les 6-10 ans.",
+        cover: "https://m.media-amazon.com/images/I/71zLi9PES+L._AC_UL320_.jpg",
+        amazon: "https://www.amazon.fr/dp/B0HPBV9RLD"
       },
       {
         title: "Grandir et s'épanouir avec le TDAH",
@@ -1781,7 +1793,7 @@
       { label: "Jeux & activités", titles: [
         "Cahier de Jeux Football", "Cahier Coloriage Foot", "Origami Débutants", "Calendrier de l'Avent Foot",
         "Les Énigmes du Lutin Farceur - Tome 1", "Les Énigmes du Lutin Farceur - Tome 2" ] },
-      { label: "Autres lectures", titles: [ "Raphaël et le Dino Perdu", "Loupiotte la lutine qui ratait toutes ses blagues", "Grandir et s'épanouir avec le TDAH" ] }
+      { label: "Autres lectures", titles: [ "Raphaël et le Dino Perdu", "Raphaël et le trésor caché", "Loupiotte la lutine qui ratait toutes ses blagues", "Grandir et s'épanouir avec le TDAH" ] }
     ];
 
     function renderBooks() {
@@ -1815,11 +1827,18 @@
             .sort((x, y) => Date.parse(y[0].added) - Date.parse(x[0].added) || x[1] - y[1])
             .map(([b]) => b)
         : [];
-      // Un livre peut avoir une position voulue dans les Nouveautés (newPos : 1 = premier, 2 = deuxième…)
-      newBooks.filter((b) => b.newPos).forEach((b) => {
-        newBooks.splice(newBooks.indexOf(b), 1);
-        newBooks.splice(Math.min(b.newPos - 1, newBooks.length), 0, b);
-      });
+      // Un livre peut avoir une position voulue dans les Nouveautés (newPos : 1 = premier, 2 = deuxième, 3 = troisième) ;
+      // les autres livres (triés du plus récent au plus ancien) comblent les places restantes.
+      if (newBooks.some((b) => b.newPos)) {
+        const slots = new Array(newBooks.length).fill(null);
+        newBooks.filter((b) => b.newPos).forEach((b) => {
+          let k = Math.min(b.newPos, newBooks.length) - 1;
+          while (slots[k] && k < slots.length - 1) k++;
+          if (!slots[k]) slots[k] = b;
+        });
+        const rest = newBooks.filter((b) => !slots.includes(b));
+        newBooks.splice(0, newBooks.length, ...slots.map((b) => b || rest.shift()));
+      }
       if (newSection) {
         newSection.style.display = newBooks.length > 0 ? "block" : "none";
         if (newSep) newSep.style.display = newBooks.length > 0 ? "flex" : "none";
@@ -1969,7 +1988,7 @@
             h.textContent = '';
             lines.forEach((ln, k) => {
               if (k) h.appendChild(document.createElement('br'));
-              h.appendChild(document.createTextNode(ln));
+              h.appendChild(document.createTextNode(k < lines.length - 1 ? ln + ' ' : ln));  // espace avant le retour : le texte copié garde ses mots séparés
             });
           });
           // 1) même espace au-dessus du titre
