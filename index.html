@@ -1668,29 +1668,41 @@
       const seg = location.pathname.replace(/^\/+|\/+$/g, "").split("/")[0].toLowerCase();
       return seg && seg !== "tous" ? (hashMap[seg] || null) : null;
     }
-    // Catégorie demandée par l'adresse : le # (choix explicite) passe avant le chemin
+    // Catégorie demandée par ?c=enfants (adresse de secours, sans # et sans besoin de vercel.json)
+    function categoryFromQuery() {
+      const c = new URLSearchParams(location.search).get("c");
+      return c ? (hashMap[c.toLowerCase()] || null) : null;
+    }
+    const categoryFromHash = () => hashMap[location.hash.replace("#", "").toLowerCase()] || null;
+    // Catégorie demandée par l'adresse : le # (ancien lien) passe avant ?c=, qui passe avant le chemin
     function categoryFromUrl() {
-      const fromHash = hashMap[location.hash.replace("#", "").toLowerCase()];
-      return fromHash || categoryFromPath() || "Tous";
+      return categoryFromHash() || categoryFromQuery() || categoryFromPath() || "Tous";
     }
     activeCategory = categoryFromUrl();
 
-    // Adresses propres (/enfants, /ados…) quand le site sait les servir (vercel.json en ligne) ;
-    // sinon on garde l'ancienne écriture avec # pour ne jamais tomber sur une erreur 404.
+    // Adresses propres : /enfants, /ados… quand le site sait les servir (vercel.json en ligne).
+    // Sinon adresse de secours /?c=enfants : elle marche toujours, même au rechargement, et il n'y a jamais de #.
     let pathMode = categoryFromPath() !== null;           // la page vient d'être ouverte sur /enfants : c'est donc bien servi
     function cleanUrl(category) {
-      const keep = new URLSearchParams(location.search).has("neige") ? "?neige" : "";   // le reste (utm_source, fbclid…) n'est pas conservé
-      return (category === "Tous" ? "/" : "/" + slugify(category)) + keep;
+      const neige = new URLSearchParams(location.search).has("neige");   // le reste (utm_source, fbclid…) n'est pas conservé
+      if (pathMode) return (category === "Tous" ? "/" : "/" + slugify(category)) + (neige ? "?neige" : "");
+      const q = [];
+      if (category !== "Tous") q.push("c=" + slugify(category));
+      if (neige) q.push("neige");
+      return location.pathname + (q.length ? "?" + q.join("&") : "");
     }
-    if (!pathMode && /^https?:$/.test(location.protocol)) {
-      fetch("/enfants", { method: "HEAD", cache: "no-store" }).then((r) => {
-        if (!r.ok) return;
-        pathMode = true;
-        // ancien lien /#enfants : la barre d'adresse devient /enfants (sans recharger la page)
-        if (hashMap[location.hash.replace("#", "").toLowerCase()]) {
-          try { history.replaceState(null, "", cleanUrl(activeCategory)); } catch (e) {}
-        }
-      }).catch(() => {});
+    // Un ancien lien /#enfants (ou /?c=enfants quand /enfants fonctionne) : la barre d'adresse est remise au propre, sans recharger
+    function tidyAddress() {
+      if (categoryFromHash() || (pathMode && categoryFromQuery())) {
+        try { history.replaceState(null, "", cleanUrl(activeCategory)); } catch (e) {}
+      }
+    }
+    if (pathMode) tidyAddress();
+    else if (/^https?:$/.test(location.protocol)) {
+      fetch("/enfants", { method: "HEAD", cache: "no-store" })
+        .then((r) => { pathMode = r.ok; })
+        .catch(() => {})
+        .then(tidyAddress);
     }
 
     function createFilterButton(category) {
@@ -1702,9 +1714,7 @@
         activeCategory = category;
         try {
           // pushState : la flèche "précédent" du navigateur ramène à la catégorie d'avant
-          // (sur /enfants, « Tous » s'écrit #tous pour passer avant le chemin ; ailleurs on retire simplement le #)
-          if (pathMode) history.pushState(null, "", cleanUrl(category));
-          else history.pushState(null, "", category !== "Tous" ? "#" + slugify(category) : categoryFromPath() ? "#tous" : location.pathname + location.search);
+          history.pushState(null, "", cleanUrl(category));
         } catch (e) {}
         renderFilters();
         renderBooks();
