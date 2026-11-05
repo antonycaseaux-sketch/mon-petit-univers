@@ -1675,6 +1675,24 @@
     }
     activeCategory = categoryFromUrl();
 
+    // Adresses propres (/enfants, /ados…) quand le site sait les servir (vercel.json en ligne) ;
+    // sinon on garde l'ancienne écriture avec # pour ne jamais tomber sur une erreur 404.
+    let pathMode = categoryFromPath() !== null;           // la page vient d'être ouverte sur /enfants : c'est donc bien servi
+    function cleanUrl(category) {
+      const keep = new URLSearchParams(location.search).has("neige") ? "?neige" : "";   // le reste (utm_source, fbclid…) n'est pas conservé
+      return (category === "Tous" ? "/" : "/" + slugify(category)) + keep;
+    }
+    if (!pathMode && /^https?:$/.test(location.protocol)) {
+      fetch("/enfants", { method: "HEAD", cache: "no-store" }).then((r) => {
+        if (!r.ok) return;
+        pathMode = true;
+        // ancien lien /#enfants : la barre d'adresse devient /enfants (sans recharger la page)
+        if (hashMap[location.hash.replace("#", "").toLowerCase()]) {
+          try { history.replaceState(null, "", cleanUrl(activeCategory)); } catch (e) {}
+        }
+      }).catch(() => {});
+    }
+
     function createFilterButton(category) {
       const button = document.createElement("button");
       button.className = "filter-btn" + (category === activeCategory ? " active" : "");
@@ -1685,7 +1703,8 @@
         try {
           // pushState : la flèche "précédent" du navigateur ramène à la catégorie d'avant
           // (sur /enfants, « Tous » s'écrit #tous pour passer avant le chemin ; ailleurs on retire simplement le #)
-          history.pushState(null, "", category !== "Tous" ? "#" + slugify(category) : categoryFromPath() ? "#tous" : location.pathname + location.search);
+          if (pathMode) history.pushState(null, "", cleanUrl(category));
+          else history.pushState(null, "", category !== "Tous" ? "#" + slugify(category) : categoryFromPath() ? "#tous" : location.pathname + location.search);
         } catch (e) {}
         renderFilters();
         renderBooks();
