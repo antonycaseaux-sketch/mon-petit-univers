@@ -1658,11 +1658,22 @@
     const newSep = document.getElementById("newSep");
     let activeCategory = "Tous";
 
-    // Liens directs : monsite.fr/#enfants, #ados, #adultes, #seniors
+    // Liens directs : monsite.fr/enfants, /ados, /adultes, /seniors (vraies adresses, sans #)
+    // et les anciens liens monsite.fr/#enfants, #ados, #adultes, #seniors, qui continuent de marcher.
+    // Les paramètres derrière (?utm_source=ig&fbclid=…) n'ont aucun effet sur la catégorie.
     const hashMap = { tous: "Tous", enfants: "Enfants", ados: "Ados", adultes: "Adultes", seniors: "Séniors" };
     const slugify = (c) => c.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
-    const fromHash = hashMap[location.hash.replace("#", "").toLowerCase()];
-    if (fromHash) activeCategory = fromHash;
+    // Catégorie demandée par l'adresse du chemin (/enfants), ou null s'il n'y en a pas
+    function categoryFromPath() {
+      const seg = location.pathname.replace(/^\/+|\/+$/g, "").split("/")[0].toLowerCase();
+      return seg && seg !== "tous" ? (hashMap[seg] || null) : null;
+    }
+    // Catégorie demandée par l'adresse : le # (choix explicite) passe avant le chemin
+    function categoryFromUrl() {
+      const fromHash = hashMap[location.hash.replace("#", "").toLowerCase()];
+      return fromHash || categoryFromPath() || "Tous";
+    }
+    activeCategory = categoryFromUrl();
 
     function createFilterButton(category) {
       const button = document.createElement("button");
@@ -1673,7 +1684,8 @@
         activeCategory = category;
         try {
           // pushState : la flèche "précédent" du navigateur ramène à la catégorie d'avant
-          history.pushState(null, "", category === "Tous" ? location.pathname + location.search : "#" + slugify(category));
+          // (sur /enfants, « Tous » s'écrit #tous pour passer avant le chemin ; ailleurs on retire simplement le #)
+          history.pushState(null, "", category !== "Tous" ? "#" + slugify(category) : categoryFromPath() ? "#tous" : location.pathname + location.search);
         } catch (e) {}
         renderFilters();
         renderBooks();
@@ -2097,7 +2109,7 @@
 
     // Flèches précédent / suivant du navigateur : on revient à la catégorie correspondante
     window.addEventListener("popstate", () => {
-      const cat = hashMap[location.hash.replace("#", "").toLowerCase()] || "Tous";
+      const cat = categoryFromUrl();
       if (cat === activeCategory) return;
       activeCategory = cat;
       renderFilters();
